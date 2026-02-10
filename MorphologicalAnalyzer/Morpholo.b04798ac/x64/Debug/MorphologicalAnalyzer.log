@@ -1,0 +1,5 @@
+﻿  MorphologicalAnalyzer.cpp
+C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\fst.h(7,29): warning C4566: character represented by universal-character-name '\u03B5' cannot be represented in the current code page (1251)
+  (compiling source file 'MorphologicalAnalyzer.cpp')
+  
+  MorphologicalAnalyzer.vcxproj -> C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\x64\Debug\MorphologicalAnalyzer.exe
