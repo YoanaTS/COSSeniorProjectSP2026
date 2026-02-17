@@ -30,21 +30,39 @@ std::vector<std::pair<std::string, std::string>>
 FiniteStateTransducer::transduce(const std::string& input) {
 
     std::vector<std::pair<std::string, std::string>> output;
+
+    if (!startState) {
+        return {};
+    }
+
     State* current = startState;
-    
-	size_t pos = 0;
-    while (pos < input.size())
-    {
-		bool foundMatch = false;
+    size_t pos = 0;
+
+    while (pos < input.size()) {
+        bool foundMatch = false;
+
         for (Transition* t : current->transitions) {
-            std::string sym = t->inputSymbol;
-            //
-            //
-            //
-			foundMatch = true;
-            break;
+            const std::string& sym = t->inputSymbol;
+
+            if (input.compare(pos, sym.size(), sym) == 0) { //check for transitions match
+
+                pos += sym.size();
+                if (!t->outputMorpheme.empty()) {
+                    output.push_back({ t->outputMorpheme, "" });
+                }
+                current = t->target;
+                foundMatch = true;
+                break;
+            }
         }
         if (!foundMatch) {
-			return {}; //no match, return empty
+			return {};  //invalid input, no matching transition
         }
     }
+
+    if (!current->isFinal) {
+        return {};  //NOT accepting state
+    }
+
+    return output;
+}
