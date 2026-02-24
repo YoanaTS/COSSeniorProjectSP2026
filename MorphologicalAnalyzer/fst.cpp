@@ -1,6 +1,6 @@
 #include "fst.h"
 #include <iostream>
-
+#include <stack>
 
 //------------STATE------------
 State::State(const std::string& name, bool isFinal) :name(name), isFinal(isFinal) {} //state constructor implementation
@@ -30,9 +30,14 @@ std::vector<std::vector<std::pair<std::string, std::string>>>
 FiniteStateTransducer::transduce(const std::string& input) {
 
 	std::vector<std::vector<std::pair<std::string, std::string>>> results; // (morpheme, tag) pairs
-    std::stack<Configuration> agenda;
+   
+    FiniteStateTransducer::Configuration initialConfig;
+    initialConfig.state = startState;
+    initialConfig.position = 0;
+    initialConfig.output = {};
 
-    agenda.push({ tartState, 0, {} });
+    std::stack<FiniteStateTransducer::Configuration> agenda;
+    agenda.push(initialConfig);
 
     while (!agenda.empty()) {
 
@@ -45,7 +50,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
 
         
 		if (pos == input.size() && state->isFinal) { //IF we've consumed the entire input string and are in a final state, we have a valid analysis
-                results.push_back(output)
+            results.push_back(output);
         }
 
 		for (Transition* t : state->transitions) { //go through all transitions from the current state
@@ -54,21 +59,21 @@ FiniteStateTransducer::transduce(const std::string& input) {
 
             //epsilon transition
             if (sym == EPSILON) {
-                Configuration next = current;
-                next.state = t->next;
+                Configuration target = current;
+                target.state = t->target;
 
                 if (!t->outputMorpheme.empty()) {
-                    next.output.push_back({ t->outputMorpheme, "" });
+                    target.output.push_back({ t->outputMorpheme, "" });
                 }
 
-                agenda.push(next);
+                agenda.push(target);
             }
 
             //matching transition
             else if (input.compare(pos, sym.size(), sym) == 0) {
 
                 Configuration next;
-                next.state = t->next;
+                next.state = t->target;
                 next.position = pos + sym.size();
                 next.output = output;
 

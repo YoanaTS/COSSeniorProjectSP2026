@@ -1,10 +1,10 @@
 ﻿#pragma once
+#pragma execution_character_set("utf-8")
 #include <string>
 #include <vector>
 #include <utility>
 
-
-const std::string EPSILON = "<ε>"; //maybe move later
+const std::string EPSILON = "EPS"; //maybe move later
 
 class State;
 class Transition;
@@ -55,5 +55,5 @@ public:
     std::vector<std::vector<std::pair<std::string, std::string>>>
         transduce(const std::string& input); //valid analyses (multiple posissible)
 
-    ~FiniteStateTransducer(); //deconstructor
+    //~FiniteStateTransducer(); //deconstructor
 };
