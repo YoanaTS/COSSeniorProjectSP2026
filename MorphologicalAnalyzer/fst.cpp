@@ -26,43 +26,60 @@ void FiniteStateTransducer::setStartState(State* state) { //set start state
     startState = state;
 }
 
-std::vector<std::pair<std::string, std::string>>
+std::vector<std::vector<std::pair<std::string, std::string>>>
 FiniteStateTransducer::transduce(const std::string& input) {
 
-    std::vector<std::pair<std::string, std::string>> output;
+	std::vector<std::vector<std::pair<std::string, std::string>>> results; // (morpheme, tag) pairs
+    std::stack<Configuration> agenda;
 
-    if (!startState) {
-        return {};
-    }
+    agenda.push({ tartState, 0, {} });
 
-    State* current = startState;
-    size_t pos = 0;
+    while (!agenda.empty()) {
 
-    while (pos < input.size()) {
-        bool foundMatch = false;
+        Configuration current = agenda.top();
+        agenda.pop();
 
-        for (Transition* t : current->transitions) {
+        State* state = current.state;
+        int pos = current.position;
+        auto output = current.output;
+
+        
+		if (pos == input.size() && state->isFinal) { //IF we've consumed the entire input string and are in a final state, we have a valid analysis
+                results.push_back(output)
+        }
+
+		for (Transition* t : state->transitions) { //go through all transitions from the current state
+
             const std::string& sym = t->inputSymbol;
 
-            if (input.compare(pos, sym.size(), sym) == 0) { //check for transitions match
+            //epsilon transition
+            if (sym == EPSILON) {
+                Configuration next = current;
+                next.state = t->next;
 
-                pos += sym.size();
                 if (!t->outputMorpheme.empty()) {
-                    output.push_back({ t->outputMorpheme, "" });
+                    next.output.push_back({ t->outputMorpheme, "" });
                 }
-                current = t->target;
-                foundMatch = true;
-                break;
+
+                agenda.push(next);
+            }
+
+            //matching transition
+            else if (input.compare(pos, sym.size(), sym) == 0) {
+
+                Configuration next;
+                next.state = t->next;
+                next.position = pos + sym.size();
+                next.output = output;
+
+                if (!t->outputMorpheme.empty()) {
+                    next.output.push_back({ t->outputMorpheme, "" });
+                }
+
+                agenda.push(next);
             }
         }
-        if (!foundMatch) {
-			return {};  //invalid input, no matching transition
-        }
     }
 
-    if (!current->isFinal) {
-        return {};  //NOT accepting state
-    }
-
-    return output;
+    return results;
 }

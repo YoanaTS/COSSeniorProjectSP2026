@@ -9,10 +9,11 @@ const std::string EPSILON = "<ε>"; //maybe move later
 class State;
 class Transition;
 
+//------STATE-----
 class State {
 public:
 	std::string name; //ID
-	bool isFinal;
+	bool isFinal; //check for acccepting state
 	std::vector<Transition*> transitions;
 
 	State(const std::string& stateName, bool final = false);
@@ -20,7 +21,7 @@ public:
 	void addTransition(Transition* t); //simplify transition addition
 };
 
-
+//------TRANSITION-----
 class Transition {
 public:
 	std::string inputSymbol;
@@ -30,17 +31,29 @@ public:
 	Transition(const std::string& input, const std::string& output, State* target); //constructor
 };
 
+//------FST-----
 class FiniteStateTransducer {
 public:
-	std::vector <State*> states; //all of the states
-	State* startState;
+private:
 
-	FiniteStateTransducer();
+    //search configuration for transduce()
+    struct Configuration {
+        State* state;   //curr state
+		int position;   //position in input string
+        std::vector<std::pair<std::string, std::string>> output;
+    };
 
-	void addState(State* state);
-	void setStartState(State* state);
+	std::vector<State*> states;   //collection of all states in the FST
+    State* startState;
 
-	std::vector<std::pair<std::string, std::string>> transduce(const std::string& input); //pair is as (morpheme, info about it)
+public:
+    FiniteStateTransducer();
 
-	/*add deconstructor???*/
+    void addState(State* state);
+    void setStartState(State* state);
+
+    std::vector<std::vector<std::pair<std::string, std::string>>>
+        transduce(const std::string& input); //valid analyses (multiple posissible)
+
+    ~FiniteStateTransducer(); //deconstructor
 };
