@@ -25,7 +25,7 @@ public:
 class Transition {
 public:
 	std::string inputSymbol;
-	std::string outputMorpheme; //the morpheme tag (+PL/+PAST...)
+	std::string outputMorpheme; //the morpheme tag (+PL/+PastPart...)
 	State* target;	//next state
 
 	Transition(const std::string& input, const std::string& output, State* target); //constructor
