@@ -34,12 +34,5 @@ struct DisambiguatedWord {
 
 class Disambiguator {
 public:
-    std::vector<DisambiguatedWord> disambiguate(
-        const std::vector<AnnotatedWord>& sentence);
-
-private:
-    bool hasTag(const AnalysisList& analyses, const std::string& tag) const;
-    bool analysisHasTag(const Analysis& a, const std::string& tag) const;
-    std::string getContext(const std::vector<AnnotatedWord>& sentence,
-        int pos, int offset) const;
+    std::vector<DisambiguatedWord> disambiguate(const std::vector<AnnotatedWord>& sentence);
 };
