@@ -12,3 +12,34 @@
  Rules look at a window of up to 2 words on either side of the target.
  Rules are checked in priority order - first match wins.
  */
+
+#pragma once
+#include <string>
+#include <vector>
+#include <utility>
+
+using Analysis = std::vector<std::pair<std::string, std::string>>;
+using AnalysisList = std::vector<Analysis>;
+
+struct AnnotatedWord {
+    std::string surface;
+    AnalysisList analyses;
+};
+
+struct DisambiguatedWord {
+    std::string surface;
+    AnalysisList analyses;
+    bool ambiguous;
+};
+
+class Disambiguator {
+public:
+    std::vector<DisambiguatedWord> disambiguate(
+        const std::vector<AnnotatedWord>& sentence);
+
+private:
+    bool hasTag(const AnalysisList& analyses, const std::string& tag) const;
+    bool analysisHasTag(const Analysis& a, const std::string& tag) const;
+    std::string getContext(const std::vector<AnnotatedWord>& sentence,
+        int pos, int offset) const;
+};
