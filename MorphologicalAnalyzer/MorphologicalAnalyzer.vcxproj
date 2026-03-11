@@ -124,12 +124,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="disambiguator.cpp" />
     <ClCompile Include="fst.cpp" />
+    <ClCompile Include="fst_loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MorphologicalAnalyzer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="disambiguator.h" />
     <ClInclude Include="fst.h" />
+    <ClInclude Include="fst_loader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="english_morphology.fst" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

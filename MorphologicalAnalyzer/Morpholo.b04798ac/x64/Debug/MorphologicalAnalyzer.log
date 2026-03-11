@@ -1,5 +1,2 @@
-﻿  fst.cpp
-C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\fst.cpp(77,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  main.cpp
-C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\main.cpp(9,12): error C1075: '{': no matching token found
-  Generating Code...
+﻿  main.cpp
+  MorphologicalAnalyzer.vcxproj -> C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\x64\Debug\MorphologicalAnalyzer.exe

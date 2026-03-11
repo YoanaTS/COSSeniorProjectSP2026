@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:disambiguator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:disambiguator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst_loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:disambiguator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst_loader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -17,18 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:disambiguator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:fst_loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:fst_loader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,30 +38,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "fst_loader.h",
-              "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.h",
-              "RelativeDocumentMoniker": "fst_loader.h",
-              "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.h",
-              "RelativeToolTip": "fst_loader.h",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "disambiguator.h",
+              "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.h",
+              "RelativeDocumentMoniker": "disambiguator.h",
+              "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.h",
+              "RelativeToolTip": "disambiguator.h",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACUAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-03-10T22:09:49.802Z",
+              "WhenOpened": "2026-03-07T23:17:20.189Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
+              "Title": "disambiguator.cpp",
+              "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.cpp",
+              "RelativeDocumentMoniker": "disambiguator.cpp",
+              "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.cpp",
+              "RelativeToolTip": "disambiguator.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-03-08T19:32:46.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "fst_loader.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.cpp",
               "RelativeDocumentMoniker": "fst_loader.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.cpp",
               "RelativeToolTip": "fst_loader.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAAAAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-03-10T22:09:49.679Z",
               "EditorCaption": ""
@@ -69,19 +82,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "disambiguator.h",
-              "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.h",
-              "RelativeDocumentMoniker": "disambiguator.h",
-              "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.h",
-              "RelativeToolTip": "disambiguator.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAACAAAAAAAAAA==",
+              "Title": "fst_loader.h",
+              "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.h",
+              "RelativeDocumentMoniker": "fst_loader.h",
+              "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.h",
+              "RelativeToolTip": "fst_loader.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-03-07T23:17:20.189Z",
+              "WhenOpened": "2026-03-10T22:09:49.802Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "fst.h",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.h",
               "RelativeDocumentMoniker": "fst.h",
@@ -89,46 +102,31 @@
               "RelativeToolTip": "fst.h",
               "ViewState": "AgIAACQAAAAAAAAAAAAAADMAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-02-10T21:16:38.572Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-10T21:16:38.572Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "fst.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.cpp",
               "RelativeDocumentMoniker": "fst.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.cpp",
               "RelativeToolTip": "fst.cpp",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAAAFkAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAB0AAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-02-10T21:59:12.523Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-10T21:59:12.523Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-03-10T22:06:31.149Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "disambiguator.cpp",
-              "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.cpp",
-              "RelativeDocumentMoniker": "disambiguator.cpp",
-              "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator.cpp",
-              "RelativeToolTip": "disambiguator.cpp",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAAAIcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-03-08T19:32:46.253Z",
               "EditorCaption": ""
             }
           ]

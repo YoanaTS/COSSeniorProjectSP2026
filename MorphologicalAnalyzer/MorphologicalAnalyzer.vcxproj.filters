@@ -24,10 +24,25 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="disambiguator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fst_loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="disambiguator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fst_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="english_morphology.fst" />
   </ItemGroup>
 </Project>
