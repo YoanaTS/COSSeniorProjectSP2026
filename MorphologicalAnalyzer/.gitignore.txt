@@ -1,0 +1,18 @@
+# Visual Studio build artifacts
+.vs/
+*.ipch
+*.pch
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.obj
+*.idb
+Debug/
+Release/
+x64/
+x86/
+ipch/
+
+# rules file (too large for GitHub, regenerate with generate_fst.py)
+english_morphology.fst

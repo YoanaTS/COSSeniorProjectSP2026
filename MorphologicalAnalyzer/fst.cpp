@@ -85,6 +85,25 @@ FiniteStateTransducer::transduce(const std::string& input) {
             }
         }
     }
-
+    //if no analysis was found, try stripping known prefixes and retrying
+    if (results.empty()) {
+        static const std::vector<std::string> prefixes = {
+            "inter","under","over","mis","pre","dis","un","re","in","im", "non","anti","auto","bi","co","de","ex","out","post","pro","sub","super"
+        };
+        for (int p = 0; p < (int)prefixes.size(); p++) {
+            const std::string& pre = prefixes[p];
+            if (input.size() > pre.size() && input.substr(0, pre.size()) == pre) {
+                std::string stem = input.substr(pre.size());
+                auto stemResults = transduce(stem); //recursive call on the stem without the prefix
+                if (!stemResults.empty()) {
+                    //prepend the prefix to the lemma in each analysis
+                    for (int i = 0; i < (int)stemResults.size(); i++)
+                        //insert prefix as a morpheme at the front
+                        stemResults[i].insert(stemResults[i].begin(), { pre, "+PREF " });
+                    return stemResults;
+                }
+            }
+        }
+    }
     return results;
 }

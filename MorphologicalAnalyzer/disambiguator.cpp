@@ -42,38 +42,38 @@ static Analysis pickTag(const AnalysisList& analyses, const std::string& tag) {
 
 //if any analysis contains a verb inflection tag -> verb
 static bool isVerb(const AnalysisList& analyses) {
-    return hasTag(analyses, "+INF") ||
-        hasTag(analyses, "+3SG") ||
-        hasTag(analyses, "+PAST") ||
-        hasTag(analyses, "+PASTPART") ||
-        hasTag(analyses, "+PROG") ||
-        hasTag(analyses, "+1SG.PRES") ||
-        hasTag(analyses, "+3SG.PRES") ||
-        hasTag(analyses, "+PL.PRES") ||
-        hasTag(analyses, "+1SG.PAST") ||
-        hasTag(analyses, "+PL.PAST");
+    return hasTag(analyses, "+VERB+INF") ||
+        hasTag(analyses, "+VERB+3SG") ||
+        hasTag(analyses, "+VERB+PAST") ||
+        hasTag(analyses, "+VERB+PASTPART") ||
+        hasTag(analyses, "+VERB+PROG") ||
+        hasTag(analyses, "+VERB+1SG.PRES") ||
+        hasTag(analyses, "+VERB+3SG.PRES") ||
+        hasTag(analyses, "+VERB+PL.PRES") ||
+        hasTag(analyses, "+VERB+1SG.PAST") ||
+        hasTag(analyses, "+VERB+PL.PAST");
 }
 
-//if any analysis contains +SG or +PL -> noun
+//if any analysis contains +NOUN+SG or +NOUN+PL -> noun
 static bool isNoun(const AnalysisList& analyses) {
-    return hasTag(analyses, "+SG") || hasTag(analyses, "+PL");
+    return hasTag(analyses, "+NOUN+SG") || hasTag(analyses, "+NOUN+PL");
 }
 
-//if any analysis contains +ADJ -> adjective
+//if any analysis contains +ADJ+BASE -> adjective
 static bool isAdj(const AnalysisList& analyses) {
-    return hasTag(analyses, "+ADJ");
+    return hasTag(analyses, "+ADJ+BASE");
 }
 
-//if any analysis contains +ADV -> adverb
+//if any analysis contains +ADV+BASE -> adverb
 static bool isAdv(const AnalysisList& analyses) {
-    return hasTag(analyses, "+ADV");
+    return hasTag(analyses, "+ADV+BASE");
 }
 
 //pick the first analysis that looks like a verb or has a verb inflection tag
 static Analysis pickVerb(const AnalysisList& analyses) {
     std::vector<std::string> verbTags = {
-        "+INF", "+3SG", "+PAST", "+PASTPART", "+PROG",
-        "+1SG.PRES", "+3SG.PRES", "+PL.PRES", "+1SG.PAST", "+PL.PAST"
+        "+VERB+INF", "+VERB+3SG", "+VERB+PAST", "+VERB+PASTPART", "+VERB+PROG",
+        "+VERB+1SG.PRES", "+VERB+3SG.PRES", "+VERB+PL.PRES", "+VERB+1SG.PAST", "+VERB+PL.PAST"
     };
     for (const auto& tag : verbTags) {
         Analysis a = pickTag(analyses, tag);
@@ -84,9 +84,9 @@ static Analysis pickVerb(const AnalysisList& analyses) {
 
 //pick the first analysis that looks like a noun
 static Analysis pickNoun(const AnalysisList& analyses) {
-    Analysis a = pickTag(analyses, "+SG");
+    Analysis a = pickTag(analyses, "+NOUN++SG");
     if (!a.empty()) return a;
-    return pickTag(analyses, "+PL");
+    return pickTag(analyses, "+NOUN+PL");
 }
 
 std::vector<DisambiguatedWord> Disambiguator::disambiguate(
@@ -119,6 +119,7 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
         bool prevIsAux = std::find(auxVerbs.begin(), auxVerbs.end(), prev) != auxVerbs.end();
         bool prevIsPronoun = std::find(pronouns.begin(), pronouns.end(), prev) != pronouns.end();
         bool prevIsDet = std::find(determiners.begin(), determiners.end(), prev) != determiners.end();
+        bool prevIsVerb = (i > 0) && isVerb(sentence[i - 1].analyses);
 
         Analysis chosen;
 
@@ -127,18 +128,29 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
         //"will/can clear the" -> verb
         if (isVerb(sentence[i].analyses) && isAdj(sentence[i].analyses)) {
             if (prevIsCopula)
-                chosen = pickTag(sentence[i].analyses, "+ADJ");
+                chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
             else if (prevIsAux)
                 chosen = pickVerb(sentence[i].analyses);
         }
 
-        //noun vs verb
+        //noun vs verb - SUBJECT
         //"I/they play" -> verb
         //"the play" -> noun
         if (chosen.empty() && isNoun(sentence[i].analyses) && isVerb(sentence[i].analyses)) {
             if (prevIsPronoun || prevIsAux)
                 chosen = pickVerb(sentence[i].analyses);
             else if (prevIsDet)
+                chosen = pickNoun(sentence[i].analyses);
+        }
+        if (chosen.empty() && isNoun(sentence[i].analyses) && isVerb(sentence[i].analyses)) {
+            if (i > 0 && isVerb(sentence[i - 1].analyses))
+                chosen = pickNoun(sentence[i].analyses);
+        }
+       //noun vs verb - DIRECT OBJECT
+       //"I love dogs" -> dogs is noun
+       //"she eats cake" -> cake is noun
+        if (chosen.empty() && isNoun(sentence[i].analyses) && isVerb(sentence[i].analyses)) {
+            if (prevIsVerb)
                 chosen = pickNoun(sentence[i].analyses);
         }
 
@@ -148,13 +160,13 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
         //"a/the wrong (end of sentence)" -> noun
         if (chosen.empty() && isNoun(sentence[i].analyses) && isAdj(sentence[i].analyses)) {
             if (prevIsCopula) {
-                chosen = pickTag(sentence[i].analyses, "+ADJ");
+                chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
             }
             else if (prevIsDet) {
                 bool nextIsNoun = (i + 1 < (int)sentence.size()) &&
                     isNoun(sentence[i + 1].analyses);
                 if (nextIsNoun)
-                    chosen = pickTag(sentence[i].analyses, "+ADJ");
+                    chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
                 else if (next.empty())
                     chosen = pickNoun(sentence[i].analyses);
             }
@@ -165,9 +177,16 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
         //"is fast"   -> adjective
         if (chosen.empty() && isAdv(sentence[i].analyses) && isAdj(sentence[i].analyses)) {
             if (prevIsCopula)
-                chosen = pickTag(sentence[i].analyses, "+ADJ");
+                chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
             else if (i > 0 && isVerb(sentence[i - 1].analyses))
-                chosen = pickTag(sentence[i].analyses, "+ADV");
+                chosen = pickTag(sentence[i].analyses, "+ADV+BASE");
+        }
+
+        //adjective after verb
+        // //"she seems happy" -> adjective
+        if (chosen.empty() && isAdj(sentence[i].analyses)) {
+            if (i > 0 && isVerb(sentence[i - 1].analyses))
+                chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
         }
 
         //if we found a single best analysis, use it; otherwise keep all and mark as ambiguous
