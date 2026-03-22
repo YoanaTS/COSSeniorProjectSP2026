@@ -75,7 +75,7 @@ void FSTLoader::load(const std::string& filepath, FiniteStateTransducer& fst) {
     }
     fst.setStartState(stateMap[startStateName]);
 
-    //2nd pass: wire up transitions ---
+    //2nd pass: wire up transitions
     file.clear();
     file.seekg(0);
     lineNumber = 0;
@@ -114,4 +114,5 @@ void FSTLoader::load(const std::string& filepath, FiniteStateTransducer& fst) {
         }
         //STATE lines are skipped in second pass because all of the states already exist in the stateMap
     }
+	fst.buildAhoCorasick(); //3rd pass: build the Aho-Corasick trie for efficient stem matching during transduction
 }

@@ -38,9 +38,7 @@ static Analysis pickTag(const AnalysisList& analyses, const std::string& tag) {
     return {};
 }
 
-//the FST does not emit +VERB or +NOUN directly - it emits specific inflection tags and the helpers check for any tag that indicates a verb or noun reading
-
-//if any analysis contains a verb inflection tag -> verb
+//if any analysis contains a verb tag -> verb
 static bool isVerb(const AnalysisList& analyses) {
     return hasTag(analyses, "+VERB+INF") ||
         hasTag(analyses, "+VERB+3SG") ||
@@ -84,7 +82,7 @@ static Analysis pickVerb(const AnalysisList& analyses) {
 
 //pick the first analysis that looks like a noun
 static Analysis pickNoun(const AnalysisList& analyses) {
-    Analysis a = pickTag(analyses, "+NOUN++SG");
+    Analysis a = pickTag(analyses, "+NOUN+SG");
     if (!a.empty()) return a;
     return pickTag(analyses, "+NOUN+PL");
 }
@@ -142,13 +140,10 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
             else if (prevIsDet)
                 chosen = pickNoun(sentence[i].analyses);
         }
-        if (chosen.empty() && isNoun(sentence[i].analyses) && isVerb(sentence[i].analyses)) {
-            if (i > 0 && isVerb(sentence[i - 1].analyses))
-                chosen = pickNoun(sentence[i].analyses);
-        }
-       //noun vs verb - DIRECT OBJECT
-       //"I love dogs" -> dogs is noun
-       //"she eats cake" -> cake is noun
+
+        //noun vs verb - DIRECT
+        //"I love dogs" -> dogs is noun
+        //"she eats cake" -> cake is noun
         if (chosen.empty() && isNoun(sentence[i].analyses) && isVerb(sentence[i].analyses)) {
             if (prevIsVerb)
                 chosen = pickNoun(sentence[i].analyses);

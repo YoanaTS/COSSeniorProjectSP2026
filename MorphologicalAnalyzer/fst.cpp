@@ -29,15 +29,63 @@ void FiniteStateTransducer::setStartState(State* state) { //set start state
 std::vector<std::vector<std::pair<std::string, std::string>>>
 FiniteStateTransducer::transduce(const std::string& input) {
 
-	std::vector<std::vector<std::pair<std::string, std::string>>> results; // (morpheme, tag) pairs
-   
+	std::vector<std::vector<std::pair<std::string, std::string>>> results; //(morpheme, tag) pairs
+    std::vector<State*> matchingStates; //FST states reachable from matching stems
+	std::vector<std::string> matchingStems; //the corresponding stem strings for the matching states
+
+    if (!ahoTrie.empty()) { //traverse the trie character by character
+
+        int node = 0;
+        for (int c = 0; c < (int)input.size(); c++) {
+            char ch = input[c];
+
+            //follow failure links until we find a match or reach root
+            while (node != 0 && ahoTrie[node].children.find(ch) == ahoTrie[node].children.end()) {
+                node = ahoTrie[node].failure;
+            }
+            if (ahoTrie[node].children.find(ch) != ahoTrie[node].children.end()) {
+                node = ahoTrie[node].children[ch];
+            }
+
+            //if this node marks the end of a stem, record the matching FST state
+            if (ahoTrie[node].fstState != nullptr) {
+                matchingStates.push_back(ahoTrie[node].fstState);
+                matchingStems.push_back(ahoTrie[node].stem);
+            }
+        }
+    }
+
+    //build initial configurations
+    //each matching stem gives us a starting point in the FST past the start state
     FiniteStateTransducer::Configuration initialConfig;
     initialConfig.state = startState;
     initialConfig.position = 0;
     initialConfig.output = {};
 
     std::stack<FiniteStateTransducer::Configuration> agenda;
-    agenda.push(initialConfig);
+
+    if (!matchingStates.empty()) {
+        //push a configuration for each matching stem
+        for (int m = 0; m < (int)matchingStates.size(); m++) {
+            //find the transition from start that corresponds to this stem to get the output morpheme (the lemma)
+            for (Transition* t : startState->transitions) {
+                if (t->inputSymbol == matchingStems[m] && t->target == matchingStates[m]) {
+                    Configuration config;
+                    config.state = matchingStates[m];
+                    config.position = (int)matchingStems[m].size();
+                    config.output = {};
+                    if (!t->outputMorpheme.empty())
+                        config.output.push_back({ t->outputMorpheme, "" });
+                    agenda.push(config);
+                    break;
+                }
+            }
+        }
+    }
+    else {
+        //trie not built or no matches found -> back to original linear scan
+        agenda.push(initialConfig);
+    }
 
     while (!agenda.empty()) {
 
@@ -47,7 +95,6 @@ FiniteStateTransducer::transduce(const std::string& input) {
         State* state = current.state;
         int pos = current.position;
         auto output = current.output;
-
         
 		if (pos == input.size() && state->isFinal) { //IF we've consumed the entire input string and are in a final state, we have a valid analysis
             results.push_back(output);
@@ -71,7 +118,6 @@ FiniteStateTransducer::transduce(const std::string& input) {
 
             //matching transition
             else if (input.compare(pos, sym.size(), sym) == 0) {
-
                 Configuration next;
                 next.state = t->target;
                 next.position = pos + sym.size();

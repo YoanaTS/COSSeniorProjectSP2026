@@ -26,4 +26,5 @@ public:
 
 private:
     static std::string parseToken(const std::string& token); //parse a single token from a rule line quoted strings/EPS
+	static void buildAhoCorasick(FiniteStateTransducer& fst); //build the Aho-Corasick trie from the FST states and transitions
 };
