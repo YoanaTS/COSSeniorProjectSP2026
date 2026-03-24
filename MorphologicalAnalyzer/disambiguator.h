@@ -29,7 +29,7 @@ struct AnnotatedWord {
 struct DisambiguatedWord {
     std::string surface;
     AnalysisList analyses;
-    bool ambiguous;
+    bool ambiguous = false;
 };
 
 class Disambiguator {

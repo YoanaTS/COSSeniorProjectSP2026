@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <unordered_map>
 
 const std::string EPSILON = "EPS"; //maybe move later
 
@@ -45,9 +46,11 @@ private:
 
     //search configuration for transduce()
     struct Configuration {
-        State* state;   //curr state
+        State* state = nullptr;   //curr state
 		int position;   //position in input string
         std::vector<std::pair<std::string, std::string>> output;
+
+        Configuration() = default;
     };
 
 	std::vector<State*> states;   //collection of all states in the FST

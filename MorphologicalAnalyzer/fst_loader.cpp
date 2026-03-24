@@ -3,6 +3,62 @@
 #include <sstream>
 #include <unordered_map>
 #include <stdexcept>
+#include <queue>
+
+void FSTLoader::buildAhoCorasick(FiniteStateTransducer& fst) { //check and rework
+    auto& trie = fst.getAhoCorasickTrie();
+    trie.clear();
+
+    //root node
+    trie.push_back(AhoCorasickNode());
+
+    State* start = fst.getStartState();
+
+    //insert stems from start state transitions
+    for (Transition* t : start->transitions) {
+        const std::string& stem = t->inputSymbol;
+
+        int node = 0;
+        for (char c : stem) {
+            if (trie[node].children.find(c) == trie[node].children.end()) {
+                trie[node].children[c] = trie.size();
+                trie.push_back(AhoCorasickNode());
+            }
+            node = trie[node].children[c];
+        }
+
+        trie[node].fstState = t->target;
+        trie[node].stem = stem;
+    }
+
+    //build failure links (BFS)
+    std::queue<int> q;
+
+    for (auto& [c, child] : trie[0].children) {
+        trie[child].failure = 0;
+        q.push(child);
+    }
+
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
+
+        for (auto& [c, next] : trie[current].children) {
+            int fail = trie[current].failure;
+
+            while (fail != 0 && trie[fail].children.find(c) == trie[fail].children.end()) {
+                fail = trie[fail].failure;
+            }
+
+            if (trie[fail].children.find(c) != trie[fail].children.end()) {
+                fail = trie[fail].children[c];
+            }
+
+            trie[next].failure = fail;
+            q.push(next);
+        }
+    }
+}
 
 std::string FSTLoader::parseToken(const std::string& token) {
     if (token == "EPS") return EPSILON;
@@ -114,5 +170,5 @@ void FSTLoader::load(const std::string& filepath, FiniteStateTransducer& fst) {
         }
         //STATE lines are skipped in second pass because all of the states already exist in the stateMap
     }
-	fst.buildAhoCorasick(); //3rd pass: build the Aho-Corasick trie for efficient stem matching during transduction
+    FSTLoader::buildAhoCorasick(fst); //3rd pass: build the Aho-Corasick trie for efficient stem matching during transduction
 }
