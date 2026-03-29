@@ -1,6 +1,7 @@
 #include "fst.h"
 #include <iostream>
 #include <stack>
+#include <unordered_set>
 
 //------------STATE------------
 State::State(const std::string& name, bool isFinal) :name(name), isFinal(isFinal) {} //state constructor implementation
@@ -64,6 +65,23 @@ FiniteStateTransducer::transduce(const std::string& input) {
 
     std::stack<FiniteStateTransducer::Configuration> agenda;
 
+    struct VisitedConfig {
+        State* state;
+        int position;
+
+        bool operator==(const VisitedConfig& other) const {
+            return state == other.state && position == other.position;
+        }
+    };
+
+    struct VisitedHash {
+        std::size_t operator()(const VisitedConfig& vc) const {
+            return std::hash<State*>()(vc.state) ^ std::hash<int>()(vc.position);
+        }
+    };
+
+    std::unordered_set<VisitedConfig, VisitedHash> visited;
+
     if (!matchingStates.empty()) {
         //push a configuration for each matching stem
         for (int m = 0; m < (int)matchingStates.size(); m++) {
@@ -96,6 +114,13 @@ FiniteStateTransducer::transduce(const std::string& input) {
         int pos = current.position;
         auto output = current.output;
         
+        VisitedConfig vc{ state, pos };
+        if (visited.find(vc) != visited.end()) {
+            continue;
+        }
+        visited.insert(vc);
+
+
 		if (pos == input.size() && state->isFinal) { //IF we've consumed the entire input string and are in a final state, we have a valid analysis
             results.push_back(output);
         }
@@ -106,14 +131,15 @@ FiniteStateTransducer::transduce(const std::string& input) {
 
             //epsilon transition
             if (sym == EPSILON) {
-                Configuration target = current;
-                target.state = t->target;
-
-                if (!t->outputMorpheme.empty()) {
-                    target.output.push_back({ t->outputMorpheme, "" });
+                VisitedConfig vc;
+                vc.state = t->target;
+                vc.position = pos;
+                if (visited.find(vc) != visited.end()) {
+                    continue; // skip to next transition if visited
                 }
-
-                agenda.push(target);
+                visited.insert(vc); //mark
+                Configuration target = current; //continue
+                target.state = t->target;
             }
 
             //matching transition

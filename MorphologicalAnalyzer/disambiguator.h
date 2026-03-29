@@ -13,10 +13,6 @@
  Rules are checked in priority order - first match wins.
  */
 
-#pragma once
-#include <string>
-#include <vector>
-#include <utility>
 
 using Analysis = std::vector<std::pair<std::string, std::string>>;
 using AnalysisList = std::vector<Analysis>;

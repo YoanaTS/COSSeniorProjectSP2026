@@ -1,5 +1,5 @@
 #pragma once
-#include "fst.h"
+#pragma execution_character_set("utf-8")
 #include "disambiguator.h"
 #include <string>
 #include <vector>
@@ -8,7 +8,6 @@
 
 class DisambiguatorBG {
 public:
-	static std::vector<DisambiguatedWord> disambiguate(
-		const std::vector<AnnotatedWord>& sentence);
+	static std::vector<DisambiguatedWord> disambiguate(const std::vector<AnnotatedWord>& sentence);
 };
 	
