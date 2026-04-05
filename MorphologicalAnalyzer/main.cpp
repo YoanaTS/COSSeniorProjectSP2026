@@ -6,6 +6,9 @@
 #include "fst.h"
 #include "fst_loader.h"
 #include "disambiguator.h"
+#include "disambiguator_BG.h"
+#include <unicode/unistr.h>
+
 
 //split line into individual word tokens
 static std::vector<std::string> tokenize(const std::string& line) {
@@ -28,11 +31,68 @@ static std::string formatAnalysis(const Analysis& a) {
     return result;
 }
 
+static void printResult(const std::vector<DisambiguatedWord>& result) {
+    std::cout << "\n";
+    for (int i = 0; i < (int)result.size(); i++) {  //go through each word
+        std::cout << result[i].surface << " ->\n"; //surface form
+        if (result[i].analyses.empty()) { //no analyses
+            std::cout << "  [unknown]\n";
+        }
+        else if (result[i].ambiguous) { //multiple analyses
+            std::cout << "  [ambiguous]\n";
+            for (int j = 0; j < (int)result[i].analyses.size(); j++) {
+                std::cout << "    " << formatAnalysis(result[i].analyses[j]) << "\n"; //print analysis
+            }
+        }
+        else {
+            for (int j = 0; j < (int)result[i].analyses.size(); j++) {
+                std::cout << "  " << formatAnalysis(result[i].analyses[j]) << "\n"; //successful disambiguation case
+            }
+        }
+
+        std::cout << "\n"; // spacing between words for readability
+    }
+}
+
+static std::string toLowerUTF8(const std::string& s) {
+    icu::UnicodeString userString = icu::UnicodeString::fromUTF8(s);
+    userString.toLower();
+    std::string result;
+    userString.toUTF8String(result);
+    return result;
+}
+
 int main() {
-    FiniteStateTransducer fst;
+
+    std::cout << "=== Morphological Analyzer ===\n";
+    std::cout << "Select language" << std::endl;
+    std::cout << "1) English (EN)" << std::endl;
+    std::cout << "2) Bulgarian (BG)" << std::endl;
+
+    std::string languagePick;
+    std::getline(std::cin, languagePick);
+
+    std::string language;
+    for (int i = 0; i < (int)languagePick.size(); i++) { //lowercase
+        languagePick[i] = tolower(languagePick[i]);
+    }
+
+    if (languagePick == "1" or languagePick == "en" or languagePick == "english" or languagePick == "eng") language = "en";
+    else if (languagePick == "2" or languagePick == "bg" or languagePick == "bulgarian" or languagePick == "bgn") language = "bg";
+    else {
+        std::cerr << "Invalid selection.\n";
+        return -1;
+    }
+    std::unordered_map<std::string, std::string> ruleFiles = { //map the language based on the rules file
+        {"en", "english_morphology.fst"},
+        {"bg", "bulgarian_morphology.fst"}
+    };
+
+	FiniteStateTransducer fst; //create the FST
+
     try {
-        FSTLoader::load("english_morphology.fst", fst);
-        std::cout << "Rules loaded.\n\n";
+        FSTLoader::load(ruleFiles[language], fst); //load the rules
+        std::cout << "Rules loaded (" << language << ").\n\n"; 
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n";
@@ -40,8 +100,7 @@ int main() {
     }
 
     std::string line;
-    std::cout << "=== Morphological Analyzer ===\n";
-    std::cout << "Enter a word (or '-1' to exit):\n\n";
+    std::cout << "Enter a word or a sentence (write '-1' to exit):\n\n";
 
     while (true) {
         std::cout << "> ";
@@ -49,10 +108,8 @@ int main() {
         if (line == "-1") break;
         if (line.empty()) continue;
 
-        //lowercase
-        for (int i = 0; i < (int)line.size(); i++)
-            line[i] = tolower(line[i]);
-        std::vector<std::string> tokens = tokenize(line);
+		line = toLowerUTF8(line); //lowercase the input with UTF-8 support (because of Bulgarian)
+        std::vector<std::string> tokens = tokenize(line); //tokenize
         if (tokens.empty()) continue;
 
         //transduce
@@ -64,26 +121,12 @@ int main() {
             sentence.push_back(aw);
         }
         //pass to the disambiguator
-        Disambiguator disambiguator;
-        std::vector<DisambiguatedWord> result = disambiguator.disambiguate(sentence);
-
-        //print the result word for word
-        std::cout << "\n";
-        for (int i = 0; i < (int)result.size(); i++) {
-            std::cout << result[i].surface << " ->\n";
-            if (result[i].analyses.empty()) {
-                std::cout << "  [unknown]\n";
-            }
-            else if (result[i].ambiguous) {
-                std::cout << "  [ambiguous]\n";
-                for (int j = 0; j < (int)result[i].analyses.size(); j++)
-                    std::cout << "    " << formatAnalysis(result[i].analyses[j]) << "\n";
-            }
-            else {
-                for (int j = 0; j < (int)result[i].analyses.size(); j++)
-                    std::cout << "  " << formatAnalysis(result[i].analyses[j]) << "\n";
-            }
-            std::cout << "\n";
+        if (language == "bg") {
+            printResult(DisambiguatorBG::disambiguate(sentence));
+        }
+        else if (language == "en") {
+            Disambiguator disambiguator;
+            printResult(disambiguator.disambiguate(sentence));
         }
     }
 

@@ -10,9 +10,9 @@
 static std::string getWord(const std::vector<AnnotatedWord>& sentence, int pos, int offset) {
     int idx = pos + offset;
     if (idx < 0 || idx >= (int)sentence.size()) return "";
-    std::string w = sentence[idx].surface;
-    for (char& c : w) c = tolower(c);
-    return w;
+    std::string word = sentence[idx].surface;
+    for (char& c : word) c = tolower(c);
+    return word;
 }
 
 //returns the analyses at pos+offset, or empty list if out of bounds
