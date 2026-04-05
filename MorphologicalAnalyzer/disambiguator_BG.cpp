@@ -221,8 +221,81 @@ static std::vector<Rule> buildRules() {
     rules.push_back({ "VERB+NOUN(obj)", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
             float w = windowMatchPOS(s, i, -2, -1, isVerb, cfg);
             if (w > 0 && isNoun(s[i].analyses, cfg))
-                return { POSVote::NOUN, 0.6f * w };
+                return { POSVote::NOUN, 0.6f * w };}
             return {};
-        } });
+        }
+    }
+});
     return rules;
 }
+void addVote(const AnalysisList& analyses, POSVote pos,
+    float weight, const POSConfig& cfg) {
+    for (int j = 0; j < (int)analyses.size(); j++) {
+        bool match = false;
+        const AnalysisList single = { analyses[j] };
+        switch (pos) {
+        case POSVote::VERB: match = isVerb(single, cfg); break;
+        case POSVote::NOUN: match = isNoun(single, cfg); break;
+        case POSVote::ADJ:  match = isAdj(single, cfg); break;
+        case POSVote::ADV:  match = isAdv(single, cfg); break;
+        default: break;
+        }
+        if (match) scores[j] += weight;
+    }
+}
+
+//returns the index of the highest-scoring analysis, or -1 if no votes cast
+int winner() const {
+    int   best = -1;
+    float bestS = 0.0f;
+    for (const auto& kv : scores)
+        if (kv.second > bestS) { bestS = kv.second; best = kv.first; }
+    return best;
+}
+};
+
+//main disambiguate
+std::vector<DisambiguatedWord> DisambiguatorBG::disambiguate(
+    const std::vector<AnnotatedWord>& sentence)
+{
+    static const std::vector<Rule> rules = buildRules();
+    const POSConfig& cfg = bulgarianConfig();
+
+    std::vector<DisambiguatedWord> result;
+
+    for (int i = 0; i < (int)sentence.size(); i++) {
+        DisambiguatedWord dw;
+        dw.surface = sentence[i].surface;
+        dw.ambiguous = false;
+
+        //if there's only one analysis, no need to disambiguate
+        if (sentence[i].analyses.size() <= 1) {
+            dw.analyses = sentence[i].analyses;
+            result.push_back(dw);
+            continue;
+        }
+
+        // run every rule and accumulate weighted votes
+        ScoreBoard board;
+        for (const auto& rule : rules) {
+            Vote v = rule.apply(sentence, i, cfg);
+            if (v.pos != POSVote::NONE && v.weight > 0.0f)
+                board.addVote(sentence[i].analyses, v.pos, v.weight, cfg);
+        }
+
+        //if we found a winning analysis, use it; otherwise keep all and mark as ambiguous
+        int w = board.winner();
+        if (w >= 0) {
+            dw.analyses = { sentence[i].analyses[w] };
+        }
+        else {
+            dw.analyses = sentence[i].analyses;
+            dw.ambiguous = true;
+        }
+
+        result.push_back(dw);
+    }
+
+    return result;
+}
+
