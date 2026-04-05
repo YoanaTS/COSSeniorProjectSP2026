@@ -82,7 +82,7 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
         //"a/the wrong (end of sentence)" -> noun
         if (chosen.empty() && isNoun(sentence[i].analyses, cfg) && isAdj(sentence[i].analyses, cfg)) {
             if (prevIsCopula) {
-                chosen = pickTag(sentence[i].analyses, cfg, "+ADJ+BASE");
+                chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
             }
             else if (prevIsDet) {
                 bool nextIsNoun = (i + 1 < (int)sentence.size()) &&

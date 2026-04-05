@@ -103,10 +103,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include\unicode;C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include\unicode</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies) icuuc.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -117,6 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>;C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,16 +128,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="benchmark.cpp" />
     <ClCompile Include="disambiguator.cpp" />
+    <ClCompile Include="disambiguator_BG.cpp" />
     <ClCompile Include="fst.cpp" />
     <ClCompile Include="fst_loader.cpp" />
+    <ClCompile Include="levenshtein.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MorphologicalAnalyzer.cpp" />
+    <ClCompile Include="pos_predicates.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="benchmark.h" />
     <ClInclude Include="disambiguator.h" />
+    <ClInclude Include="disambiguator_BG.h" />
     <ClInclude Include="fst.h" />
     <ClInclude Include="fst_loader.h" />
+    <ClInclude Include="levenshtein.h" />
+    <ClInclude Include="pos_predicates.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="english_morphology.fst" />

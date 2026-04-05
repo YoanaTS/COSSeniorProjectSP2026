@@ -8,7 +8,7 @@
 #include "disambiguator.h"
 #include "disambiguator_BG.h"
 #include <unicode/unistr.h>
-
+#include "levenshtein.h"
 
 //split line into individual word tokens
 static std::vector<std::string> tokenize(const std::string& line) {
@@ -20,13 +20,13 @@ static std::vector<std::string> tokenize(const std::string& line) {
     return tokens;
 }
 
-static std::string formatAnalysis(const Analysis& a) {
+static std::string formatAnalysis(const Analysis& analysis) {
     std::string result;
-    for (int i = 0; i < (int)a.size(); i++) {
-        if (a[i].first != "EPS" && !a[i].first.empty())
-            result += a[i].first;
-        if (a[i].second != "EPS" && !a[i].second.empty())
-            result += a[i].second;
+    for (int i = 0; i < (int)analysis.size(); i++) {
+        if (analysis[i].first != "EPS" && !analysis[i].first.empty())
+            result += analysis[i].first;
+        if (analysis[i].second != "EPS" && !analysis[i].second.empty())
+            result += analysis[i].second;
     }
     return result;
 }
@@ -77,8 +77,10 @@ int main() {
         languagePick[i] = tolower(languagePick[i]);
     }
 
-    if (languagePick == "1" or languagePick == "en" or languagePick == "english" or languagePick == "eng") language = "en";
-    else if (languagePick == "2" or languagePick == "bg" or languagePick == "bulgarian" or languagePick == "bgn") language = "bg";
+    if (languagePick == "1" or languagePick == "en" or languagePick == "english" or languagePick == "eng")
+        language = "en";
+    else if (languagePick == "2" or languagePick == "bg" or languagePick == "bulgarian" or languagePick == "bgn")
+        language = "bg";
     else {
         std::cerr << "Invalid selection.\n";
         return -1;
