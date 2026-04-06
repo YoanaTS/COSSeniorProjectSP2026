@@ -15,7 +15,10 @@ double Benchmark::nowMs() {
 std::string Benchmark::formatAnalysis(const Analysis& a) {
     std::string result;
     for (int i = 0; i < (int)a.size(); i++) {
-        result += a[i].first + a[i].second;
+        if (a[i].first != "EPS" && !a[i].first.empty()) 
+            result += a[i].first;
+        if (a[i].second != "EPS" && !a[i].second.empty())
+            result += a[i].second;
     }
     return result;
 }
@@ -31,68 +34,113 @@ bool Benchmark::analysisContains(const AnalysisList& analyses, const std::string
     return false;
 }
 
-Benchmark::Benchmark(FiniteStateTransducer& fst, DisambiguateFn disambiguateFn): fst(fst), disambiguateFn(disambiguateFn) {}
-
+Benchmark::Benchmark(FiniteStateTransducer& fst, DisambiguateFn disambiguateFn) : fst(fst), disambiguateFn(disambiguateFn) {}
 
 //--- runtime test ---
 BenchmarkResult Benchmark::benchmarkRuntime(const std::vector<std::string>& words) {
     BenchmarkResult result;
-    result.testName = "Runtime test";
+    result.testName = "NFR1 Runtime (<" + std::to_string((int)thresholdMs) + "ms per word)";
 
-    double start = nowMs();
+    double total_start = nowMs();
+    std::vector<double> times;
+    std::string slowestWord;
+    double worst = 0.0;
 
     for (int i = 0; i < (int)words.size(); i++) {
+        double start = nowMs();
         fst.transduce(words[i]);
+        double elapsed = nowMs() - start;
+        times.push_back(elapsed);
+        if (elapsed > worst) {
+            worst = elapsed;
+            slowestWord = words[i];
+        }
     }
-    result.elapsedMs = nowMs() - start;
-    result.passed = true; // for now just measuring, not enforcing threshold
-    result.details = "Processed " + std::to_string(words.size()) + " words";
+    result.elapsedMs = nowMs() - total_start;
+
+    double avg = std::accumulate(times.begin(), times.end(), 0.0) / times.size();
+    result.passed = (worst < thresholdMs);
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(3);
+    ss << "avg=" << avg << "ms  worst=" << worst << "ms (\"" << slowestWord << "\")";
+    result.details = ss.str();
     return result;
 }
 
 
 //--- consistency test ---
-BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word) {
+BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int repetitions) {
 
     BenchmarkResult result;
-    result.testName = "Consistency test";
+    result.testName = "NFR2 Consistency (\"" + word + "\" x" + std::to_string(repetitions) + ")";
 
-    AnalysisList first = fst.transduce(word);
+    double start = nowMs();
+    AnalysisList reference = fst.transduce(word);
     bool consistent = true;
 
-    //run a few times and compare
-    for (int i = 0; i < 5; i++) {
-        AnalysisList next = fst.transduce(word);
-        if (next != first) {
+    for (int i = 0; i < repetitions; i++) {
+        AnalysisList run = fst.transduce(word);
+        if (run.size() != reference.size()) {
             consistent = false;
             break;
         }
+        for (int j = 0; j < (int)run.size(); j++) {
+            if (run[j] != reference[j]) {
+                consistent = false;
+                break;
+            }
+        }
+        if (!consistent) break;
     }
-
+    result.elapsedMs = nowMs() - start;
     result.passed = consistent;
-    result.details = consistent ? "Same output every time" : "Different outputs detected";
+
+    std::ostringstream ss;
+    ss << repetitions << " runs, " << reference.size() << " analyses per run";
+    result.details = ss.str();
 
     return result;
-}
 
 
 //--- correctness test ---
 BenchmarkResult Benchmark::benchmarkCorrectness(
     const std::vector<std::pair<std::string, std::string>>& labelledWords) {
     BenchmarkResult result;
-    result.testName = "Correctness test";
+    result.testName = "NFR3 Correctness test";
 
     int correct = 0;
+    double start = nowMs();
+    std::vector<std::string> failures;
 
     for (int i = 0; i < (int)labelledWords.size(); i++) {
-        AnalysisList analyses = fst.transduce(labelledWords[i].first);
-        if (analysisContains(analyses, labelledWords[i].second)) {
+        const std::string& word = labelledWords[i].first;
+        const std::string& expectedTag = labelledWords[i].second;
+        AnalysisList analyses = fst.transduce(word);
+
+        if (analysisContains(analyses, expectedTag)) {
             correct++;
         }
+        else {
+            failures.push_back("\"" + word + "\" missing " + expectedTag);
+        }
     }
-    result.passed = true; // can refine later
-    result.details = std::to_string(correct) + "/" + std::to_string(labelledWords.size()) + " correct";
 
+    result.elapsedMs = nowMs() - start;
+    double pct = 100.0 * correct / (int)labelledWords.size();
+    result.passed = (pct >= 90.0); // 90% threshold as per NFR3
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(1);
+    ss << correct << "/" << labelledWords.size() << " correct (" << pct << "%)";
+    if (!failures.empty()) {
+        ss << "\n    Failures:";
+        for (int i = 0; i < (int)failures.size() && i < 5; i++)
+            ss << "\n      " << failures[i];
+        if (failures.size() > 5)
+            ss << "\n      ...and " << failures.size() - 5 << " more";
+    }
+    result.details = ss.str();
     return result;
 }
 
@@ -103,13 +151,15 @@ BenchmarkResult Benchmark::benchmarkLevenshtein(
     BenchmarkResult result;
     result.testName = "Levenshtein test";
     int correct = 0;
+    double start = nowMs();
+
     for (int i = 0; i < (int)pairs.size(); i++) {
         int dist = levenshtein(std::get<0>(pairs[i]), std::get<1>(pairs[i]));
-
         if (dist == std::get<2>(pairs[i])) {
             correct++;
         }
     }
+    result.elapsedMs = nowMs() - start;
     result.passed = (correct == (int)pairs.size());
     result.details = std::to_string(correct) + "/" + std::to_string(pairs.size()) + " correct";
 
@@ -123,6 +173,7 @@ BenchmarkResult Benchmark::benchmarkDisambiguation(const std::vector<std::pair<s
     result.testName = "Disambiguation test";
 
     int correct = 0;
+    double start = nowMs();
 
     for (int c = 0; c < (int)cases.size(); c++) {
         std::vector<AnnotatedWord> sentence;
@@ -134,6 +185,7 @@ BenchmarkResult Benchmark::benchmarkDisambiguation(const std::vector<std::pair<s
             sentence.push_back(aw);
         }
         std::vector<DisambiguatedWord> output = disambiguateFn(sentence);
+
         //check last word
         const DisambiguatedWord& target = output.back();
         bool found = false;
@@ -147,21 +199,74 @@ BenchmarkResult Benchmark::benchmarkDisambiguation(const std::vector<std::pair<s
         if (found) correct++;
     }
 
+    result.elapsedMs = nowMs() - start;
     result.passed = true; // can refine later
     result.details = std::to_string(correct) + "/" + std::to_string(cases.size()) + " correct";
 
     return result;
 }
 
+BenchmarkResult Benchmark::benchmarkThroughput(const std::vector<std::string>& words) {
+    BenchmarkResult result;
+    result.testName = "NFR5 + Aho-Corasick (" +
+        std::to_string(words.size()) + " words)";
+
+    double start = nowMs();
+    for (int i = 0; i < (int)words.size(); i++)
+        fst.transduce(words[i]);
+    result.elapsedMs = nowMs() - start;
+    result.passed = true;
+
+    double wordsPerSec = words.size() / (result.elapsedMs / 1000.0);
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(0);
+    ss << wordsPerSec << " words/sec  (" << result.elapsedMs << "ms total)";
+    result.details = ss.str();
+
+    return result;
+}
 
 //--- run everything ---
-void Benchmark::runAll(...) {
+void Benchmark::runAll(const std::vector<std::string>& runtimeWords, const std::string& consistencyWord,
+    const std::vector<std::pair<std::string, std::string>>& labelledWords, const std::vector<std::tuple<std::string, std::string, int>>& levPairs,
+    const std::vector<std::pair<std::vector<std::string>, std::string>>& disambigCases) {
 
     std::cout << "\n=== Benchmark ===\n";
+     std::cout << "Running tests...\n";
 
-    // call tests one by one
+     std::vector<BenchmarkResult> results;
 
-    std::cout << "Running tests...\n";
+     results.push_back(benchmarkRuntime(runtimeWords));
+     results.push_back(benchmarkConsistency(consistencyWord));
+     results.push_back(benchmarkCorrectness(labelledWords));
+     std::vector<std::string> throughputWords;
 
-    //print table later
+
+     for (int i = 0; i < 500; i++)
+         for (int j = 0; j < (int)runtimeWords.size(); j++)
+             throughputWords.push_back(runtimeWords[j]);
+     results.push_back(benchmarkThroughput(throughputWords));
+
+     results.push_back(benchmarkLevenshtein(levPairs));
+     results.push_back(benchmarkDisambiguation(disambigCases));
+
+     //print table
+     std::cout << "\n";
+     std::cout << std::left
+         << std::setw(52) << "Test"
+         << std::setw(8) << "Pass"
+         << std::setw(12) << "Time(ms)"
+         << "Details\n";
+     std::cout << std::string(100, '-') << "\n";
+
+     int passed = 0;
+     for (int i = 0; i < (int)results.size(); i++) {
+         const BenchmarkResult& r = results[i];
+         if (r.passed) passed++;
+         std::cout << std::left << std::setw(52) << r.testName << std::setw(8) << (r.passed ? "PASS" : "FAIL")
+             << std::fixed << std::setprecision(2) << std::setw(12) << r.elapsedMs << r.details << "\n";
+     }
+
+     std::cout << std::string(100, '-') << "\n";
+     std::cout << passed << "/" << results.size() << " benchmarks passed.\n\n";
 }
