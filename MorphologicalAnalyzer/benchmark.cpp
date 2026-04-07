@@ -1,7 +1,10 @@
 #include "benchmark.h"
 #include "levenshtein.h"
+#include "fst.h"
 #include <iostream>
+#include <sstream>
 #include <vector>
+#include <numeric>
 #include <chrono>
 
 //timer helper
@@ -37,7 +40,7 @@ bool Benchmark::analysisContains(const AnalysisList& analyses, const std::string
 Benchmark::Benchmark(FiniteStateTransducer& fst, DisambiguateFn disambiguateFn) : fst(fst), disambiguateFn(disambiguateFn) {}
 
 //--- runtime test ---
-BenchmarkResult Benchmark::benchmarkRuntime(const std::vector<std::string>& words) {
+BenchmarkResult Benchmark::benchmarkRuntime(const std::vector<std::string>& words, double thresholdMs) {
     BenchmarkResult result;
     result.testName = "NFR1 Runtime (<" + std::to_string((int)thresholdMs) + "ms per word)";
 
@@ -58,7 +61,10 @@ BenchmarkResult Benchmark::benchmarkRuntime(const std::vector<std::string>& word
     }
     result.elapsedMs = nowMs() - total_start;
 
-    double avg = std::accumulate(times.begin(), times.end(), 0.0) / times.size();
+    double avg = 0;
+    if (!times.empty()) {
+        avg = std::accumulate(times.begin(), times.end(), 0.0) / times.size();
+    }
     result.passed = (worst < thresholdMs);
 
     std::ostringstream ss;
@@ -101,11 +107,11 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
     result.details = ss.str();
 
     return result;
+}
 
 
 //--- correctness test ---
-BenchmarkResult Benchmark::benchmarkCorrectness(
-    const std::vector<std::pair<std::string, std::string>>& labelledWords) {
+    BenchmarkResult Benchmark::benchmarkCorrectness(const std::vector<std::pair<std::string, std::string>>&labelledWords) {
     BenchmarkResult result;
     result.testName = "NFR3 Correctness test";
 
@@ -127,7 +133,7 @@ BenchmarkResult Benchmark::benchmarkCorrectness(
     }
 
     result.elapsedMs = nowMs() - start;
-    double pct = 100.0 * correct / (int)labelledWords.size();
+    double pct = 100.0 * correct / labelledWords.size();
     result.passed = (pct >= 90.0); // 90% threshold as per NFR3
 
     std::ostringstream ss;

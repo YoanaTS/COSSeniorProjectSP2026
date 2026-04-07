@@ -26,7 +26,6 @@ void FSTLoader::buildAhoCorasick(FiniteStateTransducer& fst) { //check and rewor
             }
             node = trie[node].children[c];
         }
-
         trie[node].fstState = t->target;
         trie[node].stem = stem;
     }

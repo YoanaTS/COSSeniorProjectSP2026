@@ -9,6 +9,7 @@
 #include "disambiguator_BG.h"
 #include <unicode/unistr.h>
 #include "levenshtein.h"
+#include "benchmark.h"
 
 //split line into individual word tokens
 static std::vector<std::string> tokenize(const std::string& line) {
@@ -31,13 +32,31 @@ static std::string formatAnalysis(const Analysis& analysis) {
     return result;
 }
 
-static void printResult(const std::vector<DisambiguatedWord>& result) {
+static void printResult(const std::vector<DisambiguatedWord>& result, const std::vector<std::string>& knownStems, std::function<AnalysisList(const std::string&)> transduceFn) {
     std::cout << "\n";
     for (int i = 0; i < (int)result.size(); i++) {  //go through each word
         std::cout << result[i].surface << " ->\n"; //surface form
         if (result[i].analyses.empty()) { //no analyses
-            std::cout << "  [unknown]\n";
+
+			std::vector<FuzzyMatch> suggestions = fuzzyMatch(result[i].surface, knownStems, transduceFn); //get suggestions based on Levenshtein distance
+
+            if (suggestions.size() == 0) {
+                std::cout << "  [unknown]\n";
+            }
+
+            else {
+                std::cout << "  [unknown] but maybe you meant:\n";
+                for (int s = 0; s < (int)suggestions.size(); s++) {
+                    std::cout << "    \"" << suggestions[s].surface
+                        << "\" (dist=" << suggestions[s].distance << ")\n";
+                    for (int j = 0; j < (int)suggestions[s].analyses.size(); j++) {
+                        std::cout << "      "
+                            << formatAnalysis(suggestions[s].analyses[j]) << "\n";
+                    }
+                }
+            }
         }
+
         else if (result[i].ambiguous) { //multiple analyses
             std::cout << "  [ambiguous]\n";
             for (int j = 0; j < (int)result[i].analyses.size(); j++) {
@@ -50,7 +69,7 @@ static void printResult(const std::vector<DisambiguatedWord>& result) {
             }
         }
 
-        std::cout << "\n"; // spacing between words for readability
+        std::cout << "\n"; //spacing between words for readability
     }
 }
 

@@ -9,6 +9,8 @@
 #include <chrono>
 #include <iostream>
 #include <iomanip>
+#include <utility>
+#include <functional>
 
 /*
    NFR1 - Runtime: transduction must complete within 100ms per word
@@ -29,7 +31,8 @@ struct BenchmarkResult {
 
 class Benchmark {
 public:
-    Benchmark(FiniteStateTransducer& fst, bool isBulgarian);
+    Benchmark(FiniteStateTransducer& fst, DisambiguateFn disambiguateFn);
+
     BenchmarkResult benchmarkRuntime(const std::vector<std::string>& words, double thresholdMs = 100.0); //NFR1
 
     BenchmarkResult benchmarkConsistency(const std::string& word, int repetitions = 100); //NFR2
@@ -50,6 +53,7 @@ private:
     FiniteStateTransducer& fst;
     DisambiguateFn disambiguateFn;
 
+    double thresholdMs = 50.0;
     static double nowMs();
     static std::string formatAnalysis(const Analysis& a);
     static bool analysisContains(const AnalysisList& analyses, const std::string& tag);
