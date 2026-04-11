@@ -138,8 +138,11 @@ FiniteStateTransducer::transduce(const std::string& input) {
                     continue; // skip to next transition if visited
                 }
                 visited.insert(vc); //mark
-                Configuration target = current; //continue
-                target.state = t->target;
+                Configuration next = current;
+                next.state = t->target;
+                if (!t->outputMorpheme.empty())
+                    next.output.push_back({ "", t->outputMorpheme });
+                agenda.push(next);
             }
 
             //matching transition
@@ -171,7 +174,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
                     //prepend the prefix to the lemma in each analysis
                     for (int i = 0; i < (int)stemResults.size(); i++)
                         //insert prefix as a morpheme at the front
-                        stemResults[i].insert(stemResults[i].begin(), { pre, "+PREF " });
+                        stemResults[i].insert(stemResults[i].begin(), { pre, "+PREF" });
                     return stemResults;
                 }
             }

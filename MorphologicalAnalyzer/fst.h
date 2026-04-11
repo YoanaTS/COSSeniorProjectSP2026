@@ -71,5 +71,5 @@ public:
     std::vector<std::vector<std::pair<std::string, std::string>>>
         transduce(const std::string& input); //valid analyses (multiple posissible)
 
-    //~FiniteStateTransducer(); //deconstructor
+    const std::vector<State*>& getStates() const { return states; } //accessor for the states
 };

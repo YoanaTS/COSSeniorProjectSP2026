@@ -120,6 +120,15 @@ int main() {
         return 1;
     }
 
+    std::vector<std::string> knownStems; //get the known stems
+    for (Transition* t : fst.getStartState()->transitions) {
+        knownStems.push_back(t->inputSymbol);
+    }
+
+    std::function<AnalysisList(const std::string&)> transduceFn = [&fst](const std::string& word) { //transduce function for the fuzzy matching
+        return fst.transduce(word);
+        };
+
     std::string line;
     std::cout << "Enter a word or a sentence (write '-1' to exit):\n\n";
 
@@ -143,11 +152,11 @@ int main() {
         }
         //pass to the disambiguator
         if (language == "bg") {
-            printResult(DisambiguatorBG::disambiguate(sentence));
+            printResult(DisambiguatorBG::disambiguate(sentence), knownStems, transduceFn);
         }
         else if (language == "en") {
             Disambiguator disambiguator;
-            printResult(disambiguator.disambiguate(sentence));
+            printResult(disambiguator.disambiguate(sentence), knownStems, transduceFn);
         }
     }
 

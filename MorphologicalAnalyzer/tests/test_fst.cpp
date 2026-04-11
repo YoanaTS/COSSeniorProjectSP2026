@@ -24,6 +24,16 @@ static bool containsAnalysis( //check if there is an analysis
     return false;
 }
 
+static bool containsLemma(
+    const std::vector<std::vector<std::pair<std::string, std::string>>>& results,
+    const std::string& lemma, const std::string& tag)
+{
+    for (const auto& analysis : results)
+        for (const auto& pair : analysis)
+            if (pair.first == lemma && pair.second == tag)
+                return true;
+    return false;
+}
 
 //code to print info for the passed and failed test !!!!
 
