@@ -1,13 +1,14 @@
 #include "levenshtein.h"
+#include "disambiguator.h"
 #include <algorithm>
-#include <unicode/unistr.h>
+//#include <unicode/unistr.h> fix icu later
 
 int levenshtein(const std::string& firstWord, const std::string& secondWord) {
-    icu::UnicodeString wordA = icu::UnicodeString::fromUTF8(firstWord);
-    icu::UnicodeString wordB = icu::UnicodeString::fromUTF8(secondWord);
+    //icu::UnicodeString wordA = icu::UnicodeString::fromUTF8(firstWord);
+    //icu::UnicodeString wordB = icu::UnicodeString::fromUTF8(secondWord);
 
-    int lenA = wordA.length();
-    int lenB = wordB.length();
+    int lenA = firstWord.length();
+    int lenB = secondWord.length();
 
     std::vector<std::vector<int>> distanceMatrix(lenA + 1, std::vector<int>(lenB + 1, 0));
 
@@ -18,7 +19,7 @@ int levenshtein(const std::string& firstWord, const std::string& secondWord) {
     for (int i = 1; i <= lenA; i++) {
         for (int j = 1; j <= lenB; j++) {
 
-            if (wordA[i - 1] == wordB[j - 1]) {
+            if (firstWord[i - 1] == secondWord[j - 1]) {
                 distanceMatrix[i][j] = distanceMatrix[i - 1][j - 1];
             }
             else {
@@ -31,4 +32,37 @@ int levenshtein(const std::string& firstWord, const std::string& secondWord) {
         }
     }
     return distanceMatrix[lenA][lenB];
+}
+
+std::vector<FuzzyMatch> fuzzyMatch( const std::string& word, const std::vector<std::string>& knownStems,
+    std::function<AnalysisList(const std::string&)> transduceFn, int topN, int maxDistance)
+{
+    std::vector<FuzzyMatch> results;
+    for (int i = 0; i < (int)knownStems.size(); i++) {//try every known stem
+        int d = levenshtein(word, knownStems[i]);
+
+        if (d <= maxDistance) { //only keep close matches
+
+            FuzzyMatch fuzzyMatch;
+            fuzzyMatch.surface = knownStems[i];
+            fuzzyMatch.distance = d;
+            fuzzyMatch.analyses = transduceFn(knownStems[i]);//get analyses from FST
+
+            results.push_back(fuzzyMatch);
+        }
+    }
+
+    std::sort(results.begin(), results.end(),[](const FuzzyMatch& a, const FuzzyMatch& b) {//sort by distance (closest first)
+            return a.distance < b.distance;
+        });
+
+    if ((int)results.size() > topN) { //keep only top N results
+        std::vector<FuzzyMatch> trimmed;
+        for (int i = 0; i < topN; i++) {
+            trimmed.push_back(results[i]);
+        }
+        return trimmed;
+    }
+
+    return results;
 }

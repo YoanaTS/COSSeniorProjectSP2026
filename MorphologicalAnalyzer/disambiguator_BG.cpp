@@ -1,4 +1,5 @@
 #include "disambiguator.h"
+#include "disambiguator_BG.h"
 #include "pos_predicates.h"
 #include <algorithm>
 #include <functional>
@@ -32,13 +33,8 @@ static float decay(int distance)
 }
 
 
-// check if any word in the window matches a given set
-static float windowMatchWord(const std::vector<AnnotatedWord>& sentence,
-    int pos,
-    int minOffset,
-    int maxOffset,
-    const std::unordered_set<std::string>& words) {
-
+//check if any word in the window matches a given set
+static float windowMatchWord(const std::vector<AnnotatedWord>& sentence, int pos, int minOffset, int maxOffset, const std::unordered_set<std::string>& words) {
     float bestWeight = 0.0f;
 
     for (int offset = minOffset; offset <= maxOffset; offset++) {
@@ -47,7 +43,7 @@ static float windowMatchWord(const std::vector<AnnotatedWord>& sentence,
 
         std::string w = getWord(sentence, pos, offset);
 
-        // check if word is in the set
+        //check if word is in the set
         if (words.find(w) != words.end()) {
 
             int distance = offset;
@@ -64,17 +60,11 @@ static float windowMatchWord(const std::vector<AnnotatedWord>& sentence,
     return bestWeight;
 }
 
-
-// check if any word in window matches a POS condition
-static float windowMatchPOS(const std::vector<AnnotatedWord>& sentence,
-    int pos,
-    int minOffset,
-    int maxOffset,
-    bool (*pred)(const AnalysisList&, const POSConfig&),
-    const POSConfig& cfg) {
-    float bestWeight = 0.0f;
-
-    for (int offset = minOffset; offset <= maxOffset; offset++) {
+//check if any word in window matches a POS condition
+static float windowMatchPOS(const std::vector<AnnotatedWord>& sentence, int pos,
+    int minOffset, int maxOffset, bool (*pred)(const AnalysisList&, const POSConfig&), const POSConfig& cfg) { float bestWeight = 0.0f;
+    
+for (int offset = minOffset; offset <= maxOffset; offset++) {
         if (offset == 0) continue;
         const AnalysisList& analyses = getAnalyses(sentence, pos, offset);
 		if (analyses.empty()) continue; //skip if empty (out of bounds)
@@ -115,12 +105,43 @@ struct Vote {
 struct Rule {
     std::string name;
 
-    std::function<Vote(const std::vector<AnnotatedWord>&,
-        int,
-        const POSConfig&)> apply;
+    std::function<Vote(const std::vector<AnnotatedWord>&, int, const POSConfig&)> apply;
 };
 
-static std::vector<Rule> buildRules() {
+
+struct ScoreBoard {
+std::unordered_map<int, float> scores;
+    void addVote(const AnalysisList& analyses, POSVote pos, float weight, const POSConfig& cfg)
+    {
+        for (int j = 0; j < (int)analyses.size(); j++) {
+
+            AnalysisList single = { analyses[j] };
+            bool match = false;
+
+            switch (pos) {
+            case POSVote::VERB: match = isVerb(single, cfg); break;
+            case POSVote::NOUN: match = isNoun(single, cfg); break;
+            case POSVote::ADJ:  match = isAdj(single, cfg); break;
+            case POSVote::ADV:  match = isAdv(single, cfg); break;
+            default: break;
+            }
+
+            if (match) scores[j] += weight;
+        }
+    }
+    int winner() const {
+        int best = -1;
+        float bestScore = 0.0f;
+
+        for (const auto& keyValue : scores) {
+            if (keyValue.second > bestScore) {
+                bestScore = keyValue.second;
+                best = keyValue.first;
+            }
+        }
+        return best;
+    }
+};
 
     //shared word sets (built once)
     //спомагателни глаголи за перфект и страдателен залог
@@ -142,6 +163,8 @@ static std::vector<Rule> buildRules() {
         "ме", "те", "ни", "ви", // 1л. и 2л. вин./дат.
         "се", "си"              // възвратни
     };
+
+    static std::vector<Rule> buildRules() {
 
     std::vector<Rule> rules;
 
@@ -189,7 +212,7 @@ static std::vector<Rule> buildRules() {
 
     //demonstrative + noun
     //"този човек", "тази жена", "това дете"
-    rules.push_back({ "DEM+NOUN", [&demonstratives](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+    rules.push_back({ "DEM+NOUN", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
         float w = windowMatchWord(s, i, -2, -1, demonstratives);
         if (w > 0 && isNoun(s[i].analyses, cfg))
             return { POSVote::NOUN, 0.9f * w };
@@ -198,7 +221,7 @@ static std::vector<Rule> buildRules() {
 
     //auxiliary + participle
     //"съм видял", "е казал", "са отишли"
-    rules.push_back({ "AUX+PASTPART", [&auxVerbs](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+    rules.push_back({ "AUX+PASTPART", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
            float w = windowMatchWord(s, i, -3, -1, auxVerbs);
            if (w > 0) {
                if (isPastPart(s[i].analyses, cfg)) return { POSVote::VERB, 1.0f * w };
@@ -209,7 +232,7 @@ static std::vector<Rule> buildRules() {
 
     //clitic + noun
     // "виждам го Петър"
-    rules.push_back({ "CLITIC+NOUN", [&objClitics](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+    rules.push_back({ "CLITIC+NOUN", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
            float w = windowMatchWord(s, i, -2, -1, objClitics);
            if (w > 0 && isNoun(s[i].analyses, cfg))
                return { POSVote::NOUN, 0.7f * w };
@@ -218,41 +241,15 @@ static std::vector<Rule> buildRules() {
 
     //verb + noun (object)
     //"виждам котката", "искам вода"
-    rules.push_back({ "VERB+NOUN(obj)", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
-            float w = windowMatchPOS(s, i, -2, -1, isVerb, cfg);
-            if (w > 0 && isNoun(s[i].analyses, cfg))
-                return { POSVote::NOUN, 0.6f * w };}
-            return {};
-        }
-    }
-});
+    rules.push_back({ "verb+noun", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+           float w = windowMatchPOS(s, i, -2, -1, isVerb, cfg);
+           if (w > 0 && isNoun(s[i].analyses, cfg))
+               return { POSVote::NOUN, 0.6f * w };
+           return {};
+       }
+        });
     return rules;
-}
-void addVote(const AnalysisList& analyses, POSVote pos,
-    float weight, const POSConfig& cfg) {
-    for (int j = 0; j < (int)analyses.size(); j++) {
-        bool match = false;
-        const AnalysisList single = { analyses[j] };
-        switch (pos) {
-        case POSVote::VERB: match = isVerb(single, cfg); break;
-        case POSVote::NOUN: match = isNoun(single, cfg); break;
-        case POSVote::ADJ:  match = isAdj(single, cfg); break;
-        case POSVote::ADV:  match = isAdv(single, cfg); break;
-        default: break;
-        }
-        if (match) scores[j] += weight;
     }
-}
-
-//returns the index of the highest-scoring analysis, or -1 if no votes cast
-int winner() const {
-    int   best = -1;
-    float bestS = 0.0f;
-    for (const auto& kv : scores)
-        if (kv.second > bestS) { bestS = kv.second; best = kv.first; }
-    return best;
-}
-};
 
 //main disambiguate
 std::vector<DisambiguatedWord> DisambiguatorBG::disambiguate(
@@ -277,6 +274,7 @@ std::vector<DisambiguatedWord> DisambiguatorBG::disambiguate(
 
         // run every rule and accumulate weighted votes
         ScoreBoard board;
+
         for (const auto& rule : rules) {
             Vote v = rule.apply(sentence, i, cfg);
             if (v.pos != POSVote::NONE && v.weight > 0.0f)

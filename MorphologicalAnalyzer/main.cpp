@@ -73,11 +73,19 @@ static void printResult(const std::vector<DisambiguatedWord>& result, const std:
     }
 }
 
-static std::string toLowerUTF8(const std::string& s) {
+/*/static std::string toLowerUTF8(const std::string& s) {
     icu::UnicodeString userString = icu::UnicodeString::fromUTF8(s);
     userString.toLower();
     std::string result;
     userString.toUTF8String(result);
+    return result;
+}*/ //fix ICU later - for now just a simple ASCII lowercase (works for English, not perfect for Bulgarian but should be fine for the known stems) update toLowerSimple then
+
+static std::string toLowerSimple(const std::string& s) {
+    std::string result = s;
+    for (int i = 0; i < (int)result.size(); i++) {
+        result[i] = tolower(result[i]);
+    }
     return result;
 }
 
@@ -138,7 +146,7 @@ int main() {
         if (line == "-1") break;
         if (line.empty()) continue;
 
-		line = toLowerUTF8(line); //lowercase the input with UTF-8 support (because of Bulgarian)
+		line = toLowerSimple(line); //lowercase the input with UTF-8 support (because of Bulgarian)
         std::vector<std::string> tokens = tokenize(line); //tokenize
         if (tokens.empty()) continue;
 
