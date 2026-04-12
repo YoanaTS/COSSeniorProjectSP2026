@@ -89,84 +89,138 @@ static std::string toLowerSimple(const std::string& s) {
     return result;
 }
 
-int main() {
+static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std::vector<std::string>& knownStems,
+    std::function<AnalysisList(const std::string&)>& transduceFn) {
+    std::cout << "Select language:\n";
+    std::cout << "1) English (EN)\n";
+    std::cout << "2) Bulgarian (BG)\n";
+    std::string pick;
+    std::getline(std::cin, pick);
 
-    std::cout << "=== Morphological Analyzer ===\n";
-    std::cout << "Select language" << std::endl;
-    std::cout << "1) English (EN)" << std::endl;
-    std::cout << "2) Bulgarian (BG)" << std::endl;
+    for (char& c : pick) c = tolower(c);
 
-    std::string languagePick;
-    std::getline(std::cin, languagePick);
-
-    std::string language;
-    for (int i = 0; i < (int)languagePick.size(); i++) { //lowercase
-        languagePick[i] = tolower(languagePick[i]);
-    }
-
-    if (languagePick == "1" or languagePick == "en" or languagePick == "english" or languagePick == "eng")
+    if (pick == "1" || pick == "en" || pick == "english") {
         language = "en";
-    else if (languagePick == "2" or languagePick == "bg" or languagePick == "bulgarian" or languagePick == "bgn")
-        language = "bg";
-    else {
-        std::cerr << "Invalid selection.\n";
-        return -1;
     }
-    std::unordered_map<std::string, std::string> ruleFiles = { //map the language based on the rules file
+    else if (pick == "2" || pick == "bg" || pick == "bulgarian") {
+        language = "bg";
+    }
+    else {
+        std::cout << "Invalid choice\n";
+        return false;
+    }
+
+    std::unordered_map<std::string, std::string> files = {
         {"en", "english_morphology.fst"},
         {"bg", "bulgarian_morphology.fst"}
     };
 
-	FiniteStateTransducer fst; //create the FST
+    fst = FiniteStateTransducer(); // reset fst
 
     try {
-        FSTLoader::load(ruleFiles[language], fst); //load the rules
-        std::cout << "Rules loaded (" << language << ").\n\n"; 
+        FSTLoader::load(files[language], fst);
+        std::cout << "Loaded " << language << " rules\n\n";
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n";
         return 1;
-    }
-
-    std::vector<std::string> knownStems; //get the known stems
+        }
+    knownStems.clear();
     for (Transition* t : fst.getStartState()->transitions) {
         knownStems.push_back(t->inputSymbol);
     }
-
-    std::function<AnalysisList(const std::string&)> transduceFn = [&fst](const std::string& word) { //transduce function for the fuzzy matching
-        return fst.transduce(word);
+    transduceFn = [&fst](const std::string& w) {
+        return fst.transduce(w);
         };
 
-    std::string line;
-    std::cout << "Enter a word or a sentence (write '-1' to exit):\n\n";
+    return true;
+}
+static void runBenchmark(const std::string& language, FiniteStateTransducer& fst) {
+     DisambiguateFn disambigFn;
 
+    if (language == "bg") {
+        disambigFn = [](const std::vector<AnnotatedWord>& s) {
+            return DisambiguatorBG::disambiguate(s);
+            };
+    }
+    else {
+        Disambiguator d;
+        disambigFn = [&d](const std::vector<AnnotatedWord>& s) {
+            return d.disambiguate(s);
+            };
+    }
+
+    Benchmark bench(fst, disambigFn);
+
+    std::vector<std::string> words = { "cat", "cats", "walked", "running" }; //sample data to update later
+    std::string consistencyWord = "walk";
+
+    std::vector<std::pair<std::string, std::string>> labelled = {
+        {"cats", "+PL"}, {"walked", "+PAST"}
+    };
+
+    std::vector<std::tuple<std::string, std::string, int>> levPairs = {
+        {"cat", "cats", 1}, {"play", "plai", 1}
+    };
+
+    std::vector<std::pair<std::vector<std::string>, std::string>> disambigCases = {
+        {{"i", "play"}, "+VERB"},{{"the", "play"}, "+NOUN"}
+    };
+
+    bench.runAll(words, consistencyWord, labelled, levPairs, disambigCases);
+}
+int main() {
+
+    std::cout << "=== Morphological Analyzer ===\n";
+
+    std::string language;
+    FiniteStateTransducer fst;
+    std::vector<std::string> knownStems;
+
+    std::function<AnalysisList(const std::string&)> transduceFn;
+
+    if (!setupLanguage(language, fst, knownStems, transduceFn)) {
+        return -1;
+    }
+
+    std::string line;
+    std::cout << "Enter a word or a sentence (write '-1' to exit)\n";
+    std::cout << "Commands: ? = change language, benchmark = run tests\n\n";
     while (true) {
         std::cout << "> ";
         std::getline(std::cin, line);
-        if (line == "-1") break;
-        if (line.empty()) continue;
 
-		line = toLowerSimple(line); //lowercase the input with UTF-8 support (because of Bulgarian)
-        std::vector<std::string> tokens = tokenize(line); //tokenize
+        if (line == "-1") break; //exit
+        if (line.empty()) continue;
+        if (line == "?") { //language change
+            setupLanguage(language, fst, knownStems, transduceFn);
+            continue;
+        }
+
+        if (line == "benchmark") {
+            runBenchmark(language, fst);
+            continue;
+        }
+
+        line = toLowerSimple(line); //analysis
+        std::vector<std::string> tokens = tokenize(line);
         if (tokens.empty()) continue;
 
-        //transduce
         std::vector<AnnotatedWord> sentence;
+
         for (int i = 0; i < (int)tokens.size(); i++) {
             AnnotatedWord aw;
             aw.surface = tokens[i];
             aw.analyses = fst.transduce(tokens[i]);
             sentence.push_back(aw);
         }
-        //pass to the disambiguator
+
         if (language == "bg") {
             printResult(DisambiguatorBG::disambiguate(sentence), knownStems, transduceFn);
         }
-        else if (language == "en") {
+        else {
             Disambiguator disambiguator;
             printResult(disambiguator.disambiguate(sentence), knownStems, transduceFn);
         }
     }
-
-    return 0;
 }

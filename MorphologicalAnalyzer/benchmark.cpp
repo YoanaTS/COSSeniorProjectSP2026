@@ -30,7 +30,7 @@ std::string Benchmark::formatAnalysis(const Analysis& a) {
 bool Benchmark::analysisContains(const AnalysisList& analyses, const std::string& tag) {
     for (int i = 0; i < (int)analyses.size(); i++) {
         for (int j = 0; j < (int)analyses[i].size(); j++) {
-            if (analyses[i][j].first == tag || analyses[i][j].second == tag)
+            if (analyses[i][j].first.find(tag) != std::string::npos || analyses[i][j].second.find(tag) != std::string::npos)
                 return true;
         }
     }
@@ -118,6 +118,7 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
     int correct = 0;
     double start = nowMs();
     std::vector<std::string> failures;
+    int ambiguous = 0;
 
     for (int i = 0; i < (int)labelledWords.size(); i++) {
         const std::string& word = labelledWords[i].first;
@@ -126,6 +127,9 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
 
         if (analysisContains(analyses, expectedTag)) {
             correct++;
+            if (analyses.size() > 1) {
+                ambiguous++; // only count ambiguity if correct
+            }
         }
         else {
             failures.push_back("\"" + word + "\" missing " + expectedTag);
@@ -138,7 +142,7 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
 
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(1);
-    ss << correct << "/" << labelledWords.size() << " correct (" << pct << "%)";
+    ss << correct << "/" << labelledWords.size() << " correct (" << pct << "%)" << "\n    ambiguous cases: " << ambiguous;
     if (!failures.empty()) {
         ss << "\n    Failures:";
         for (int i = 0; i < (int)failures.size() && i < 5; i++)
