@@ -1,4 +1,4 @@
-#include "disambiguator_ENG.h"
+﻿#include "disambiguator_ENG.h"
 #include "pos_predicates.h"
 #include <algorithm>
 
@@ -22,6 +22,7 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
     std::vector<std::string> auxVerbs = { "will", "can", "could", "would", "do", "does", "did" };
     std::vector<std::string> pronouns = { "i", "he", "she", "they", "we", "you" };
     std::vector<std::string> determiners = { "a", "an", "the" };
+    std::vector<std::string> possessives = {"my", "your", "his", "her", "its", "our", "their" };
 
     std::vector<DisambiguatedWord> result;
 
@@ -94,6 +95,69 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
             }
         }
 
+        //possessive before -> ADJ or NOUN
+        //"my car" -> noun
+        //"my favorite idea" -> clear = adj
+        if (chosen.empty()) {
+
+            bool prevIsPoss =
+                std::find(possessives.begin(), possessives.end(), prev) != possessives.end();
+
+            if (prevIsPoss) {
+
+                bool nextIsNoun = (i + 1 < (int)sentence.size()) && isNoun(sentence[i + 1].analyses, cfg);
+
+                //if next word is noun -> current is adjective
+                if (isAdj(sentence[i].analyses, cfg) && nextIsNoun) {
+                    chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
+                }
+                //otherwise -> noun
+                else if (isNoun(sentence[i].analyses, cfg)) {
+                    chosen = pickNoun(sentence[i].analyses, cfg);
+                }
+            }
+        }
+
+        //possessive + (this word) + noun -> adjective
+        //"my favorite day", "his best friend"
+        if (chosen.empty() && isAdj(sentence[i].analyses, cfg)) {
+            bool prevIsPoss = std::find(possessives.begin(), possessives.end(), prev) != possessives.end();
+            bool nextIsNoun =
+                (i + 1 < (int)sentence.size()) &&
+                isNoun(sentence[i + 1].analyses, cfg);
+
+            if (prevIsPoss && nextIsNoun) {
+                chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
+            }
+        }
+
+        //possessive + adjective chain + noun
+        if (chosen.empty() && isAdj(sentence[i].analyses, cfg)) {
+
+            bool nextIsNoun = (i + 1 < (int)sentence.size()) && isNoun(sentence[i + 1].analyses, cfg);
+            bool prevIsPoss = std::find(possessives.begin(), possessives.end(), prev) != possessives.end();
+            bool prevIsAdj = (i > 0 && isAdj(sentence[i - 1].analyses, cfg));
+
+            if ((prevIsPoss || prevIsAdj) && nextIsNoun) {
+                chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
+            }
+        }
+
+        //"more/most + word" -> adjective
+        //"more clear", "most interesting"
+        if (chosen.empty() && isAdj(sentence[i].analyses, cfg)) {
+            if (prev == "more" || prev == "most") {
+                chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
+            }
+        }
+
+        //adjective before -> noun
+        //nice dog", "red car", "clear day"
+        if (chosen.empty() && isNoun(sentence[i].analyses, cfg)) {
+            if (i > 0 && isAdj(sentence[i - 1].analyses, cfg)) {
+                chosen = pickNoun(sentence[i].analyses, cfg);
+            }
+        }
         //adverb vs adjective
         //"runs fast" -> adverb
         //"is fast"   -> adjective
@@ -105,10 +169,24 @@ std::vector<DisambiguatedWord> Disambiguator::disambiguate(
         }
 
         //adjective after verb
-        // //"she seems happy" -> adjective
+        //"she seems happy" -> adjective
         if (chosen.empty() && isAdj(sentence[i].analyses, cfg)) {
             if (i > 0 && isVerb(sentence[i - 1].analyses, cfg))
                 chosen = pickTag(sentence[i].analyses, "+ADJ+BASE");
+        }
+
+
+        //copula ("to be") before -> often noun (predicate nominal)
+        //"is a teacher", "was a problem", "are a pair"
+        if (chosen.empty() && isNoun(sentence[i].analyses, cfg)) {
+            if (prevIsCopula) {
+                //prefer noun ONLY if not clearly adjective
+                bool alsoAdj = isAdj(sentence[i].analyses, cfg);
+
+                if (!alsoAdj) {
+                    chosen = pickNoun(sentence[i].analyses, cfg);
+                }
+            }
         }
 
         //if we found a single best analysis, use it; otherwise keep all and mark as ambiguous

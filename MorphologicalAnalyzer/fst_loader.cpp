@@ -31,7 +31,7 @@ void FSTLoader::buildAhoCorasick(FiniteStateTransducer& fst) { //check and rewor
             }
             currentNode = trie[currentNode].children[c];
         }
-        trie[currentNode].fstState = t->target; //mark the end
+        trie[currentNode].fstStates.push_back(t->target); //mark the end
         trie[currentNode].stem = word;
     }
 

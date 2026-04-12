@@ -36,7 +36,7 @@ public:
 struct AhoCorasickNode {
     std::unordered_map<char, int> children; //char -> child node index
     int failure = 0;                         //failure link - longest proper suffix that is also a prefix
-    State* fstState = nullptr;               //FST state this stem leads to if it is a complete stem
+    std::vector<State*> fstStates;               //FST state this stem leads to if it is a complete stem
     std::string stem;                        //the stem string at this node
 };
 

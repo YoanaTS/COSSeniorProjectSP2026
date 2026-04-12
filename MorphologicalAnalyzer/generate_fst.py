@@ -1,163 +1,171 @@
 """
-generate_fst_v2.py
+generate_fst.py
 Generates english_morphology.fst from MorphoLEX_en.xlsx.
-Includes: nouns, verbs, adjectives, adverbs, pronouns, determiners, prepositions.
+
+Tag format used throughout:
+  Nouns:      stem+NOUN+SG  /  stem+NOUN+PL
+  Verbs:      stem+VERB+INF / +VERB+3SG / +VERB+PAST / +VERB+PASTPART / +VERB+PROG
+  Adjectives: stem+ADJ+BASE
+  Adverbs:    stem+ADV+BASE
+  Pronouns:   surface+PRON+<subtype>
+  Determiners:surface+DET+<subtype>
+  Prepositions/Conjunctions/Auxiliaries: surface+PREP/CONJ/AUX/NEG+BASE
+
+These match exactly what pos_predicates.cpp, disambiguator.cpp, and the test suite expect.
 """
 import openpyxl, re
 
 # ---------------------------------------------------------------
-# Hand-coded function words (not in MorphoLEX as content words)
+# Hand-coded function words
 # ---------------------------------------------------------------
 PRONOUNS = [
-    ("i",    "+1SG.SUBJ"),  ("me",   "+1SG.OBJ"),  ("my",   "+1SG.POSS"),
-    ("we",   "+1PL.SUBJ"),  ("us",   "+1PL.OBJ"),  ("our",  "+1PL.POSS"),
-    ("you",  "+2.SUBJ"),    ("your", "+2.POSS"),
-    ("he",   "+3SG.M.SUBJ"),("him",  "+3SG.M.OBJ"),("his",  "+3SG.M.POSS"),
-    ("she",  "+3SG.F.SUBJ"),("her",  "+3SG.F.OBJ"),
-    ("it",   "+3SG.N.SUBJ"),("its",  "+3SG.N.POSS"),
-    ("they", "+3PL.SUBJ"),  ("them", "+3PL.OBJ"),  ("their","+3PL.POSS"),
-    ("this", "+DEM.SG"),    ("that", "+DEM.SG"),
-    ("these","+DEM.PL"),    ("those","+DEM.PL"),
-    ("who",  "+REL"),       ("which","+REL"),       ("what", "+REL"),
+    ("i",    "+PRON+1SG.SUBJ"),  ("me",   "+PRON+1SG.OBJ"),  ("my",   "+PRON+1SG.POSS"),
+    ("we",   "+PRON+1PL.SUBJ"),  ("us",   "+PRON+1PL.OBJ"),  ("our",  "+PRON+1PL.POSS"),
+    ("you",  "+PRON+2.SUBJ"),    ("your", "+PRON+2.POSS"),
+    ("he",   "+PRON+3SG.M.SUBJ"),("him",  "+PRON+3SG.M.OBJ"),("his",  "+PRON+3SG.M.POSS"),
+    ("she",  "+PRON+3SG.F.SUBJ"),("her",  "+PRON+3SG.F.OBJ"),
+    ("it",   "+PRON+3SG.N.SUBJ"),("its",  "+PRON+3SG.N.POSS"),
+    ("they", "+PRON+3PL.SUBJ"),  ("them", "+PRON+3PL.OBJ"),  ("their","+PRON+3PL.POSS"),
+    ("this", "+PRON+DEM.SG"),    ("that", "+PRON+DEM.SG"),
+    ("these","+PRON+DEM.PL"),    ("those","+PRON+DEM.PL"),
+    ("who",  "+PRON+REL"),       ("which","+PRON+REL"),       ("what", "+PRON+REL"),
 ]
 
 DETERMINERS = [
-    ("the",  "+DEF"),
-    ("a",    "+INDEF"),
-    ("an",   "+INDEF"),
-    ("some", "+INDEF.PL"),
-    ("any",  "+INDEF"),
-    ("no",   "+NEG.DET"),
-    ("each", "+DIST"),
-    ("every","+DIST"),
-    ("both", "+DUAL"),
-    ("all",  "+UNIV"),
-    ("few",  "+QUANT"),
-    ("many", "+QUANT"),
-    ("much", "+QUANT"),
-    ("more", "+QUANT.COMP"),
-    ("most", "+QUANT.SUP"),
-    ("other","+OTHER"),
-    ("another", "+OTHER.SG"),
+    ("the",     "+DET+DEF"),
+    ("a",       "+DET+INDEF"),
+    ("an",      "+DET+INDEF"),
+    ("some",    "+DET+INDEF.PL"),
+    ("any",     "+DET+INDEF"),
+    ("no",      "+DET+NEG"),
+    ("each",    "+DET+DIST"),
+    ("every",   "+DET+DIST"),
+    ("both",    "+DET+DUAL"),
+    ("all",     "+DET+UNIV"),
+    ("few",     "+DET+QUANT"),
+    ("many",    "+DET+QUANT"),
+    ("much",    "+DET+QUANT"),
+    ("more",    "+DET+QUANT.COMP"),
+    ("most",    "+DET+QUANT.SUP"),
+    ("other",   "+DET+OTHER"),
+    ("another", "+DET+OTHER.SG"),
 ]
 
 PREPOSITIONS = [
-    ("in",     "+PREP"),  ("on",    "+PREP"),  ("at",    "+PREP"),
-    ("by",     "+PREP"),  ("for",   "+PREP"),  ("with",  "+PREP"),
-    ("about",  "+PREP"),  ("above", "+PREP"),  ("below", "+PREP"),
-    ("between","+PREP"),  ("from",  "+PREP"),  ("into",  "+PREP"),
-    ("of",     "+PREP"),  ("off",   "+PREP"),  ("out",   "+PREP"),
-    ("over",   "+PREP"),  ("to",    "+PREP"),  ("under", "+PREP"),
-    ("up",     "+PREP"),  ("upon",  "+PREP"),  ("through","+PREP"),
-    ("during", "+PREP"),  ("after", "+PREP"),  ("before","+PREP"),
-    ("since",  "+PREP"),  ("until", "+PREP"),  ("without","+PREP"),
-    ("within", "+PREP"),  ("toward","+PREP"),  ("against","+PREP"),
+    ("in",      "+PREP+BASE"), ("on",      "+PREP+BASE"), ("at",     "+PREP+BASE"),
+    ("by",      "+PREP+BASE"), ("for",     "+PREP+BASE"), ("with",   "+PREP+BASE"),
+    ("about",   "+PREP+BASE"), ("above",   "+PREP+BASE"), ("below",  "+PREP+BASE"),
+    ("between", "+PREP+BASE"), ("from",    "+PREP+BASE"), ("into",   "+PREP+BASE"),
+    ("of",      "+PREP+BASE"), ("off",     "+PREP+BASE"), ("out",    "+PREP+BASE"),
+    ("over",    "+PREP+BASE"), ("to",      "+PREP+BASE"), ("under",  "+PREP+BASE"),
+    ("up",      "+PREP+BASE"), ("upon",    "+PREP+BASE"), ("through","+PREP+BASE"),
+    ("during",  "+PREP+BASE"), ("after",   "+PREP+BASE"), ("before", "+PREP+BASE"),
+    ("since",   "+PREP+BASE"), ("until",   "+PREP+BASE"), ("without","+PREP+BASE"),
+    ("within",  "+PREP+BASE"), ("toward",  "+PREP+BASE"), ("against","+PREP+BASE"),
 ]
 
 CONJUNCTIONS = [
-    ("and",  "+CONJ"), ("but",  "+CONJ"), ("or",   "+CONJ"),
-    ("nor",  "+CONJ"), ("yet",  "+CONJ"), ("so",   "+CONJ"),
-    ("if",   "+CONJ"), ("as",   "+CONJ"), ("than", "+CONJ"),
-    ("when", "+CONJ"), ("while","+CONJ"), ("because","+CONJ"),
-    ("although","+CONJ"),("though","+CONJ"),("unless","+CONJ"),
-    ("since","+CONJ"), ("until","+CONJ"), ("where","+CONJ"),
+    ("and",     "+CONJ+BASE"), ("but",     "+CONJ+BASE"), ("or",      "+CONJ+BASE"),
+    ("nor",     "+CONJ+BASE"), ("yet",     "+CONJ+BASE"), ("so",      "+CONJ+BASE"),
+    ("if",      "+CONJ+BASE"), ("as",      "+CONJ+BASE"), ("than",    "+CONJ+BASE"),
+    ("when",    "+CONJ+BASE"), ("while",   "+CONJ+BASE"), ("because", "+CONJ+BASE"),
+    ("although","+CONJ+BASE"), ("though",  "+CONJ+BASE"), ("unless",  "+CONJ+BASE"),
+    ("since",   "+CONJ+BASE"), ("until",   "+CONJ+BASE"), ("where",   "+CONJ+BASE"),
 ]
 
 AUXILIARIES = [
-    ("will",   "+AUX"), ("would", "+AUX"), ("shall",  "+AUX"),
-    ("should", "+AUX"), ("can",   "+AUX"), ("could",  "+AUX"),
-    ("may",    "+AUX"), ("might", "+AUX"), ("must",   "+AUX"),
-    ("ought",  "+AUX"), ("need",  "+AUX"), ("dare",   "+AUX"),
-    ("not",    "+NEG"), ("never", "+NEG"),
+    ("will",   "+AUX+BASE"), ("would",  "+AUX+BASE"), ("shall",  "+AUX+BASE"),
+    ("should", "+AUX+BASE"), ("can",    "+AUX+BASE"), ("could",  "+AUX+BASE"),
+    ("may",    "+AUX+BASE"), ("might",  "+AUX+BASE"), ("must",   "+AUX+BASE"),
+    ("ought",  "+AUX+BASE"), ("need",   "+AUX+BASE"), ("dare",   "+AUX+BASE"),
+    ("not",    "+NEG+BASE"), ("never",  "+NEG+BASE"),
 ]
 
 # ---------------------------------------------------------------
 # Irregular forms
 # ---------------------------------------------------------------
 IRREGULAR_VERBS = {
-    "go":    ("went",   "gone"),
-    "have":  ("had",    "had"),
-    "do":    ("did",    "done"),
-    "say":   ("said",   "said"),
-    "make":  ("made",   "made"),
-    "know":  ("knew",   "known"),
-    "get":   ("got",    "gotten"),
-    "give":  ("gave",   "given"),
-    "see":   ("saw",    "seen"),
-    "think": ("thought","thought"),
-    "come":  ("came",   "come"),
-    "take":  ("took",   "taken"),
-    "find":  ("found",  "found"),
-    "tell":  ("told",   "told"),
-    "bring": ("brought","brought"),
-    "leave": ("left",   "left"),
-    "feel":  ("felt",   "felt"),
-    "keep":  ("kept",   "kept"),
-    "begin": ("began",  "begun"),
-    "show":  ("showed", "shown"),
-    "hear":  ("heard",  "heard"),
-    "run":   ("ran",    "run"),
-    "write": ("wrote",  "written"),
-    "sit":   ("sat",    "sat"),
-    "stand": ("stood",  "stood"),
-    "lose":  ("lost",   "lost"),
-    "pay":   ("paid",   "paid"),
-    "meet":  ("met",    "met"),
-    "set":   ("set",    "set"),
-    "hold":  ("held",   "held"),
-    "cut":   ("cut",    "cut"),
-    "read":  ("read",   "read"),
-    "spend": ("spent",  "spent"),
-    "grow":  ("grew",   "grown"),
-    "buy":   ("bought", "bought"),
-    "send":  ("sent",   "sent"),
-    "build": ("built",  "built"),
-    "fall":  ("fell",   "fallen"),
-    "drive": ("drove",  "driven"),
-    "break": ("broke",  "broken"),
-    "speak": ("spoke",  "spoken"),
-    "rise":  ("rose",   "risen"),
-    "wear":  ("wore",   "worn"),
-    "choose":("chose",  "chosen"),
-    "draw":  ("drew",   "drawn"),
-    "fly":   ("flew",   "flown"),
-    "swim":  ("swam",   "swum"),
-    "throw": ("threw",  "thrown"),
-    "teach": ("taught", "taught"),
-    "catch": ("caught", "caught"),
-    "sell":  ("sold",   "sold"),
-    "win":   ("won",    "won"),
-    "sing":  ("sang",   "sung"),
-    "ring":  ("rang",   "rung"),
-    "drink": ("drank",  "drunk"),
-    "eat":   ("ate",    "eaten"),
-    "bite":  ("bit",    "bitten"),
-    "hide":  ("hid",    "hidden"),
-    "ride":  ("rode",   "ridden"),
-    "rise":  ("rose",   "risen"),
-    "wake":  ("woke",   "woken"),
-    "forget":("forgot", "forgotten"),
-    "forgive":("forgave","forgiven"),
-    "shake": ("shook",  "shaken"),
-    "steal": ("stole",  "stolen"),
-    "swear": ("swore",  "sworn"),
-    "tear":  ("tore",   "torn"),
-    "wear":  ("wore",   "worn"),
-    "wind":  ("wound",  "wound"),
+    "go":     ("went",    "gone"),
+    "have":   ("had",     "had"),
+    "do":     ("did",     "done"),
+    "say":    ("said",    "said"),
+    "make":   ("made",    "made"),
+    "know":   ("knew",    "known"),
+    "get":    ("got",     "gotten"),
+    "give":   ("gave",    "given"),
+    "see":    ("saw",     "seen"),
+    "think":  ("thought", "thought"),
+    "come":   ("came",    "come"),
+    "take":   ("took",    "taken"),
+    "find":   ("found",   "found"),
+    "tell":   ("told",    "told"),
+    "bring":  ("brought", "brought"),
+    "leave":  ("left",    "left"),
+    "feel":   ("felt",    "felt"),
+    "keep":   ("kept",    "kept"),
+    "begin":  ("began",   "begun"),
+    "show":   ("showed",  "shown"),
+    "hear":   ("heard",   "heard"),
+    "run":    ("ran",     "run"),
+    "write":  ("wrote",   "written"),
+    "sit":    ("sat",     "sat"),
+    "stand":  ("stood",   "stood"),
+    "lose":   ("lost",    "lost"),
+    "pay":    ("paid",    "paid"),
+    "meet":   ("met",     "met"),
+    "set":    ("set",     "set"),
+    "hold":   ("held",    "held"),
+    "cut":    ("cut",     "cut"),
+    "read":   ("read",    "read"),
+    "spend":  ("spent",   "spent"),
+    "grow":   ("grew",    "grown"),
+    "buy":    ("bought",  "bought"),
+    "send":   ("sent",    "sent"),
+    "build":  ("built",   "built"),
+    "fall":   ("fell",    "fallen"),
+    "drive":  ("drove",   "driven"),
+    "break":  ("broke",   "broken"),
+    "speak":  ("spoke",   "spoken"),
+    "rise":   ("rose",    "risen"),
+    "wear":   ("wore",    "worn"),
+    "choose": ("chose",   "chosen"),
+    "draw":   ("drew",    "drawn"),
+    "fly":    ("flew",    "flown"),
+    "swim":   ("swam",    "swum"),
+    "throw":  ("threw",   "thrown"),
+    "teach":  ("taught",  "taught"),
+    "catch":  ("caught",  "caught"),
+    "sell":   ("sold",    "sold"),
+    "win":    ("won",     "won"),
+    "sing":   ("sang",    "sung"),
+    "ring":   ("rang",    "rung"),
+    "drink":  ("drank",   "drunk"),
+    "eat":    ("ate",     "eaten"),
+    "bite":   ("bit",     "bitten"),
+    "hide":   ("hid",     "hidden"),
+    "ride":   ("rode",    "ridden"),
+    "wake":   ("woke",    "woken"),
+    "forget": ("forgot",  "forgotten"),
+    "forgive":("forgave", "forgiven"),
+    "shake":  ("shook",   "shaken"),
+    "steal":  ("stole",   "stolen"),
+    "swear":  ("swore",   "sworn"),
+    "tear":   ("tore",    "torn"),
+    "wind":   ("wound",   "wound"),
 }
 
 IRREGULAR_NOUNS = {
-    "man":   "men",    "woman":  "women",  "child":  "children",
-    "tooth": "teeth",  "foot":   "feet",   "mouse":  "mice",
-    "goose": "geese",  "ox":     "oxen",   "leaf":   "leaves",
-    "half":  "halves", "life":   "lives",  "wife":   "wives",
-    "knife": "knives", "wolf":   "wolves", "self":   "selves",
-    "shelf": "shelves","loaf":   "loaves", "thief":  "thieves",
-    "person":"people", "datum":  "data",   "medium": "media",
-    "criterion":"criteria","phenomenon":"phenomena",
-    "index": "indices","matrix": "matrices","vertex":"vertices",
-    "axis":  "axes",   "basis":  "bases",  "crisis": "crises",
-    "analysis":"analyses","thesis":"theses","hypothesis":"hypotheses",
+    "man":       "men",      "woman":     "women",    "child":      "children",
+    "tooth":     "teeth",    "foot":      "feet",     "mouse":      "mice",
+    "goose":     "geese",    "ox":        "oxen",     "leaf":       "leaves",
+    "half":      "halves",   "life":      "lives",    "wife":       "wives",
+    "knife":     "knives",   "wolf":      "wolves",   "self":       "selves",
+    "shelf":     "shelves",  "loaf":      "loaves",   "thief":      "thieves",
+    "person":    "people",   "datum":     "data",     "medium":     "media",
+    "criterion": "criteria", "phenomenon":"phenomena",
+    "index":     "indices",  "matrix":    "matrices", "vertex":     "vertices",
+    "axis":      "axes",     "basis":     "bases",    "crisis":     "crises",
+    "analysis":  "analyses", "thesis":    "theses",   "hypothesis": "hypotheses",
 }
 
 E_DELETION = {
@@ -183,36 +191,30 @@ DOUBLING = {
     "step","wed","bid","rid","nod","pod","rod","bob","cob","job",
 }
 
-SIBILANT_ENDINGS = ("ch","sh","ss","x","z","tch")
-# these are handled entirely by hand-crafted irregular entries
-# and must not be auto-generated as regular stems
+SIBILANT_ENDINGS = ("ch", "sh", "ss", "x", "z", "tch")
+
+# forms that must not get auto-generated regular entries
 BLOCKLIST = {
-    # be forms
-    "is", "am", "are", "was", "were", "been", "being",
-    # have forms
-    "has", "had", "having",
-    # do forms
-    "does", "did", "done", "doing",
-    # go forms
-    "went", "gone", "going",
-    # other common irregular forms that shouldnt get regular entries
-    "said", "made", "knew", "known", "got", "gotten",
-    "gave", "given", "saw", "seen", "thought",
-    "came", "took", "taken", "found", "told",
-    "brought", "left", "felt", "kept", "began", "begun",
-    "showed", "shown", "heard", "ran", "wrote", "written",
-    "sat", "stood", "lost", "paid", "met", "held",
-    "cut", "read", "spent", "grew", "grown", "bought",
-    "sent", "built", "fell", "fallen", "drove", "driven",
-    "broke", "broken", "spoke", "spoken", "rose", "risen",
-    "wore", "worn", "chose", "chosen", "drew", "drawn",
-    "flew", "flown", "swam", "swum", "threw", "thrown",
-    "taught", "caught", "sold", "won", "sang", "sung",
-    "rang", "rung", "drank", "drunk", "ate", "eaten",
-    "bit", "bitten", "hid", "hidden", "rode", "ridden",
-    "woke", "woken", "forgot", "forgotten", "shook", "shaken",
-    "stole", "stolen", "swore", "sworn", "tore", "torn",
-    "wound",
+    "is","am","are","was","were","been","being",
+    "has","had","having",
+    "does","did","done","doing",
+    "went","gone","going",
+    "said","made","knew","known","got","gotten",
+    "gave","given","saw","seen","thought",
+    "came","took","taken","found","told",
+    "brought","left","felt","kept","began","begun",
+    "showed","shown","heard","ran","wrote","written",
+    "sat","stood","lost","paid","met","held",
+    "cut","read","spent","grew","grown","bought",
+    "sent","built","fell","fallen","drove","driven",
+    "broke","broken","spoke","spoken","rose","risen",
+    "wore","worn","chose","chosen","drew","drawn",
+    "flew","flown","swam","swum","threw","thrown",
+    "taught","caught","sold","won","sang","sung",
+    "rang","rung","drank","drunk","ate","eaten",
+    "bit","bitten","hid","hidden","rode","ridden",
+    "woke","woken","forgot","forgotten","shook","shaken",
+    "stole","stolen","swore","sworn","tore","torn","wound",
 }
 
 INFLECTION_SUFFIXES = (
@@ -241,43 +243,51 @@ def classify_verb(stem):
 def classify_noun(stem):
     if stem in IRREGULAR_NOUNS: return "irregular"
     if any(stem.endswith(e) for e in SIBILANT_ENDINGS): return "sibilant"
-    if stem.endswith("y") and len(stem)>1 and stem[-2] not in "aeiou": return "y_plural"
+    if stem.endswith("y") and len(stem) > 1 and stem[-2] not in "aeiou": return "y_plural"
     return "regular"
 
 # ---------------------------------------------------------------
 # Rule writers
+# Tags now include the POS category so pos_predicates can find them:
+#   +NOUN+SG, +NOUN+PL
+#   +VERB+INF, +VERB+3SG, +VERB+PAST, +VERB+PASTPART, +VERB+PROG
+#   +ADJ+BASE, +ADV+BASE
 # ---------------------------------------------------------------
 def write_noun(lines, stem, shared):
     pattern = classify_noun(stem)
     if pattern == "irregular":
         plural = IRREGULAR_NOUNS[stem]
-        sn  = f"ns_{stem}"; sn2 = f"ns_{stem}_pl"
+        sn  = f"ns_{stem}"
+        sn2 = f"ns_{stem}_pl"
         lines += [st(sn), st(sn2),
-                  tr("start", sn, stem, stem),
-                  tr(sn, shared["n_end"], "", "+SG"),
+                  tr("start", sn,  stem,   stem),
+                  tr(sn,  shared["n_end"], "", "+NOUN+SG"),
                   tr("start", sn2, plural, stem),
-                  tr(sn2, shared["n_end"], "", "+PL")]
+                  tr(sn2, shared["n_end"], "", "+NOUN+PL")]
     elif pattern == "sibilant":
-        sn = f"ns_{stem}"; sn_e = f"ns_{stem}_e"
+        sn   = f"ns_{stem}"
+        sn_e = f"ns_{stem}_e"
         lines += [st(sn), st(sn_e),
                   tr("start", sn, stem, stem),
-                  tr(sn, shared["n_end"], "", "+SG"),
-                  tr(sn, sn_e, "e", ""),
-                  tr(sn_e, shared["n_end"], "s", "+PL")]
+                  tr(sn,   shared["n_end"], "",  "+NOUN+SG"),
+                  tr(sn,   sn_e,            "e", ""),
+                  tr(sn_e, shared["n_end"], "s", "+NOUN+PL")]
     elif pattern == "y_plural":
         base = stem[:-1]
-        sn = f"ns_{stem}"; sn2 = f"ns_{stem}_ies"
+        sn   = f"ns_{stem}"
+        sn2  = f"ns_{stem}_ies"
         lines += [st(sn), st(sn2),
-                  tr("start", sn, stem, stem),
-                  tr(sn, shared["n_end"], "", "+SG"),
-                  tr("start", sn2, base+"ies", stem),
-                  tr(sn2, shared["n_end"], "", "+PL")]
+                  tr("start", sn,  stem,        stem),
+                  tr(sn,  shared["n_end"], "",   "+NOUN+SG"),
+                  tr("start", sn2, base + "ies", stem),
+                  tr(sn2, shared["n_end"], "",   "+NOUN+PL")]
     else:
         sn = f"ns_{stem}"
         lines += [st(sn),
                   tr("start", sn, stem, stem),
-                  tr(sn, shared["n_end"], "", "+SG"),
-                  tr(sn, shared["n_end"], "s", "+PL")]
+                  tr(sn, shared["n_end"], "",  "+NOUN+SG"),
+                  tr(sn, shared["n_end"], "s", "+NOUN+PL")]
+
 
 def write_verb(lines, stem, shared):
     pattern = classify_verb(stem)
@@ -286,8 +296,9 @@ def write_verb(lines, stem, shared):
         sv = f"vs_{stem}"
         lines += [st(sv),
                   tr("start", sv, stem, stem),
-                  tr(sv, shared["v_end"], "", "+INF"),
-                  tr(sv, shared["v_end"], "s", "+3SG")]
+                  tr(sv, shared["v_end"], "",  "+VERB+INF"),
+                  tr(sv, shared["v_end"], "s", "+VERB+3SG")]
+        # progressive (-ing)
         if stem.endswith("e"):
             sv_bare = f"vs_{stem}_bare"
             lines += [st(sv_bare),
@@ -295,65 +306,86 @@ def write_verb(lines, stem, shared):
                       tr(sv_bare, shared["v_ing"], "ing", "")]
         else:
             lines.append(tr(sv, shared["v_ing"], "ing", ""))
+        # past tense
         if past != stem:
             sv_p = f"vs_{stem}_past"
             lines += [st(sv_p),
                       tr("start", sv_p, past, stem),
-                      tr(sv_p, shared["v_end"], "", "+PAST")]
+                      tr(sv_p, shared["v_end"], "", "+VERB+PAST")]
         else:
-            lines.append(tr(sv, shared["v_end"], "", "+PAST"))
+            lines.append(tr(sv, shared["v_end"], "", "+VERB+PAST"))
+        # past participle
         if pastpart != past:
             sv_pp = f"vs_{stem}_pp"
             lines += [st(sv_pp),
                       tr("start", sv_pp, pastpart, stem),
-                      tr(sv_pp, shared["v_end"], "", "+PASTPART")]
+                      tr(sv_pp, shared["v_end"], "", "+VERB+PASTPART")]
         elif past != stem:
-            lines.append(tr(f"vs_{stem}_past", shared["v_end"], "", "+PASTPART"))
+            lines.append(tr(f"vs_{stem}_past", shared["v_end"], "", "+VERB+PASTPART"))
         else:
-            lines.append(tr(sv, shared["v_end"], "", "+PASTPART"))
+            lines.append(tr(sv, shared["v_end"], "", "+VERB+PASTPART"))
+
     elif pattern == "e_deletion":
-        sv = f"vs_{stem}"; sv_bare = f"vs_{stem}_bare"
+        sv      = f"vs_{stem}"
+        sv_bare = f"vs_{stem}_bare"
         base_no_e = stem[:-1] if stem.endswith("e") else stem
         lines += [st(sv), st(sv_bare),
                   tr("start", sv, stem, stem),
-                  tr(sv, shared["v_end"], "", "+INF"),
-                  tr(sv, shared["v_end"], "s", "+3SG"),
-                  tr(sv, shared["v_ed"], "d", ""),
+                  tr(sv,      shared["v_end"], "",    "+VERB+INF"),
+                  tr(sv,      shared["v_end"], "s",   "+VERB+3SG"),
+                  tr(sv,      shared["v_ed"],  "d",   ""),
                   tr("start", sv_bare, base_no_e, stem),
-                  tr(sv_bare, shared["v_ing"], "ing", "")]
+                  tr(sv_bare, shared["v_ing"],  "ing", "")]
+
     elif pattern == "doubling":
-        sv = f"vs_{stem}"; sv_dbl = f"vs_{stem}_dbl"
+        sv     = f"vs_{stem}"
+        sv_dbl = f"vs_{stem}_dbl"
         lines += [st(sv), st(sv_dbl),
                   tr("start", sv, stem, stem),
-                  tr(sv, shared["v_end"], "", "+INF"),
-                  tr(sv, shared["v_end"], "s", "+3SG"),
-                  tr(sv, sv_dbl, stem[-1], ""),
-                  tr(sv_dbl, shared["v_ed"], "ed", ""),
-                  tr(sv_dbl, shared["v_ing"], "ing", "")]
+                  tr(sv,     shared["v_end"], "",       "+VERB+INF"),
+                  tr(sv,     shared["v_end"], "s",      "+VERB+3SG"),
+                  tr(sv,     sv_dbl,          stem[-1], ""),
+                  tr(sv_dbl, shared["v_ed"],  "ed",     ""),
+                  tr(sv_dbl, shared["v_ing"], "ing",    "")]
     else:
         sv = f"vs_{stem}"
         lines += [st(sv),
                   tr("start", sv, stem, stem),
-                  tr(sv, shared["v_end"], "", "+INF"),
-                  tr(sv, shared["v_end"], "s", "+3SG"),
-                  tr(sv, shared["v_ed"], "ed", ""),
-                  tr(sv, shared["v_ing"], "ing", "")]
+                  tr(sv, shared["v_end"], "",   "+VERB+INF"),
+                  tr(sv, shared["v_end"], "s",  "+VERB+3SG"),
+                  tr(sv, shared["v_ed"],  "ed", ""),
+                  tr(sv, shared["v_ing"], "ing","")]
+
 
 def write_be(lines, shared):
+    # each surface form of "be" gets its own state so the lemma is always "be"
     forms = {
-        "be":"+INF","am":"+1SG.PRES","is":"+3SG.PRES","are":"+PL.PRES",
-        "was":"+1SG.PAST","were":"+PL.PAST","been":"+PASTPART"
+        "be":    "+VERB+INF",
+        "am":    "+VERB+1SG.PRES",
+        "is":    "+VERB+3SG.PRES",
+        "are":   "+VERB+PL.PRES",
+        "was":   "+VERB+1SG.PAST",
+        "were":  "+VERB+PL.PAST",
+        "been":  "+VERB+PASTPART",
     }
     for surface, tag in forms.items():
         sv = f"vs_be_{surface}"
-        lines += [st(sv), tr("start", sv, surface, "be"), tr(sv, shared["v_end"], "", tag)]
+        lines += [st(sv),
+                  tr("start", sv, surface, "be"),
+                  tr(sv, shared["v_end"], "", tag)]
+    # progressive
     sv_ing = "vs_be_being"
-    lines += [st(sv_ing), tr("start", sv_ing, "being", "be"), tr(sv_ing, shared["v_ing"], "", "+PROG")]
+    lines += [st(sv_ing),
+              tr("start", sv_ing, "being", "be"),
+              tr(sv_ing, shared["v_ing"], "", "+VERB+PROG")]
+
 
 def write_simple_word(lines, surface, lemma, tag, final_state):
-    """For pronouns, determiners, prepositions, conjunctions, auxiliaries."""
+    # used for pronouns, determiners, prepositions, conjunctions, auxiliaries
     sname = f"fw_{surface}"
-    lines += [st(sname), tr("start", sname, surface, lemma), tr(sname, final_state, "", tag)]
+    lines += [st(sname),
+              tr("start", sname, surface, lemma),
+              tr(sname, final_state, "", tag)]
 
 # ---------------------------------------------------------------
 # Load stems from MorphoLEX
@@ -361,13 +393,15 @@ def write_simple_word(lines, surface, lemma, tag, final_state):
 def load_stems():
     print("Loading MorphoLEX_en.xlsx...")
     wb = openpyxl.load_workbook("MorphoLEX_en.xlsx")
-    sheets = ['0-1-0','0-1-1','0-1-2','0-1-3','0-1-4',
-              '0-2-0','0-2-1','0-2-2','0-2-3',
-              '0-3-0','0-3-1','0-3-2','0-4-0',
-              '1-1-0','1-1-1','1-1-2','1-1-3','1-1-4',
-              '1-2-0','1-2-1','1-2-2','1-2-3',
-              '1-3-0','2-1-0','2-1-1','2-1-2','2-1-3',
-              '2-2-0','3-1-0']
+    sheets = [
+        '0-1-0','0-1-1','0-1-2','0-1-3','0-1-4',
+        '0-2-0','0-2-1','0-2-2','0-2-3',
+        '0-3-0','0-3-1','0-3-2','0-4-0',
+        '1-1-0','1-1-1','1-1-2','1-1-3','1-1-4',
+        '1-2-0','1-2-1','1-2-2','1-2-3',
+        '1-3-0','2-1-0','2-1-1','2-1-2','2-1-3',
+        '2-2-0','3-1-0'
+    ]
 
     nouns, verbs, adjs, advs, ambig = {}, {}, {}, {}, {}
 
@@ -375,11 +409,14 @@ def load_stems():
         ws = wb[sheet]
         headers = None
         for row in ws.iter_rows(values_only=True):
-            if headers is None: headers = row; continue
-            if not any(row): continue
-            rd = dict(zip(headers, row))
-            word   = re.sub(r'[^a-z]', '', str(rd.get('Word','') or '').lower())
-            pos    = str(rd.get('POS','') or '')
+            if headers is None:
+                headers = row
+                continue
+            if not any(row):
+                continue
+            rd     = dict(zip(headers, row))
+            word   = re.sub(r'[^a-z]', '', str(rd.get('Word', '') or '').lower())
+            pos    = str(rd.get('POS', '') or '')
             freq   = int(rd.get('ROOT1_Freq_HAL', 0) or 0)
             nmorph = int(rd.get('Nmorph', 99) or 99)
 
@@ -387,8 +424,7 @@ def load_stems():
             if word in BLOCKLIST: continue
             if any(word.endswith(s) for s in INFLECTION_SUFFIXES): continue
             if freq < 1000: continue
-            # skip pure function words (minor/encl only), but keep words that are
-            # also tagged as VB/NN/JJ even if they have a minor reading
+
             pos_has_content = ('NN' in pos or 'VB' in pos or 'JJ' in pos or 'RB' in pos)
             if ('minor' in pos or 'encl' in pos) and not pos_has_content: continue
             if nmorph > 2: continue
@@ -409,32 +445,22 @@ def load_stems():
             elif is_rb and not is_jj:
                 if word not in advs: advs[word] = freq
             elif is_jj and is_rb:
-                # ambiguous adj/adv (fast, hard, late) - add to both
                 if word not in adjs: adjs[word] = freq
                 if word not in advs: advs[word] = freq
 
-    # remove noun stems that are likely plural forms of another stem
-    # e.g. remove "bananas" if "banana" is already in nouns
-    # also remove "dogs" if "dog" is in nouns or ambig
+    # remove inflected forms that sneak through as stems
     all_base_nouns = set(nouns.keys()) | set(ambig.keys())
     filtered_nouns = {}
     for word, freq in nouns.items():
-        # if word ends in s and stem without s exists -> skip it
-        if word.endswith("s") and word[:-1] in all_base_nouns:
-            continue
-        # if word ends in es and stem without es exists -> skip it
-        if word.endswith("es") and word[:-2] in all_base_nouns:
-            continue
+        if word.endswith("s")  and word[:-1]  in all_base_nouns: continue
+        if word.endswith("es") and word[:-2] in all_base_nouns: continue
         filtered_nouns[word] = freq
     nouns = filtered_nouns
 
-    # same for ambiguous noun+verb
     filtered_ambig = {}
     for word, freq in ambig.items():
-        if word.endswith("s") and word[:-1] in all_base_nouns:
-            continue
-        if word.endswith("es") and word[:-2] in all_base_nouns:
-            continue
+        if word.endswith("s")  and word[:-1]  in all_base_nouns: continue
+        if word.endswith("es") and word[:-2] in all_base_nouns: continue
         filtered_ambig[word] = freq
     ambig = filtered_ambig
 
@@ -456,26 +482,28 @@ def generate():
         "STATE start START",
         "",
         "# shared final states",
-        "STATE n_end FINAL",
-        "STATE v_end FINAL",
+        "STATE n_end  FINAL",
+        "STATE v_end  FINAL",
         "STATE fw_end FINAL",
         "",
-        "# shared verb suffix states",
+        "# shared intermediate states for verb suffixes",
+        "# these let -ed and -ing lead to the right tags without duplicating transitions",
         "STATE v_ed_shared",
         "STATE v_ing_shared",
         "",
-        'TRANSITION v_ed_shared  v_end EPS "+PAST"',
-        'TRANSITION v_ed_shared  v_end EPS "+PASTPART"',
-        'TRANSITION v_ing_shared v_end EPS "+PROG"',
+        'TRANSITION v_ed_shared  v_end EPS "+VERB+PAST"',
+        'TRANSITION v_ed_shared  v_end EPS "+VERB+PASTPART"',
+        'TRANSITION v_ing_shared v_end EPS "+VERB+PROG"',
         "",
     ]
 
     shared = {
-        "n_end": "n_end", "v_end": "v_end",
-        "v_ed":  "v_ed_shared", "v_ing": "v_ing_shared",
+        "n_end": "n_end",
+        "v_end": "v_end",
+        "v_ed":  "v_ed_shared",
+        "v_ing": "v_ing_shared",
     }
 
-    # --- function words ---
     seen_fw = set()
 
     def write_fw(lines, surface, tag):
@@ -504,39 +532,33 @@ def generate():
     for surface, tag in AUXILIARIES:
         write_fw(lines, surface, tag)
 
-    # --- be verb ---
     lines += ["", "# === BE (irregular) ==="]
     write_be(lines, shared)
     done_verbs = {"be"}
 
-    # --- irregular verbs ---
     lines += ["", "# === IRREGULAR VERBS ==="]
-    for stem, forms in IRREGULAR_VERBS.items():
+    for stem in IRREGULAR_VERBS:
         write_verb(lines, stem, shared)
         done_verbs.add(stem)
 
-    # --- irregular nouns ---
     lines += ["", "# === IRREGULAR NOUNS ==="]
     done_nouns = set()
     for stem in IRREGULAR_NOUNS:
         write_noun(lines, stem, shared)
         done_nouns.add(stem)
 
-    # --- nouns from db ---
     lines += ["", "# === NOUNS ==="]
     for stem in sorted(nouns, key=lambda x: -nouns[x]):
         if stem in done_nouns: continue
         done_nouns.add(stem)
         write_noun(lines, stem, shared)
 
-    # --- verbs from db ---
     lines += ["", "# === VERBS ==="]
     for stem in sorted(verbs, key=lambda x: -verbs[x]):
         if stem in done_verbs: continue
         done_verbs.add(stem)
         write_verb(lines, stem, shared)
 
-    # --- adjectives from db ---
     lines += ["", "# === ADJECTIVES ==="]
     done_adjs = set()
     for stem in sorted(adjs, key=lambda x: -adjs[x]):
@@ -545,20 +567,18 @@ def generate():
         sa = f"as_{stem}"
         lines += [st(sa),
                   tr("start", sa, stem, stem),
-                  tr(sa, "fw_end", "", "+ADJ")]
+                  tr(sa, "fw_end", "", "+ADJ+BASE")]
 
-    # --- adverbs from db ---
     lines += ["", "# === ADVERBS ==="]
     done_advs = set()
     for stem in sorted(advs, key=lambda x: -advs[x]):
         if stem in done_advs: continue
         done_advs.add(stem)
-        sa = f"rb_{stem}"
-        lines += [st(sa),
-                  tr("start", sa, stem, stem),
-                  tr(sa, "fw_end", "", "+ADV")]
+        rb = f"rb_{stem}"
+        lines += [st(rb),
+                  tr("start", rb, stem, stem),
+                  tr(rb, "fw_end", "", "+ADV+BASE")]
 
-    # --- ambiguous noun+verb ---
     lines += ["", "# === AMBIGUOUS NOUN+VERB ==="]
     for stem in sorted(ambig, key=lambda x: -ambig[x]):
         if stem not in done_nouns:

@@ -27,20 +27,19 @@ void FiniteStateTransducer::setStartState(State* state) { //set start state
     startState = state;
 }
 
+//Transduce
 std::vector<std::vector<std::pair<std::string, std::string>>>
 FiniteStateTransducer::transduce(const std::string& input) {
 
-	std::vector<std::vector<std::pair<std::string, std::string>>> results; //(morpheme, tag) pairs
-    std::vector<State*> matchingStates; //FST states reachable from matching stems
-	std::vector<std::string> matchingStems; //the corresponding stem strings for the matching states
+    std::vector<std::vector<std::pair<std::string, std::string>>> results;
+    std::vector<State*> matchingStates;
+    std::vector<std::string> matchingStems;
 
-    if (!ahoTrie.empty()) { //traverse the trie character by character
-
+    if (!ahoTrie.empty()) {
         int node = 0;
         for (int c = 0; c < (int)input.size(); c++) {
             char ch = input[c];
 
-            //follow failure links until we find a match or reach root
             while (node != 0 && ahoTrie[node].children.find(ch) == ahoTrie[node].children.end()) {
                 node = ahoTrie[node].failure;
             }
@@ -48,22 +47,15 @@ FiniteStateTransducer::transduce(const std::string& input) {
                 node = ahoTrie[node].children[ch];
             }
 
-            //if this node marks the end of a stem, record the matching FST state
-            if (ahoTrie[node].fstState != nullptr) {
-                matchingStates.push_back(ahoTrie[node].fstState);
+            for (State* s : ahoTrie[node].fstStates) {
+                matchingStates.push_back(s);
                 matchingStems.push_back(ahoTrie[node].stem);
             }
         }
     }
 
-    //build initial configurations
-    //each matching stem gives us a starting point in the FST past the start state
-    FiniteStateTransducer::Configuration initialConfig;
-    initialConfig.state = startState;
-    initialConfig.position = 0;
-    initialConfig.output = {};
-
-    std::stack<FiniteStateTransducer::Configuration> agenda;
+    //agenda
+    std::stack<Configuration> agenda;
 
     struct VisitedConfig {
         State* state;
@@ -83,73 +75,62 @@ FiniteStateTransducer::transduce(const std::string& input) {
     std::unordered_set<VisitedConfig, VisitedHash> visited;
 
     if (!matchingStates.empty()) {
-        for (int m = 0; m < (int)matchingStates.size(); m++) { //start from matched stem
-
-            Configuration config;
-            config.state = matchingStates[m];
-            config.position = (int)matchingStems[m].size();
-            config.output = {};
-
-			config.output.push_back({ matchingStems[m], "" }); //add the stem as the first morpheme in the output, with an empty tag for now (the tag will be filled in by the transitions)
-
-            agenda.push(config);
+        for (int m = 0; m < (int)matchingStates.size(); m++) { //find which transition from start leads to state
+            for (Transition* t : startState->transitions) {
+                if (t->inputSymbol == matchingStems[m] && t->target == matchingStates[m]) {
+                    Configuration config;
+                    config.state = matchingStates[m];
+                    config.position = (int)matchingStems[m].size();
+                    config.output = { { matchingStems[m], "" } };
+                    agenda.push(config);
+                    break;
+                }
+            }
         }
     }
     else {
-        //trie not built or no matches found -> back to original linear scan
-        agenda.push(initialConfig);
+        Configuration initial;
+        initial.state = startState;
+        initial.position = 0;
+        initial.output = {};
+        agenda.push(initial);
     }
 
     while (!agenda.empty()) {
-
         Configuration current = agenda.top();
         agenda.pop();
 
         State* state = current.state;
         int pos = current.position;
-        auto output = current.output;
-        
-        VisitedConfig vc{ state, pos };
-        if (visited.find(vc) != visited.end()) {
-            continue;
-        }
+
+        VisitedConfig vc{ state, pos }; //check for repeats
+        if (visited.find(vc) != visited.end()) continue;
         visited.insert(vc);
 
-
-		if (pos == input.size() && state->isFinal) { //IF we've consumed the entire input string and are in a final state, we have a valid analysis
-            results.push_back(output);
+        if (pos == (int)input.size() && state->isFinal) {
+            results.push_back(current.output);
         }
 
-		for (Transition* t : state->transitions) { //go through all transitions from the current state
-
+        for (Transition* t : state->transitions) {
             const std::string& sym = t->inputSymbol;
 
-            //epsilon transition
             if (sym == EPSILON) {
-                VisitedConfig vc;
-                vc.state = t->target;
-                vc.position = pos;
-                if (visited.find(vc) != visited.end()) {
-                    continue; // skip to next transition if visited
-                }
-                visited.insert(vc); //mark
                 Configuration next = current;
                 next.state = t->target;
+
                 if (!t->outputMorpheme.empty())
                     next.output.push_back({ "", t->outputMorpheme });
+
                 agenda.push(next);
             }
-
-            //matching transition
             else if (input.compare(pos, sym.size(), sym) == 0) {
                 Configuration next;
                 next.state = t->target;
-                next.position = pos + sym.size();
-                next.output = output;
+                next.position = pos + (int)sym.size();
+                next.output = current.output;
 
-                if (!t->outputMorpheme.empty()) {
+                if (!t->outputMorpheme.empty())
                     next.output.push_back({ t->outputMorpheme, "" });
-                }
 
                 agenda.push(next);
             }
