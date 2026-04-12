@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "fst.h"
 #include "fst_loader.h"
-#include "disambiguator.h"
+#include "disambiguator_ENG.h"
 #include "disambiguator_BG.h"
 #include <unicode/unistr.h>
 #include "levenshtein.h"

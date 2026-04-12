@@ -129,7 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="benchmark.cpp" />
-    <ClCompile Include="disambiguator.cpp" />
+    <ClCompile Include="disambiguator_ENG.cpp" />
     <ClCompile Include="disambiguator_BG.cpp" />
     <ClCompile Include="fst.cpp" />
     <ClCompile Include="fst_loader.cpp" />
@@ -140,7 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="benchmark.h" />
-    <ClInclude Include="disambiguator.h" />
+    <ClInclude Include="disambiguator_ENG.h" />
     <ClInclude Include="disambiguator_BG.h" />
     <ClInclude Include="fst.h" />
     <ClInclude Include="fst_loader.h" />

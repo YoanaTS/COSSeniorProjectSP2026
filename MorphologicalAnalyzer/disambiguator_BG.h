@@ -1,6 +1,6 @@
 #pragma once
 #pragma execution_character_set("utf-8")
-#include "disambiguator.h"
+#include "disambiguator_ENG.h"
 #include <string>
 #include <vector>
 

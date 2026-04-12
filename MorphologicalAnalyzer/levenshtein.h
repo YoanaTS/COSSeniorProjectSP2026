@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "disambiguator.h"
+#include "disambiguator_ENG.h"
 
 struct FuzzyMatch {
     std::string surface;

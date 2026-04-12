@@ -1,4 +1,4 @@
-#include "disambiguator.h"
+#include "disambiguator_ENG.h"
 #include "disambiguator_BG.h"
 #include "pos_predicates.h"
 #include <algorithm>

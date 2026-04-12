@@ -24,7 +24,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="disambiguator.cpp">
+    <ClCompile Include="disambiguator_ENG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fst_loader.cpp">
@@ -47,7 +47,7 @@
     <ClInclude Include="fst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="disambiguator.h">
+    <ClInclude Include="disambiguator_ENG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="fst_loader.h">

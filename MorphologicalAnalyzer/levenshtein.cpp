@@ -1,5 +1,5 @@
 #include "levenshtein.h"
-#include "disambiguator.h"
+#include "disambiguator_ENG.h"
 #include <algorithm>
 //#include <unicode/unistr.h> fix icu later
 
