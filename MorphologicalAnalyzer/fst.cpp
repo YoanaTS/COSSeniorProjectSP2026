@@ -83,21 +83,16 @@ FiniteStateTransducer::transduce(const std::string& input) {
     std::unordered_set<VisitedConfig, VisitedHash> visited;
 
     if (!matchingStates.empty()) {
-        //push a configuration for each matching stem
-        for (int m = 0; m < (int)matchingStates.size(); m++) {
-            //find the transition from start that corresponds to this stem to get the output morpheme (the lemma)
-            for (Transition* t : startState->transitions) {
-                if (t->inputSymbol == matchingStems[m] && t->target == matchingStates[m]) {
-                    Configuration config;
-                    config.state = matchingStates[m];
-                    config.position = (int)matchingStems[m].size();
-                    config.output = {};
-                    if (!t->outputMorpheme.empty())
-                        config.output.push_back({ t->outputMorpheme, "" });
-                    agenda.push(config);
-                    break;
-                }
-            }
+        for (int m = 0; m < (int)matchingStates.size(); m++) { //start from matched stem
+
+            Configuration config;
+            config.state = matchingStates[m];
+            config.position = (int)matchingStems[m].size();
+            config.output = {};
+
+			config.output.push_back({ matchingStems[m], "" }); //add the stem as the first morpheme in the output, with an empty tag for now (the tag will be filled in by the transitions)
+
+            agenda.push(config);
         }
     }
     else {

@@ -12,6 +12,11 @@ STATE fw_end FINAL
 STATE v_ed_shared
 STATE v_ing_shared
 
+STATE v_test
+TRANSITION start v_test "xyz" "xyz"
+TRANSITION v_test v_end EPS "+VERB+INF"
+
+
 TRANSITION v_ed_shared  v_end EPS "+VERB+PAST"
 TRANSITION v_ed_shared  v_end EPS "+VERB+PASTPART"
 TRANSITION v_ing_shared v_end EPS "+VERB+PROG"

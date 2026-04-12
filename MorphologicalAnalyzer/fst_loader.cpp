@@ -14,20 +14,25 @@ void FSTLoader::buildAhoCorasick(FiniteStateTransducer& fst) { //check and rewor
 
     State* start = fst.getStartState();
 
-    //insert stems from start state transitions
-    for (Transition* t : start->transitions) {
-        const std::string& stem = t->inputSymbol;
+    for (Transition* t : start->transitions) { //go through all transitions
+        std::string word = t->inputSymbol; //word inserted into a trie
 
-        int node = 0;
-        for (char c : stem) {
-            if (trie[node].children.find(c) == trie[node].children.end()) {
-                trie[node].children[c] = trie.size();
+        if (word == EPSILON)
+            continue;
+
+        int currentNode = 0;
+
+        for (int i = 0; i < (int)word.length(); i++) {
+            char c = word[i];
+
+			if (trie[currentNode].children.find(c) == trie[currentNode].children.end()) { //if there is no existing edge - create
+                trie[currentNode].children[c] = trie.size();
                 trie.push_back(AhoCorasickNode());
             }
-            node = trie[node].children[c];
+            currentNode = trie[currentNode].children[c];
         }
-        trie[node].fstState = t->target;
-        trie[node].stem = stem;
+        trie[currentNode].fstState = t->target; //mark the end
+        trie[currentNode].stem = word;
     }
 
     //build failure links (BFS)
