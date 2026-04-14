@@ -1,5 +1,5 @@
-#include "disambiguator_ENG.h"
 #include "disambiguator_BG.h"
+#include "disambiguator.h"
 #include "pos_predicates.h"
 #include <algorithm>
 #include <functional>
@@ -144,55 +144,55 @@ std::unordered_map<int, float> scores;
 };
 
     //shared word sets (built once)
-    //спомагателни глаголи за перфект и страдателен залог
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     static const std::unordered_set<std::string> auxVerbs = {
-        "съм", "си", "е", "сме", "сте", "са",    //сегашно време на "съм"
-        "бях", "беше", "бяхме", "бяхте", "бяха"  //минало времe на "съм"
+        "пїЅпїЅпїЅ", "пїЅпїЅ", "пїЅ", "пїЅпїЅпїЅ", "пїЅпїЅпїЅ", "пїЅпїЅ",    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ "пїЅпїЅпїЅ"
+        "пїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅ"  //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅe пїЅпїЅ "пїЅпїЅпїЅ"
     };
 
-    //показателни местоимения
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     static const std::unordered_set<std::string> demonstratives = {
-        "този", "тази", "това", "тези",   //близки
-        "онзи", "онази", "онова", "онези" //далечни
+        "пїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅ",   //пїЅпїЅпїЅпїЅпїЅпїЅ
+        "пїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅ" //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     };
 
-    //кратки форми на личните местоимения
+    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     static const std::unordered_set<std::string> objClitics = {
-        "го", "я", "ги",        // винителен падеж, 3л.
-        "му", "й", "им",        // дателен падеж, 3л.
-        "ме", "те", "ни", "ви", // 1л. и 2л. вин./дат.
-        "се", "си"              // възвратни
+        "пїЅпїЅ", "пїЅ", "пїЅпїЅ",        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, 3пїЅ.
+        "пїЅпїЅ", "пїЅ", "пїЅпїЅ",        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, 3пїЅ.
+        "пїЅпїЅ", "пїЅпїЅ", "пїЅпїЅ", "пїЅпїЅ", // 1пїЅ. пїЅ 2пїЅ. пїЅпїЅпїЅ./пїЅпїЅпїЅ.
+        "пїЅпїЅ", "пїЅпїЅ"              // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     };
 
     static std::vector<Rule> buildRules() {
 
     std::vector<Rule> rules;
 
-    //"да" + verb
-    //"да отида", "да кажа", "да видя"
+    //"пїЅпїЅ" + verb
+    //"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅ пїЅпїЅпїЅпїЅ", "пїЅпїЅ пїЅпїЅпїЅпїЅ"
     // (subjunctive form)
-    rules.push_back({ "да+VERB", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
-        float w = windowMatchWord(s, i, -2, -1, {"да"});
+    rules.push_back({ "пїЅпїЅ+VERB", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+        float w = windowMatchWord(s, i, -2, -1, {"пїЅпїЅ"});
         if (w > 0 && isVerb(s[i].analyses, cfg))
             return { POSVote::VERB, 1.0f * w };
         return {};
     } });
 
-    //"ще" + verb
-    //"ще отида", "ще кажа", "ще видя"
+    //"пїЅпїЅ" + verb
+    //"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅ пїЅпїЅпїЅпїЅ", "пїЅпїЅ пїЅпїЅпїЅпїЅ"
     //(future tense)
-    rules.push_back({ "ще+VERB", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
-        float w = windowMatchWord(s, i, -3, -1, {"ще"});
+    rules.push_back({ "пїЅпїЅ+VERB", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+        float w = windowMatchWord(s, i, -3, -1, {"пїЅпїЅ"});
         if (w > 0 && isVerb(s[i].analyses, cfg))
             return { POSVote::VERB, 1.0f * w };
         return {};
     } });
 
-    //"не" + verb
-    //"не знам", "не искам", "не виждам"
+    //"пїЅпїЅ" + verb
+    //"пїЅпїЅ пїЅпїЅпїЅпїЅ", "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"
     //(negation, sometimes adjective)
-    rules.push_back({ "не+VERB/ADJ", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
-        float w = windowMatchWord(s, i, -2, -1, {"не"});
+    rules.push_back({ "пїЅпїЅ+VERB/ADJ", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+        float w = windowMatchWord(s, i, -2, -1, {"пїЅпїЅ"});
         if (w > 0) {
             if (isVerb(s[i].analyses, cfg)) return { POSVote::VERB, 0.9f * w };
             if (isAdj(s[i].analyses, cfg)) return { POSVote::ADJ,  0.5f * w };
@@ -200,18 +200,18 @@ std::unordered_map<int, float> scores;
         return {};
     } });
 
-    //verb + "ли"
-    //"знаеш ли", "искаш ли", "виждаш ли"
+    //verb + "пїЅпїЅ"
+    //"пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ"
     //(question particle)
-    rules.push_back({ "VERB+ли", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
-        float w = windowMatchWord(s, i, 1, 2, {"ли"});
+    rules.push_back({ "VERB+пїЅпїЅ", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+        float w = windowMatchWord(s, i, 1, 2, {"пїЅпїЅ"});
         if (w > 0 && isVerb(s[i].analyses, cfg))
             return { POSVote::VERB, 1.0f * w };
         return {};
     } });
 
     //demonstrative + noun
-    //"този човек", "тази жена", "това дете"
+    //"пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ"
     rules.push_back({ "DEM+NOUN", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
         float w = windowMatchWord(s, i, -2, -1, demonstratives);
         if (w > 0 && isNoun(s[i].analyses, cfg))
@@ -220,7 +220,7 @@ std::unordered_map<int, float> scores;
     } });
 
     //auxiliary + participle
-    //"съм видял", "е казал", "са отишли"
+    //"пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", "пїЅ пїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"
     rules.push_back({ "AUX+PASTPART", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
            float w = windowMatchWord(s, i, -3, -1, auxVerbs);
            if (w > 0) {
@@ -231,7 +231,7 @@ std::unordered_map<int, float> scores;
        } });
 
     //clitic + noun
-    // "виждам го Петър"
+    // "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ"
     rules.push_back({ "CLITIC+NOUN", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
            float w = windowMatchWord(s, i, -2, -1, objClitics);
            if (w > 0 && isNoun(s[i].analyses, cfg))
@@ -240,7 +240,7 @@ std::unordered_map<int, float> scores;
        } });
 
     //verb + noun (object)
-    //"виждам котката", "искам вода"
+    //"пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ"
     rules.push_back({ "verb+noun", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
            float w = windowMatchPOS(s, i, -2, -1, isVerb, cfg);
            if (w > 0 && isNoun(s[i].analyses, cfg))

@@ -1,4 +1,5 @@
 ﻿#include "disambiguator_ENG.h"
+#include "disambiguator.h"
 #include "pos_predicates.h"
 #include <algorithm>
 
@@ -12,7 +13,7 @@ static std::string getWord(const std::vector<AnnotatedWord>& sentence, int pos, 
     return w;
 }
 
-std::vector<DisambiguatedWord> Disambiguator::disambiguate(
+std::vector<DisambiguatedWord> DisambiguatorENG::disambiguate(
     const std::vector<AnnotatedWord>& sentence)
 {
     const POSConfig& cfg = englishConfig();

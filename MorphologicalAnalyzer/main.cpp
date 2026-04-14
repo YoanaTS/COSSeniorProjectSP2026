@@ -3,8 +3,10 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <memory>
 #include "fst.h"
 #include "fst_loader.h"
+#include "disambiguator.h"
 #include "disambiguator_ENG.h"
 #include "disambiguator_BG.h"
 #include <unicode/unistr.h>
@@ -90,7 +92,8 @@ static std::string toLowerSimple(const std::string& s) {
 }
 
 static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std::vector<std::string>& knownStems,
-    std::function<AnalysisList(const std::string&)>& transduceFn) {
+    std::function<AnalysisList(const std::string&)>& transduceFn,
+    std::unique_ptr<Disambiguator>& disambig) {
     std::cout << "Select language:\n";
     std::cout << "1) English (EN)\n";
     std::cout << "2) Bulgarian (BG)\n";
@@ -133,22 +136,17 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
         return fst.transduce(w);
         };
 
+    if (language == "bg")
+        disambig = std::make_unique<DisambiguatorBG>();
+    else
+        disambig = std::make_unique<DisambiguatorENG>();
+
     return true;
 }
-static void runBenchmark(const std::string& language, FiniteStateTransducer& fst) {
-     DisambiguateFn disambigFn;
-
-    if (language == "bg") {
-        disambigFn = [](const std::vector<AnnotatedWord>& s) {
-            return DisambiguatorBG::disambiguate(s);
-            };
-    }
-    else {
-        Disambiguator d;
-        disambigFn = [&d](const std::vector<AnnotatedWord>& s) {
-            return d.disambiguate(s);
-            };
-    }
+static void runBenchmark(FiniteStateTransducer& fst, Disambiguator& disambig) {
+    DisambiguateFn disambigFn = [&disambig](const std::vector<AnnotatedWord>& s) {
+        return disambig.disambiguate(s);
+    };
 
     Benchmark bench(fst, disambigFn);
 
@@ -176,10 +174,11 @@ int main() {
     std::string language;
     FiniteStateTransducer fst;
     std::vector<std::string> knownStems;
+    std::unique_ptr<Disambiguator> disambig;
 
     std::function<AnalysisList(const std::string&)> transduceFn;
 
-    if (!setupLanguage(language, fst, knownStems, transduceFn)) {
+    if (!setupLanguage(language, fst, knownStems, transduceFn, disambig)) {
         return -1;
     }
 
@@ -193,12 +192,12 @@ int main() {
         if (line == "-1") break; //exit
         if (line.empty()) continue;
         if (line == "?") { //language change
-            setupLanguage(language, fst, knownStems, transduceFn);
+            setupLanguage(language, fst, knownStems, transduceFn, disambig);
             continue;
         }
 
         if (line == "benchmark") {
-            runBenchmark(language, fst);
+            runBenchmark(fst, *disambig);
             continue;
         }
 
@@ -215,12 +214,6 @@ int main() {
             sentence.push_back(aw);
         }
 
-        if (language == "bg") {
-            printResult(DisambiguatorBG::disambiguate(sentence), knownStems, transduceFn);
-        }
-        else {
-            Disambiguator disambiguator;
-            printResult(disambiguator.disambiguate(sentence), knownStems, transduceFn);
-        }
+        printResult(disambig->disambiguate(sentence), knownStems, transduceFn);
     }
 }

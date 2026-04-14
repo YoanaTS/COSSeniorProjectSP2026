@@ -1,13 +1,9 @@
 #pragma once
 #pragma execution_character_set("utf-8")
-#include "disambiguator_ENG.h"
-#include <string>
-#include <vector>
+#include "disambiguator.h"
 
-//comment functionality
-
-class DisambiguatorBG {
+class DisambiguatorBG : public Disambiguator {
 public:
-	static std::vector<DisambiguatedWord> disambiguate(const std::vector<AnnotatedWord>& sentence);
+    std::vector<DisambiguatedWord>
+        disambiguate(const std::vector<AnnotatedWord>& sentence) override;
 };
-	

@@ -1,8 +1,7 @@
 #pragma once
 #pragma execution_character_set("utf-8")
 #include "fst.h"
-#include "disambiguator_ENG.h"
-#include "disambiguator_BG.h"
+#include "disambiguator.h"
 #include "levenshtein.h"
 #include <string>
 #include <vector>

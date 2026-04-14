@@ -68,5 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="english_morphology.fst" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
