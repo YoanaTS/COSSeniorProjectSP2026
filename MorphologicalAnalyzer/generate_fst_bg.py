@@ -51,7 +51,7 @@ BG_ADVERBS = [
 ]
 
 # ---------------------------------------------------------------
-# Morphology rules
+# Morphology rules — nouns
 # ---------------------------------------------------------------
 
 DEF_SUFFIXES = {
@@ -68,10 +68,85 @@ PL_SUFFIX = {
 
 IRREGULAR_PLURALS_BG = {
     "човек": "хора",
-    "дете": "деца",
-    "око": "очи",
-    "у": "уши",
+    "дете":  "деца",
+    "око":   "очи",
+    "у":     "уши",
 }
+
+# ---------------------------------------------------------------
+# Morphology rules — verbs
+# ---------------------------------------------------------------
+
+# Tags for each person/number slot (index matches suffix list)
+PRES_TAGS  = ["+VERB+1SG.PRES", "+VERB+2SG.PRES", "+VERB+3SG.PRES",
+              "+VERB+1PL.PRES", "+VERB+2PL.PRES", "+VERB+3PL.PRES"]
+AOR_TAGS   = ["+VERB+1SG.AOR",  "+VERB+2SG.AOR",  "+VERB+3SG.AOR",
+              "+VERB+1PL.AOR",  "+VERB+2PL.AOR",  "+VERB+3PL.AOR"]
+IMPF_TAGS  = ["+VERB+1SG.IMPF", "+VERB+2SG.IMPF", "+VERB+3SG.IMPF",
+              "+VERB+1PL.IMPF", "+VERB+2PL.IMPF", "+VERB+3PL.IMPF"]
+IMP_TAGS   = ["+VERB+2SG.IMP",  "+VERB+2PL.IMP"]
+PP_TAGS    = ["+VERB+PP.M",     "+VERB+PP.F",     "+VERB+PP.N",    "+VERB+PP.PL"]
+
+# Suffixes appended to the bare stem for each conjugation class.
+# Stem is derived from the lemma (1sg present) by stripping its ending.
+#
+# Class 1 — е-verbs  (lemma ends in -а, e.g. чета  → stem чет)
+# Class 2 — и-verbs  (lemma ends in -я, e.g. говоря → stem говор)
+# Class 3 — а-verbs  (lemma ends in -ам/-ям, e.g. играм → stem игра)
+#
+# NOTE: Class 1 past participles involve irregular stem changes (e.g. чета → чел)
+# and are omitted here — the disambiguator handles them as unknown forms.
+# NOTE: Some forms within a class are surface homographs (e.g. говори =
+# 3SG.PRES = 2SG.AOR = 3SG.AOR = IMP.2SG). All are emitted; the
+# disambiguator selects the correct reading from context.
+
+VERB_FORMS_BG = {
+    "1": {
+        # чета / чет-
+        "pres": ["а",   "еш",  "е",   "ем",   "ете",  "ат"],
+        "aor":  ["ох",  "е",   "е",   "охме", "охте", "оха"],
+        "impf": ["ях",  "еше", "еше", "яхме", "яхте", "яха"],
+        "imp":  ["и",   "ете"],
+        # participles omitted — irregular stem change (чета → чел, not чет+л)
+    },
+    "2": {
+        # говоря / говор-
+        "pres": ["я",   "иш",  "и",   "им",   "ите",  "ят"],
+        "aor":  ["их",  "и",   "и",   "ихме", "ихте", "иха"],
+        "impf": ["ех",  "еше", "еше", "ехме", "ехте", "еха"],
+        "imp":  ["и",   "ете"],
+        "pp":   ["ил",  "ила", "ило", "или"],
+    },
+    "3": {
+        # играм / игра-
+        "pres": ["м",   "ш",   "",    "ме",   "те",   "т"],
+        "aor":  ["х",   "",    "",    "хме",  "хте",  "ха"],
+        "impf": ["ех",  "еше", "еше", "ехме", "ехте", "еха"],
+        "imp":  ["й",   "йте"],
+        "pp":   ["л",   "ла",  "ло",  "ли"],
+    },
+}
+
+
+def classify_verb_bg(lemma):
+    """Return conjugation class based on lemma (1sg present) ending."""
+    if lemma.endswith("ям") or lemma.endswith("ам"):
+        return "3"   # а-conjugation: играм, чувствам, броям
+    elif lemma.endswith("я"):
+        return "2"   # и-conjugation: говоря, мисля, уча
+    elif lemma.endswith("а"):
+        return "1"   # е-conjugation: чета, пека, тека
+    else:
+        return "0"   # unknown / irregular
+
+
+def get_verb_stem_bg(lemma, conj):
+    """Strip the 1sg ending to get the bare stem."""
+    if conj == "3":
+        return lemma[:-1]   # drop -м  → игра
+    elif conj in ("1", "2"):
+        return lemma[:-1]   # drop -а  → чет  /  drop -я → говор
+    return lemma
 
 # ---------------------------------------------------------------
 # Helpers
@@ -172,7 +247,7 @@ def load_stems_bg():
                     or "VerbForm" in feats
                     or xpos.startswith("V")
                 ):
-                    verbs.append((lemma, 1))
+                    verbs.append(lemma)
 
                 # --- ADJECTIVES ---
                 elif (
@@ -222,11 +297,47 @@ def write_noun_bg(lines, lemma, gender):
         lines.append(tr(s, "n_end", PL_SUFFIX[gender], "+NOUN+PL"))
 
 def write_verb_bg(lines, lemma):
-    s = f"vs_{safe_name(lemma)}"
-    lines += [st(s), tr("start", s, lemma, lemma),
-              tr(s, "v_end", "м", "+VERB+1SG.PRES"),
-              tr(s, "v_end", "ш", "+VERB+2SG.PRES"),
-              tr(s, "v_end", "т", "+VERB+3SG.PRES")]
+    conj = classify_verb_bg(lemma)
+
+    if conj == "0":
+        # Unknown conjugation — emit only the bare lemma form
+        s = f"vs_{safe_name(lemma)}"
+        lines += [st(s), tr("start", s, lemma, lemma),
+                  tr(s, "v_end", "", "+VERB+BASE")]
+        return
+
+    stem = get_verb_stem_bg(lemma, conj)
+    if not stem:
+        return  # safety: avoid empty-stem edge cases
+
+    forms = VERB_FORMS_BG[conj]
+
+    def add_form(surface, tag):
+        if not surface:
+            return
+        # State name is unique per (lemma, tag) so homographic forms
+        # each get their own state and both analyses are returned.
+        tag_id  = tag.replace("+", "").replace(".", "_")
+        state   = f"vs_{safe_name(lemma)}_{tag_id}"
+        lines  += [st(state),
+                   tr("start", state, surface, lemma),
+                   tr(state, "v_end", "", tag)]
+
+    for suffix, tag in zip(forms["pres"], PRES_TAGS):
+        add_form(stem + suffix, tag)
+
+    for suffix, tag in zip(forms["aor"], AOR_TAGS):
+        add_form(stem + suffix, tag)
+
+    for suffix, tag in zip(forms["impf"], IMPF_TAGS):
+        add_form(stem + suffix, tag)
+
+    for suffix, tag in zip(forms["imp"], IMP_TAGS):
+        add_form(stem + suffix, tag)
+
+    if "pp" in forms:
+        for suffix, tag in zip(forms["pp"], PP_TAGS):
+            add_form(stem + suffix, tag)
 
 def write_adj_bg(lines, lemma):
     s = f"as_{safe_name(lemma)}"
@@ -261,7 +372,7 @@ def generate():
     for lemma, g in nouns:
         write_noun_bg(lines, lemma, g)
 
-    for lemma, _ in verbs:
+    for lemma in verbs:
         write_verb_bg(lines, lemma)
 
     for lemma in adjs:
