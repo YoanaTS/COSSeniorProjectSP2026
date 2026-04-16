@@ -1,14 +1,10 @@
 #include "levenshtein.h"
 #include "disambiguator_ENG.h"
 #include <algorithm>
-#include <unicode/unistr.h>
 
 int levenshtein(const std::string& firstWord, const std::string& secondWord) {
-    icu::UnicodeString wordA = icu::UnicodeString::fromUTF8(firstWord);
-    icu::UnicodeString wordB = icu::UnicodeString::fromUTF8(secondWord);
-
-    int lenA = wordA.length();
-    int lenB = wordB.length();
+    int lenA = (int)firstWord.size();
+    int lenB = (int)secondWord.size();
     std::vector<std::vector<int>> distanceMatrix(lenA + 1, std::vector<int>(lenB + 1, 0));
 
     //base cases

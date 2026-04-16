@@ -7,13 +7,12 @@
 #include <unordered_set>
 #include <cmath>
 
-//returns the surface form at pos+offset (lowercased), or "" if out of bounds
+//returns the surface form at pos+offset, or "" if out of bounds
 static std::string getWord(const std::vector<AnnotatedWord>& sentence, int pos, int offset) {
     int idx = pos + offset;
     if (idx < 0 || idx >= (int)sentence.size()) return "";
-    std::string word = sentence[idx].surface;
-    for (char& c : word) c = tolower(c);
-    return word;
+    //input is already normalized with ICU in main.cpp
+    return sentence[idx].surface;
 }
 
 //returns the analyses at pos+offset, or empty list if out of bounds
@@ -211,7 +210,7 @@ std::unordered_map<int, float> scores;
     } });
 
     //demonstrative + noun
-    //"���� �����", "���� ����", "���� ����"
+    //"този човек", "тази жена", "това дете"
     rules.push_back({ "DEM+NOUN", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
         float w = windowMatchWord(s, i, -2, -1, demonstratives);
         if (w > 0 && isNoun(s[i].analyses, cfg))

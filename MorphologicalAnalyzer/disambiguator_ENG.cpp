@@ -1,4 +1,4 @@
-﻿#include "disambiguator_ENG.h"
+#include "disambiguator_ENG.h"
 #include "disambiguator.h"
 #include "pos_predicates.h"
 #include <algorithm>
@@ -7,10 +7,7 @@
 static std::string getWord(const std::vector<AnnotatedWord>& sentence, int pos, int offset) {
     int idx = pos + offset;
     if (idx < 0 || idx >= (int)sentence.size()) return "";
-    std::string w = sentence[idx].surface;
-    for (int i = 0; i < (int)w.size(); i++)
-        w[i] = tolower(w[i]);
-    return w;
+    return sentence[idx].surface;
 }
 
 std::vector<DisambiguatedWord> DisambiguatorENG::disambiguate(

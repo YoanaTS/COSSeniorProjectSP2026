@@ -4,6 +4,9 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
+#include <unordered_set>
+#include <cctype>
+#include <windows.h>
 #include "fst.h"
 #include "fst_loader.h"
 #include "disambiguator.h"
@@ -13,13 +16,33 @@
 #include "levenshtein.h"
 #include "benchmark.h"
 
+
+static bool isOuterPunctToSkip(char c) {//remove punctuation 
+    static const char kSkip[] = ",.;:!?\"'()[]{}<>-_/`~@#$%^&*+=|\\";
+    for (int i = 0; kSkip[i] != '\0'; i++) {
+        if (kSkip[i] == c) return true;
+    }
+    return false;
+}
+
+static std::string trimOuterPunctuation(const std::string& s) {
+    if (s.empty()) return s;
+    size_t i = 0, j = s.size();
+    while (i < j && isOuterPunctToSkip(s[i])) i++;
+    while (j > i && isOuterPunctToSkip(s[j - 1])) j--;
+    return s.substr(i, j - i);
+}
+
 //split line into individual word tokens
 static std::vector<std::string> tokenize(const std::string& line) {
     std::vector<std::string> tokens;
     std::istringstream iss(line);
     std::string token;
-    while (iss >> token)
-        tokens.push_back(token);
+    while (iss >> token) {
+        std::string t = trimOuterPunctuation(token);
+        if (!t.empty())
+            tokens.push_back(t);
+    }
     return tokens;
 }
 
@@ -76,11 +99,36 @@ static void printResult(const std::vector<DisambiguatedWord>& result, const std:
 }
 
 static std::string toLowerUTF8(const std::string& s) {
-    icu::UnicodeString userString = icu::UnicodeString::fromUTF8(s);
-    userString.toLower();
-    std::string result;
-    userString.toUTF8String(result);
-    return result;
+    if (s.empty()) return s;
+
+    //UTF-8 -> UTF-16
+    int wideSize = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.c_str(), -1, nullptr, 0);
+    if (wideSize > 0) {
+        std::wstring wide((size_t)wideSize, L'\0');
+        if (MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.c_str(), -1, &wide[0], wideSize) > 0) {
+            std::wstring lowered = wide;
+
+            int mapped = LCMapStringEx(LOCALE_NAME_INVARIANT, LCMAP_LOWERCASE, wide.c_str(),-1, &lowered[0], wideSize, nullptr, nullptr, 0);
+
+            if (mapped > 0) {
+                int utf8Size = WideCharToMultiByte(CP_UTF8, 0, lowered.c_str(), -1, nullptr, 0, nullptr, nullptr);
+                if (utf8Size > 0) {
+                    std::string result((size_t)utf8Size, '\0');
+                    if (WideCharToMultiByte(CP_UTF8, 0, lowered.c_str(), -1, &result[0], utf8Size, nullptr, nullptr) > 0) {
+                        if (!result.empty() && result.back() == '\0') result.pop_back();
+                        return result;
+                    }
+                }
+            }
+        }
+    }
+
+    std::string fallback = s; //ASCII-safe fallback
+    for (char& c : fallback) {
+        unsigned char uc = static_cast<unsigned char>(c);
+        if (uc >= 'A' && uc <= 'Z') c = (char)(uc + ('a' - 'A'));
+    }
+    return fallback;
 }
 
 static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std::vector<std::string>& knownStems,
@@ -92,12 +140,14 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
     std::string pick;
     std::getline(std::cin, pick);
 
-    for (char& c : pick) c = tolower(c);
+    for (char& c : pick) c = (char)std::tolower((unsigned char)c);
 
     if (pick == "1" || pick == "en" || pick == "english") {
         language = "en";
     }
     else if (pick == "2" || pick == "bg" || pick == "bulgarian") {
+        SetConsoleCP(CP_UTF8);
+        SetConsoleOutputCP(CP_UTF8);
         language = "bg";
     }
     else {
@@ -118,15 +168,18 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n";
-        return 1;
+        return false;
         }
     knownStems.clear();
 
     std::cout << "States: " << fst.getStates().size() << "\n";
     std::cout << "Start transitions: " << fst.getStartState()->transitions.size() << "\n";
 
+    std::unordered_set<std::string> seenStems;
     for (Transition* t : fst.getStartState()->transitions) {
-        knownStems.push_back(t->inputSymbol);
+        if (seenStems.insert(t->inputSymbol).second) {
+            knownStems.push_back(t->inputSymbol);
+        }
     }
     transduceFn = [&fst](const std::string& w) {
         return fst.transduce(w);

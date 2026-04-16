@@ -47,10 +47,15 @@ FiniteStateTransducer::transduce(const std::string& input) {
                 node = ahoTrie[node].children[ch];
             }
 
-            for (State* s : ahoTrie[node].fstStates) {
-                if (s == nullptr) continue; //guard: skip null states from trie
-                matchingStates.push_back(s);
-                matchingStems.push_back(ahoTrie[node].stem);
+            const std::string& stem = ahoTrie[node].stem; //treat a trie hit as a stem start when it matches a PREFIX
+            const int consumed = c + 1; //chars read so far
+            if ((int)stem.size() == consumed &&
+                input.compare(0, stem.size(), stem) == 0) {
+                for (State* s : ahoTrie[node].fstStates) {
+                    if (s == nullptr) continue; //skip null states from trie
+                    matchingStates.push_back(s);
+                    matchingStems.push_back(stem);
+                }
             }
         }
     }
@@ -78,12 +83,16 @@ FiniteStateTransducer::transduce(const std::string& input) {
     if (!matchingStates.empty()) {
         for (int m = 0; m < (int)matchingStates.size(); m++) { //find which transition from start leads to state
             for (Transition* t : startState->transitions) {
-                if (t == nullptr || t->target == nullptr) continue; // guard
+                if (t == nullptr || t->target == nullptr) continue; //guard
                 if (t->inputSymbol == matchingStems[m] && t->target == matchingStates[m]) {
                     Configuration config;
                     config.state = matchingStates[m];
                     config.position = (int)matchingStems[m].size();
-                    config.output = { { matchingStems[m], "" } };
+                    // Match non-start steps: lexical chunk is output morpheme (lemma), e.g. "lov"->"love", "cod"->"code".
+                    const std::string firstChunk = !t->outputMorpheme.empty()
+                        ? t->outputMorpheme
+                        : t->inputSymbol;
+                    config.output = { { firstChunk, "" } };
                     agenda.push(config);
                     break;
                 }
@@ -103,7 +112,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
         agenda.pop();
 
         State* state = current.state;
-        if (state == nullptr) continue; // guard: skip null states
+        if (state == nullptr) continue; //skip null states
 
         int pos = current.position;
 
@@ -116,7 +125,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
         }
 
         for (Transition* t : state->transitions) {
-            if (t == nullptr || t->target == nullptr) continue; // guard: skip bad transitions
+            if (t == nullptr || t->target == nullptr) continue; //skip bad transitions
 
             const std::string& sym = t->inputSymbol;
 
@@ -147,15 +156,41 @@ FiniteStateTransducer::transduce(const std::string& input) {
         static const std::vector<std::string> prefixes = {
             "inter","under","over","mis","pre","dis","un","re","in","im", "non","anti","auto","bi","co","de","ex","out","post","pro","sub","super"
         };
+
+        auto hasExactStartStem = [this](const std::string& stem) {
+            if (startState == nullptr) return false;
+            for (Transition* t : startState->transitions) {
+                if (t == nullptr) continue;
+                if (t->inputSymbol == stem) return true;
+            }
+            return false;
+        };
+
         for (int p = 0; p < (int)prefixes.size(); p++) {
             const std::string& pre = prefixes[p];
             if (input.size() > pre.size() && input.substr(0, pre.size()) == pre) {
                 std::string stem = input.substr(pre.size());
+                if (!hasExactStartStem(stem)) continue; //try prefix analysis only if stem is an entry.
                 auto stemResults = transduce(stem); //recursive call on the stem without the prefix
                 if (!stemResults.empty()) {
-                    for (int i = 0; i < (int)stemResults.size(); i++)
-                        stemResults[i].insert(stemResults[i].begin(), { pre, "+PREF" });
-                    return stemResults;
+                    std::vector<std::vector<std::pair<std::string, std::string>>> prefixedResults;
+                    for (int i = 0; i < (int)stemResults.size(); i++) {
+                        bool stemMatchesExactly = false;
+                        for (int j = 0; j < (int)stemResults[i].size(); j++) {
+                            if (stemResults[i][j].first == stem) {
+                                stemMatchesExactly = true;
+                                break;
+                            }
+                        }
+                        if (!stemMatchesExactly) continue;
+
+                        std::vector<std::pair<std::string, std::string>> analysis = stemResults[i];
+                        analysis.insert(analysis.begin(), { pre, "+PREF" });
+                        prefixedResults.push_back(analysis);
+                    }
+                    if (!prefixedResults.empty()) {
+                        return prefixedResults;
+                    }
                 }
             }
         }

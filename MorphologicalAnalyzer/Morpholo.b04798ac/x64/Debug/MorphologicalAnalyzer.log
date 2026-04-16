@@ -1,3 +1,12 @@
-﻿  disambiguator_BG.cpp
-C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\disambiguator_BG.cpp(32,20): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+﻿  benchmark.cpp
+  disambiguator_ENG.cpp
+  disambiguator_BG.cpp
+C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\disambiguator_BG.cpp(31,20): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  fst.cpp
+  fst_loader.cpp
+  levenshtein.cpp
+  main.cpp
+  MorphologicalAnalyzer.cpp
+  pos_predicates.cpp
+  Generating Code...
   MorphologicalAnalyzer.vcxproj -> C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\x64\Debug\MorphologicalAnalyzer.exe
