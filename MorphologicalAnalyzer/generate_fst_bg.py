@@ -141,7 +141,7 @@ def tr(frm, to, inp, out):
     return f"TRANSITION {frm} {to} {i} {o}"
 
 def safe_name(word):
-    return word
+    return word.replace(" ", "_")
 
 # ---------------------------------------------------------------
 # Word list (CSV-based)

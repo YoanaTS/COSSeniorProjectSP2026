@@ -6457,10 +6457,10 @@ STATE ns_литър
 TRANSITION start ns_литър "литър" "литър"
 TRANSITION ns_литър n_end EPS "+NOUN+SG"
 TRANSITION ns_литър n_end "и" "+NOUN+PL"
-STATE ns_уикенд досие
-TRANSITION start ns_уикенд досие "уикенд досие" "уикенд досие"
-TRANSITION ns_уикенд досие n_end EPS "+NOUN+SG"
-TRANSITION ns_уикенд досие n_end "и" "+NOUN+PL"
+STATE ns_уикенд_досие
+TRANSITION start ns_уикенд_досие "уикенд досие" "уикенд досие"
+TRANSITION ns_уикенд_досие n_end EPS "+NOUN+SG"
+TRANSITION ns_уикенд_досие n_end "и" "+NOUN+PL"
 STATE ns_потенциал
 TRANSITION start ns_потенциал "потенциал" "потенциал"
 TRANSITION ns_потенциал n_end EPS "+NOUN+SG"
@@ -46713,78 +46713,78 @@ TRANSITION vs_наказвам_VERBPP_N v_end EPS "+VERB+PP.N"
 STATE vs_наказвам_VERBPP_PL
 TRANSITION start vs_наказвам_VERBPP_PL "наказвали" "наказвам"
 TRANSITION vs_наказвам_VERBPP_PL v_end EPS "+VERB+PP.PL"
-STATE vs_чили удавя_VERB1SG_PRES
-TRANSITION start vs_чили удавя_VERB1SG_PRES "чили удавя" "чили удавя"
-TRANSITION vs_чили удавя_VERB1SG_PRES v_end EPS "+VERB+1SG.PRES"
-STATE vs_чили удавя_VERB2SG_PRES
-TRANSITION start vs_чили удавя_VERB2SG_PRES "чили удавиш" "чили удавя"
-TRANSITION vs_чили удавя_VERB2SG_PRES v_end EPS "+VERB+2SG.PRES"
-STATE vs_чили удавя_VERB3SG_PRES
-TRANSITION start vs_чили удавя_VERB3SG_PRES "чили удави" "чили удавя"
-TRANSITION vs_чили удавя_VERB3SG_PRES v_end EPS "+VERB+3SG.PRES"
-STATE vs_чили удавя_VERB1PL_PRES
-TRANSITION start vs_чили удавя_VERB1PL_PRES "чили удавим" "чили удавя"
-TRANSITION vs_чили удавя_VERB1PL_PRES v_end EPS "+VERB+1PL.PRES"
-STATE vs_чили удавя_VERB2PL_PRES
-TRANSITION start vs_чили удавя_VERB2PL_PRES "чили удавите" "чили удавя"
-TRANSITION vs_чили удавя_VERB2PL_PRES v_end EPS "+VERB+2PL.PRES"
-STATE vs_чили удавя_VERB3PL_PRES
-TRANSITION start vs_чили удавя_VERB3PL_PRES "чили удавят" "чили удавя"
-TRANSITION vs_чили удавя_VERB3PL_PRES v_end EPS "+VERB+3PL.PRES"
-STATE vs_чили удавя_VERB1SG_AOR
-TRANSITION start vs_чили удавя_VERB1SG_AOR "чили удавих" "чили удавя"
-TRANSITION vs_чили удавя_VERB1SG_AOR v_end EPS "+VERB+1SG.AOR"
-STATE vs_чили удавя_VERB2SG_AOR
-TRANSITION start vs_чили удавя_VERB2SG_AOR "чили удави" "чили удавя"
-TRANSITION vs_чили удавя_VERB2SG_AOR v_end EPS "+VERB+2SG.AOR"
-STATE vs_чили удавя_VERB3SG_AOR
-TRANSITION start vs_чили удавя_VERB3SG_AOR "чили удави" "чили удавя"
-TRANSITION vs_чили удавя_VERB3SG_AOR v_end EPS "+VERB+3SG.AOR"
-STATE vs_чили удавя_VERB1PL_AOR
-TRANSITION start vs_чили удавя_VERB1PL_AOR "чили удавихме" "чили удавя"
-TRANSITION vs_чили удавя_VERB1PL_AOR v_end EPS "+VERB+1PL.AOR"
-STATE vs_чили удавя_VERB2PL_AOR
-TRANSITION start vs_чили удавя_VERB2PL_AOR "чили удавихте" "чили удавя"
-TRANSITION vs_чили удавя_VERB2PL_AOR v_end EPS "+VERB+2PL.AOR"
-STATE vs_чили удавя_VERB3PL_AOR
-TRANSITION start vs_чили удавя_VERB3PL_AOR "чили удавиха" "чили удавя"
-TRANSITION vs_чили удавя_VERB3PL_AOR v_end EPS "+VERB+3PL.AOR"
-STATE vs_чили удавя_VERB1SG_IMPF
-TRANSITION start vs_чили удавя_VERB1SG_IMPF "чили удавех" "чили удавя"
-TRANSITION vs_чили удавя_VERB1SG_IMPF v_end EPS "+VERB+1SG.IMPF"
-STATE vs_чили удавя_VERB2SG_IMPF
-TRANSITION start vs_чили удавя_VERB2SG_IMPF "чили удавеше" "чили удавя"
-TRANSITION vs_чили удавя_VERB2SG_IMPF v_end EPS "+VERB+2SG.IMPF"
-STATE vs_чили удавя_VERB3SG_IMPF
-TRANSITION start vs_чили удавя_VERB3SG_IMPF "чили удавеше" "чили удавя"
-TRANSITION vs_чили удавя_VERB3SG_IMPF v_end EPS "+VERB+3SG.IMPF"
-STATE vs_чили удавя_VERB1PL_IMPF
-TRANSITION start vs_чили удавя_VERB1PL_IMPF "чили удавехме" "чили удавя"
-TRANSITION vs_чили удавя_VERB1PL_IMPF v_end EPS "+VERB+1PL.IMPF"
-STATE vs_чили удавя_VERB2PL_IMPF
-TRANSITION start vs_чили удавя_VERB2PL_IMPF "чили удавехте" "чили удавя"
-TRANSITION vs_чили удавя_VERB2PL_IMPF v_end EPS "+VERB+2PL.IMPF"
-STATE vs_чили удавя_VERB3PL_IMPF
-TRANSITION start vs_чили удавя_VERB3PL_IMPF "чили удавеха" "чили удавя"
-TRANSITION vs_чили удавя_VERB3PL_IMPF v_end EPS "+VERB+3PL.IMPF"
-STATE vs_чили удавя_VERB2SG_IMP
-TRANSITION start vs_чили удавя_VERB2SG_IMP "чили удави" "чили удавя"
-TRANSITION vs_чили удавя_VERB2SG_IMP v_end EPS "+VERB+2SG.IMP"
-STATE vs_чили удавя_VERB2PL_IMP
-TRANSITION start vs_чили удавя_VERB2PL_IMP "чили удавете" "чили удавя"
-TRANSITION vs_чили удавя_VERB2PL_IMP v_end EPS "+VERB+2PL.IMP"
-STATE vs_чили удавя_VERBPP_M
-TRANSITION start vs_чили удавя_VERBPP_M "чили удавил" "чили удавя"
-TRANSITION vs_чили удавя_VERBPP_M v_end EPS "+VERB+PP.M"
-STATE vs_чили удавя_VERBPP_F
-TRANSITION start vs_чили удавя_VERBPP_F "чили удавила" "чили удавя"
-TRANSITION vs_чили удавя_VERBPP_F v_end EPS "+VERB+PP.F"
-STATE vs_чили удавя_VERBPP_N
-TRANSITION start vs_чили удавя_VERBPP_N "чили удавило" "чили удавя"
-TRANSITION vs_чили удавя_VERBPP_N v_end EPS "+VERB+PP.N"
-STATE vs_чили удавя_VERBPP_PL
-TRANSITION start vs_чили удавя_VERBPP_PL "чили удавили" "чили удавя"
-TRANSITION vs_чили удавя_VERBPP_PL v_end EPS "+VERB+PP.PL"
+STATE vs_чили_удавя_VERB1SG_PRES
+TRANSITION start vs_чили_удавя_VERB1SG_PRES "чили удавя" "чили удавя"
+TRANSITION vs_чили_удавя_VERB1SG_PRES v_end EPS "+VERB+1SG.PRES"
+STATE vs_чили_удавя_VERB2SG_PRES
+TRANSITION start vs_чили_удавя_VERB2SG_PRES "чили удавиш" "чили удавя"
+TRANSITION vs_чили_удавя_VERB2SG_PRES v_end EPS "+VERB+2SG.PRES"
+STATE vs_чили_удавя_VERB3SG_PRES
+TRANSITION start vs_чили_удавя_VERB3SG_PRES "чили удави" "чили удавя"
+TRANSITION vs_чили_удавя_VERB3SG_PRES v_end EPS "+VERB+3SG.PRES"
+STATE vs_чили_удавя_VERB1PL_PRES
+TRANSITION start vs_чили_удавя_VERB1PL_PRES "чили удавим" "чили удавя"
+TRANSITION vs_чили_удавя_VERB1PL_PRES v_end EPS "+VERB+1PL.PRES"
+STATE vs_чили_удавя_VERB2PL_PRES
+TRANSITION start vs_чили_удавя_VERB2PL_PRES "чили удавите" "чили удавя"
+TRANSITION vs_чили_удавя_VERB2PL_PRES v_end EPS "+VERB+2PL.PRES"
+STATE vs_чили_удавя_VERB3PL_PRES
+TRANSITION start vs_чили_удавя_VERB3PL_PRES "чили удавят" "чили удавя"
+TRANSITION vs_чили_удавя_VERB3PL_PRES v_end EPS "+VERB+3PL.PRES"
+STATE vs_чили_удавя_VERB1SG_AOR
+TRANSITION start vs_чили_удавя_VERB1SG_AOR "чили удавих" "чили удавя"
+TRANSITION vs_чили_удавя_VERB1SG_AOR v_end EPS "+VERB+1SG.AOR"
+STATE vs_чили_удавя_VERB2SG_AOR
+TRANSITION start vs_чили_удавя_VERB2SG_AOR "чили удави" "чили удавя"
+TRANSITION vs_чили_удавя_VERB2SG_AOR v_end EPS "+VERB+2SG.AOR"
+STATE vs_чили_удавя_VERB3SG_AOR
+TRANSITION start vs_чили_удавя_VERB3SG_AOR "чили удави" "чили удавя"
+TRANSITION vs_чили_удавя_VERB3SG_AOR v_end EPS "+VERB+3SG.AOR"
+STATE vs_чили_удавя_VERB1PL_AOR
+TRANSITION start vs_чили_удавя_VERB1PL_AOR "чили удавихме" "чили удавя"
+TRANSITION vs_чили_удавя_VERB1PL_AOR v_end EPS "+VERB+1PL.AOR"
+STATE vs_чили_удавя_VERB2PL_AOR
+TRANSITION start vs_чили_удавя_VERB2PL_AOR "чили удавихте" "чили удавя"
+TRANSITION vs_чили_удавя_VERB2PL_AOR v_end EPS "+VERB+2PL.AOR"
+STATE vs_чили_удавя_VERB3PL_AOR
+TRANSITION start vs_чили_удавя_VERB3PL_AOR "чили удавиха" "чили удавя"
+TRANSITION vs_чили_удавя_VERB3PL_AOR v_end EPS "+VERB+3PL.AOR"
+STATE vs_чили_удавя_VERB1SG_IMPF
+TRANSITION start vs_чили_удавя_VERB1SG_IMPF "чили удавех" "чили удавя"
+TRANSITION vs_чили_удавя_VERB1SG_IMPF v_end EPS "+VERB+1SG.IMPF"
+STATE vs_чили_удавя_VERB2SG_IMPF
+TRANSITION start vs_чили_удавя_VERB2SG_IMPF "чили удавеше" "чили удавя"
+TRANSITION vs_чили_удавя_VERB2SG_IMPF v_end EPS "+VERB+2SG.IMPF"
+STATE vs_чили_удавя_VERB3SG_IMPF
+TRANSITION start vs_чили_удавя_VERB3SG_IMPF "чили удавеше" "чили удавя"
+TRANSITION vs_чили_удавя_VERB3SG_IMPF v_end EPS "+VERB+3SG.IMPF"
+STATE vs_чили_удавя_VERB1PL_IMPF
+TRANSITION start vs_чили_удавя_VERB1PL_IMPF "чили удавехме" "чили удавя"
+TRANSITION vs_чили_удавя_VERB1PL_IMPF v_end EPS "+VERB+1PL.IMPF"
+STATE vs_чили_удавя_VERB2PL_IMPF
+TRANSITION start vs_чили_удавя_VERB2PL_IMPF "чили удавехте" "чили удавя"
+TRANSITION vs_чили_удавя_VERB2PL_IMPF v_end EPS "+VERB+2PL.IMPF"
+STATE vs_чили_удавя_VERB3PL_IMPF
+TRANSITION start vs_чили_удавя_VERB3PL_IMPF "чили удавеха" "чили удавя"
+TRANSITION vs_чили_удавя_VERB3PL_IMPF v_end EPS "+VERB+3PL.IMPF"
+STATE vs_чили_удавя_VERB2SG_IMP
+TRANSITION start vs_чили_удавя_VERB2SG_IMP "чили удави" "чили удавя"
+TRANSITION vs_чили_удавя_VERB2SG_IMP v_end EPS "+VERB+2SG.IMP"
+STATE vs_чили_удавя_VERB2PL_IMP
+TRANSITION start vs_чили_удавя_VERB2PL_IMP "чили удавете" "чили удавя"
+TRANSITION vs_чили_удавя_VERB2PL_IMP v_end EPS "+VERB+2PL.IMP"
+STATE vs_чили_удавя_VERBPP_M
+TRANSITION start vs_чили_удавя_VERBPP_M "чили удавил" "чили удавя"
+TRANSITION vs_чили_удавя_VERBPP_M v_end EPS "+VERB+PP.M"
+STATE vs_чили_удавя_VERBPP_F
+TRANSITION start vs_чили_удавя_VERBPP_F "чили удавила" "чили удавя"
+TRANSITION vs_чили_удавя_VERBPP_F v_end EPS "+VERB+PP.F"
+STATE vs_чили_удавя_VERBPP_N
+TRANSITION start vs_чили_удавя_VERBPP_N "чили удавило" "чили удавя"
+TRANSITION vs_чили_удавя_VERBPP_N v_end EPS "+VERB+PP.N"
+STATE vs_чили_удавя_VERBPP_PL
+TRANSITION start vs_чили_удавя_VERBPP_PL "чили удавили" "чили удавя"
+TRANSITION vs_чили_удавя_VERBPP_PL v_end EPS "+VERB+PP.PL"
 STATE vs_разпространявам-(се)
 TRANSITION start vs_разпространявам-(се) "разпространявам-(се)" "разпространявам-(се)"
 TRANSITION vs_разпространявам-(се) v_end EPS "+VERB+BASE"
