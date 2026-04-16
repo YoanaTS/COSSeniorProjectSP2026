@@ -150,11 +150,35 @@ static void runBenchmark(FiniteStateTransducer& fst, Disambiguator& disambig) {
 
     Benchmark bench(fst, disambigFn);
 
-    std::vector<std::string> words = { "cat", "cats", "walked", "running" }; //sample data to update later
-    std::string consistencyWord = "walk";
+    std::vector<std::string> words = fst.enumerateWords(); //get list of words 
+    std::cout << "[Benchmark] Testing on " << words.size() << " words from FST graph.\n";
 
+    std::string consistencyWord = words.empty() ? "walk" : words[0];
+
+	//correctness - predifined cases with expected analyses
     std::vector<std::pair<std::string, std::string>> labelled = {
-        {"cats", "+PL"}, {"walked", "+PAST"}
+        //nouns
+        {"cats",       "+NOUN+PL"},
+        {"children",   "+NOUN+PL"},
+        {"watches",    "+NOUN+PL"},
+        //verbs regular
+        {"walked",     "+VERB+PAST"},
+        {"running",    "+VERB+PROG"},
+        {"walks",      "+VERB+3SG"},
+        //verbs irregular
+        {"went",       "+VERB+PAST"},
+        {"written",    "+VERB+PASTPART"},
+        {"been",       "+VERB+PASTPART"},
+        //adjectives
+        {"happy",      "+ADJ+BASE"},
+        {"clear",      "+ADJ+BASE"},
+        //function words
+        {"the",        "+DET+DEF"},
+        {"will",       "+AUX+BASE"},
+        {"not",        "+NEG+BASE"},
+        //prefixed
+        {"rewrite",    "+PREF"},
+        {"unlikely",   "+PREF"},
     };
 
     std::vector<std::tuple<std::string, std::string, int>> levPairs = {

@@ -39,7 +39,7 @@ bool Benchmark::analysisContains(const AnalysisList& analyses, const std::string
 
 Benchmark::Benchmark(FiniteStateTransducer& fst, DisambiguateFn disambiguateFn) : fst(fst), disambiguateFn(disambiguateFn) {}
 
-//--- runtime test ---
+//NFR1 - times each word and fails if any exceed the threshold
 BenchmarkResult Benchmark::benchmarkRuntime(const std::vector<std::string>& words, double thresholdMs) {
     BenchmarkResult result;
     result.testName = "NFR1 Runtime (<" + std::to_string((int)thresholdMs) + "ms per word)";
@@ -75,7 +75,7 @@ BenchmarkResult Benchmark::benchmarkRuntime(const std::vector<std::string>& word
 }
 
 
-//--- consistency test ---
+//NFR2 - runs the same word many times and checks all outputs match
 BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int repetitions) {
 
     BenchmarkResult result;
@@ -110,7 +110,7 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
 }
 
 
-//--- correctness test ---
+//NFR3 - checks that expected tags appear in the FST output for each labelled word
     BenchmarkResult Benchmark::benchmarkCorrectness(const std::vector<std::pair<std::string, std::string>>&labelledWords) {
     BenchmarkResult result;
     result.testName = "NFR3 Correctness test";
@@ -128,7 +128,7 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
         if (analysisContains(analyses, expectedTag)) {
             correct++;
             if (analyses.size() > 1) {
-                ambiguous++; // only count ambiguity if correct
+                ambiguous++; //only count ambiguity if correct
             }
         }
         else {
@@ -138,7 +138,7 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
 
     result.elapsedMs = nowMs() - start;
     double pct = 100.0 * correct / labelledWords.size();
-    result.passed = (pct >= 90.0); // 90% threshold as per NFR3
+    result.passed = (pct >= 90.0); //90% threshold as per NFR3
 
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(1);
@@ -155,7 +155,7 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
 }
 
 
-//--- levenshtein test ---
+//NFR4 - Levenshtein test - checks that the Levenshtein function returns the correct edit distances
 BenchmarkResult Benchmark::benchmarkLevenshtein(
     const std::vector<std::tuple<std::string, std::string, int>>& pairs) {
     BenchmarkResult result;
@@ -177,7 +177,7 @@ BenchmarkResult Benchmark::benchmarkLevenshtein(
 }
 
 
-//--- disambiguation test ---
+//NFR3 - checks that the disambiguator picks the right POS given sentence context
 BenchmarkResult Benchmark::benchmarkDisambiguation(const std::vector<std::pair<std::vector<std::string>, std::string>>& cases) {
     BenchmarkResult result;
     result.testName = "Disambiguation test";
@@ -216,6 +216,7 @@ BenchmarkResult Benchmark::benchmarkDisambiguation(const std::vector<std::pair<s
     return result;
 }
 
+//NFR5 - measures how many words per second the FST can handle in bulk
 BenchmarkResult Benchmark::benchmarkThroughput(const std::vector<std::string>& words) {
     BenchmarkResult result;
     result.testName = "NFR5 + Aho-Corasick (" +
@@ -236,7 +237,7 @@ BenchmarkResult Benchmark::benchmarkThroughput(const std::vector<std::string>& w
     return result;
 }
 
-//--- run everything ---
+//Run everything
 void Benchmark::runAll(const std::vector<std::string>& runtimeWords, const std::string& consistencyWord,
     const std::vector<std::pair<std::string, std::string>>& labelledWords, const std::vector<std::tuple<std::string, std::string, int>>& levPairs,
     const std::vector<std::pair<std::vector<std::string>, std::string>>& disambigCases) {
@@ -249,14 +250,7 @@ void Benchmark::runAll(const std::vector<std::string>& runtimeWords, const std::
      results.push_back(benchmarkRuntime(runtimeWords));
      results.push_back(benchmarkConsistency(consistencyWord));
      results.push_back(benchmarkCorrectness(labelledWords));
-     std::vector<std::string> throughputWords;
-
-
-     for (int i = 0; i < 500; i++)
-         for (int j = 0; j < (int)runtimeWords.size(); j++)
-             throughputWords.push_back(runtimeWords[j]);
-     results.push_back(benchmarkThroughput(throughputWords));
-
+     results.push_back(benchmarkThroughput(runtimeWords));
      results.push_back(benchmarkLevenshtein(levPairs));
      results.push_back(benchmarkDisambiguation(disambigCases));
 

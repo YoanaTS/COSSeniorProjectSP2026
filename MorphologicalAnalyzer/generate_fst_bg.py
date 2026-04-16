@@ -4,6 +4,8 @@
 
 import re
 import os
+import csv
+
 # ---------------------------------------------------------------
 # Hand-coded function words (Cyrillic)
 # ---------------------------------------------------------------
@@ -77,7 +79,6 @@ IRREGULAR_PLURALS_BG = {
 # Morphology rules — verbs
 # ---------------------------------------------------------------
 
-# Tags for each person/number slot (index matches suffix list)
 PRES_TAGS  = ["+VERB+1SG.PRES", "+VERB+2SG.PRES", "+VERB+3SG.PRES",
               "+VERB+1PL.PRES", "+VERB+2PL.PRES", "+VERB+3PL.PRES"]
 AOR_TAGS   = ["+VERB+1SG.AOR",  "+VERB+2SG.AOR",  "+VERB+3SG.AOR",
@@ -87,30 +88,14 @@ IMPF_TAGS  = ["+VERB+1SG.IMPF", "+VERB+2SG.IMPF", "+VERB+3SG.IMPF",
 IMP_TAGS   = ["+VERB+2SG.IMP",  "+VERB+2PL.IMP"]
 PP_TAGS    = ["+VERB+PP.M",     "+VERB+PP.F",     "+VERB+PP.N",    "+VERB+PP.PL"]
 
-# Suffixes appended to the bare stem for each conjugation class.
-# Stem is derived from the lemma (1sg present) by stripping its ending.
-#
-# Class 1 — е-verbs  (lemma ends in -а, e.g. чета  → stem чет)
-# Class 2 — и-verbs  (lemma ends in -я, e.g. говоря → stem говор)
-# Class 3 — а-verbs  (lemma ends in -ам/-ям, e.g. играм → stem игра)
-#
-# NOTE: Class 1 past participles involve irregular stem changes (e.g. чета → чел)
-# and are omitted here — the disambiguator handles them as unknown forms.
-# NOTE: Some forms within a class are surface homographs (e.g. говори =
-# 3SG.PRES = 2SG.AOR = 3SG.AOR = IMP.2SG). All are emitted; the
-# disambiguator selects the correct reading from context.
-
 VERB_FORMS_BG = {
     "1": {
-        # чета / чет-
         "pres": ["а",   "еш",  "е",   "ем",   "ете",  "ат"],
         "aor":  ["ох",  "е",   "е",   "охме", "охте", "оха"],
         "impf": ["ях",  "еше", "еше", "яхме", "яхте", "яха"],
         "imp":  ["и",   "ете"],
-        # participles omitted — irregular stem change (чета → чел, not чет+л)
     },
     "2": {
-        # говоря / говор-
         "pres": ["я",   "иш",  "и",   "им",   "ите",  "ят"],
         "aor":  ["их",  "и",   "и",   "ихме", "ихте", "иха"],
         "impf": ["ех",  "еше", "еше", "ехме", "ехте", "еха"],
@@ -118,7 +103,6 @@ VERB_FORMS_BG = {
         "pp":   ["ил",  "ила", "ило", "или"],
     },
     "3": {
-        # играм / игра-
         "pres": ["м",   "ш",   "",    "ме",   "те",   "т"],
         "aor":  ["х",   "",    "",    "хме",  "хте",  "ха"],
         "impf": ["ех",  "еше", "еше", "ехме", "ехте", "еха"],
@@ -129,23 +113,19 @@ VERB_FORMS_BG = {
 
 
 def classify_verb_bg(lemma):
-    """Return conjugation class based on lemma (1sg present) ending."""
     if lemma.endswith("ям") or lemma.endswith("ам"):
-        return "3"   # а-conjugation: играм, чувствам, броям
+        return "3"
     elif lemma.endswith("я"):
-        return "2"   # и-conjugation: говоря, мисля, уча
+        return "2"
     elif lemma.endswith("а"):
-        return "1"   # е-conjugation: чета, пека, тека
+        return "1"
     else:
-        return "0"   # unknown / irregular
+        return "0"
 
 
 def get_verb_stem_bg(lemma, conj):
-    """Strip the 1sg ending to get the bare stem."""
-    if conj == "3":
-        return lemma[:-1]   # drop -м  → игра
-    elif conj in ("1", "2"):
-        return lemma[:-1]   # drop -а  → чет  /  drop -я → говор
+    if conj in ("1", "2", "3"):
+        return lemma[:-1]
     return lemma
 
 # ---------------------------------------------------------------
@@ -164,10 +144,8 @@ def safe_name(word):
     return word
 
 # ---------------------------------------------------------------
-# Word list (CORPUS-BASED)
+# Word list (CSV-based)
 # ---------------------------------------------------------------
-
-import csv
 
 def get_word_list():
     try:
@@ -176,7 +154,7 @@ def get_word_list():
 
         with open(csv_path, encoding="utf-8") as f:
             reader = csv.reader(f)
-            
+
             words = []
             skip_header = True
 
@@ -184,23 +162,18 @@ def get_word_list():
                 if skip_header:
                     skip_header = False
                     continue
-
                 if not row:
                     continue
-
                 word = row[0].strip().lower()
-
-                # filter junk
                 if len(word) < 3:
                     continue
                 if not word.isalpha():
                     continue
-
                 words.append(word)
 
-            words = words[:WORD_LIMIT]
-            print(f"Loaded {len(words)} words from CSV")
-            return words
+        words = words[:WORD_LIMIT]
+        print(f"Loaded {len(words)} words from CSV")
+        return words
 
     except FileNotFoundError:
         print("CSV not found, using fallback")
@@ -220,137 +193,138 @@ def load_stems_bg():
 
     nouns, verbs, adjs = [], [], []
 
-    # batch processing
     BATCH_SIZE = 1000
 
     for i in range(0, len(words), BATCH_SIZE):
-        batch = words[i:i+BATCH_SIZE]
-
-        print(f"Processing batch {i} - {i+len(batch)}")
+        batch = words[i:i + BATCH_SIZE]
+        print(f"Processing batch {i} – {i + len(batch)}")
 
         doc = nlp(" ".join(batch))
 
         for sentence in doc.sentences:
             for w in sentence.words:
                 lemma = w.lemma
-                
                 if lemma is None or not isinstance(lemma, str):
                     continue
-                
+
                 feats = w.feats or ""
-                upos = w.upos or ""
-                xpos = w.xpos or ""
+                upos  = w.upos  or ""
+                xpos  = w.xpos  or ""
 
-                # --- VERBS ---
-                if (
-                    upos == "VERB"
-                    or "VerbForm" in feats
-                    or xpos.startswith("V")
-                ):
+                if upos == "VERB" or "VerbForm" in feats or xpos.startswith("V"):
                     verbs.append(lemma)
-
-                # --- ADJECTIVES ---
-                elif (
-                    upos == "ADJ"
-                    or "Degree" in feats
-                    or xpos.startswith("A")
-                ):
+                elif upos == "ADJ" or "Degree" in feats or xpos.startswith("A"):
                     adjs.append(lemma)
-
-                # --- NOUNS ---
-                elif (
-                    upos == "NOUN"
-                    or ("Gender" in feats and "VerbForm" not in feats)
-                    or xpos.startswith("N")
-                ):
+                elif upos == "NOUN" or ("Gender" in feats and "VerbForm" not in feats) or xpos.startswith("N"):
                     gender = "m"
                     if "Gender=Fem" in feats:
                         gender = "f"
                     elif "Gender=Neut" in feats:
                         gender = "n"
-
                     nouns.append((lemma, gender))
-    # AFTER loop
-    nouns = list(set(nouns))
+
+    # Deduplicate nouns by lemma — keep first gender seen.
+    # list(set(...)) is not enough here because ("word","m") and ("word","f")
+    # are different tuples but would produce the same state name ns_word.
+    seen_nouns = {}
+    for lemma, gender in nouns:
+        if lemma not in seen_nouns:
+            seen_nouns[lemma] = gender
+    nouns = list(seen_nouns.items())
+
     verbs = list(set(verbs))
-    adjs = list(set(adjs))
+    adjs  = list(set(adjs))
 
-    print("Nouns:", len(nouns))
-    print("Verbs:", len(verbs))
-    print("Adjs:", len(adjs))
-
+    print(f"Nouns: {len(nouns)}  Verbs: {len(verbs)}  Adjs: {len(adjs)}")
     return nouns, verbs, adjs
+
 # ---------------------------------------------------------------
-# Writers
+# Writers — all guarded by emitted_states
 # ---------------------------------------------------------------
 
-def write_noun_bg(lines, lemma, gender):
+def write_noun_bg(lines, lemma, gender, emitted_states):
     s = f"ns_{safe_name(lemma)}"
-    lines += [st(s), tr("start", s, lemma, lemma),
-              tr(s, "n_end", "", "+NOUN+SG")]
 
-    if lemma in IRREGULAR_PLURALS_BG:
-        pl = IRREGULAR_PLURALS_BG[lemma]
-        lines += [tr("start", s+"_pl", pl, lemma),
-                  tr(s+"_pl", "n_end", "", "+NOUN+PL")]
-    else:
-        lines.append(tr(s, "n_end", PL_SUFFIX[gender], "+NOUN+PL"))
+    if s not in emitted_states:
+        emitted_states.add(s)
+        lines += [st(s), tr("start", s, lemma, lemma),
+                  tr(s, "n_end", "", "+NOUN+SG")]
 
-def write_verb_bg(lines, lemma):
+        if lemma in IRREGULAR_PLURALS_BG:
+            pl   = IRREGULAR_PLURALS_BG[lemma]
+            pl_s = s + "_pl"
+            emitted_states.add(pl_s)
+            lines += [st(pl_s),
+                      tr("start", pl_s, pl, lemma),
+                      tr(pl_s, "n_end", "", "+NOUN+PL")]
+        else:
+            lines.append(tr(s, "n_end", PL_SUFFIX[gender], "+NOUN+PL"))
+    # If already emitted, skip entirely — same lemma seen before
+
+
+def write_verb_bg(lines, lemma, emitted_states):
     conj = classify_verb_bg(lemma)
 
     if conj == "0":
-        # Unknown conjugation — emit only the bare lemma form
         s = f"vs_{safe_name(lemma)}"
-        lines += [st(s), tr("start", s, lemma, lemma),
-                  tr(s, "v_end", "", "+VERB+BASE")]
+        if s not in emitted_states:
+            emitted_states.add(s)
+            lines += [st(s), tr("start", s, lemma, lemma),
+                      tr(s, "v_end", "", "+VERB+BASE")]
         return
 
     stem = get_verb_stem_bg(lemma, conj)
     if not stem:
-        return  # safety: avoid empty-stem edge cases
+        return
 
     forms = VERB_FORMS_BG[conj]
 
     def add_form(surface, tag):
+        nonlocal lines
         if not surface:
             return
-        # State name is unique per (lemma, tag) so homographic forms
-        # each get their own state and both analyses are returned.
-        tag_id  = tag.replace("+", "").replace(".", "_")
-        state   = f"vs_{safe_name(lemma)}_{tag_id}"
-        lines  += [st(state),
-                   tr("start", state, surface, lemma),
-                   tr(state, "v_end", "", tag)]
+        tag_id = tag.replace("+", "").replace(".", "_")
+        state  = f"vs_{safe_name(lemma)}_{tag_id}"
+        if state not in emitted_states:
+            emitted_states.add(state)
+            lines += [st(state),
+                      tr("start", state, surface, lemma),
+                      tr(state, "v_end", "", tag)]
 
     for suffix, tag in zip(forms["pres"], PRES_TAGS):
         add_form(stem + suffix, tag)
-
     for suffix, tag in zip(forms["aor"], AOR_TAGS):
         add_form(stem + suffix, tag)
-
     for suffix, tag in zip(forms["impf"], IMPF_TAGS):
         add_form(stem + suffix, tag)
-
     for suffix, tag in zip(forms["imp"], IMP_TAGS):
         add_form(stem + suffix, tag)
-
     if "pp" in forms:
         for suffix, tag in zip(forms["pp"], PP_TAGS):
             add_form(stem + suffix, tag)
 
-def write_adj_bg(lines, lemma):
-    s = f"as_{safe_name(lemma)}"
-    lines += [st(s), tr("start", s, lemma, lemma),
-              tr(s, "fw_end", "", "+ADJ+M"),
-              tr(s, "fw_end", "а", "+ADJ+F"),
-              tr(s, "fw_end", "о", "+ADJ+N"),
-              tr(s, "fw_end", "и", "+ADJ+PL")]
 
-def write_fw_bg(lines, surface, tag):
+def write_adj_bg(lines, lemma, emitted_states):
+    s = f"as_{safe_name(lemma)}"
+
+    if s not in emitted_states:
+        emitted_states.add(s)
+        lines += [st(s), tr("start", s, lemma, lemma),
+                  tr(s, "fw_end", "", "+ADJ+M"),
+                  tr(s, "fw_end", "а", "+ADJ+F"),
+                  tr(s, "fw_end", "о", "+ADJ+N"),
+                  tr(s, "fw_end", "и", "+ADJ+PL")]
+    # If already emitted, skip entirely
+
+
+def write_fw_bg(lines, surface, tag, emitted_states):
     s = f"fw_{safe_name(surface)}"
-    lines += [st(s), tr("start", s, surface, surface),
-              tr(s, "fw_end", "", tag)]
+
+    if s not in emitted_states:
+        emitted_states.add(s)
+        lines += [st(s), tr("start", s, surface, surface),
+                  tr(s, "fw_end", "", tag)]
+    # If already emitted, skip entirely
 
 # ---------------------------------------------------------------
 # MAIN
@@ -366,17 +340,20 @@ def generate():
         "STATE fw_end FINAL",
     ]
 
+    # Track every state name that has already been emitted
+    emitted_states = {"start", "n_end", "v_end", "fw_end"}
+
     for w, t in BG_PRONOUNS + BG_PREPOSITIONS + BG_CONJUNCTIONS + BG_AUXILIARIES + BG_NUMERALS + BG_ADVERBS:
-        write_fw_bg(lines, w, t)
+        write_fw_bg(lines, w, t, emitted_states)
 
     for lemma, g in nouns:
-        write_noun_bg(lines, lemma, g)
+        write_noun_bg(lines, lemma, g, emitted_states)
 
     for lemma in verbs:
-        write_verb_bg(lines, lemma)
+        write_verb_bg(lines, lemma, emitted_states)
 
     for lemma in adjs:
-        write_adj_bg(lines, lemma)
+        write_adj_bg(lines, lemma, emitted_states)
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     output_path = os.path.join(BASE_DIR, "bulgarian_morphology.fst")
@@ -384,7 +361,9 @@ def generate():
     with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
-    print("Saved to:", output_path)
+    print(f"Saved to: {output_path}")
+    print(f"DONE — {len(emitted_states)} unique states written.")
+
 
 if __name__ == "__main__":
     generate()

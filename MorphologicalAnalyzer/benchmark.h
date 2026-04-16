@@ -24,7 +24,7 @@ using DisambiguateFn = std::function<std::vector<DisambiguatedWord>(const std::v
 struct BenchmarkResult {
     std::string testName;
     bool passed;
-    double elapsedMs;   //wallcloclk
+    double elapsedMs;   //wallclock
     std::string details;     //info
 };
 

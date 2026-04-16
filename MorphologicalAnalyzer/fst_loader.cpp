@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <queue>
+#include <iostream>
 
 void FSTLoader::buildAhoCorasick(FiniteStateTransducer& fst) { //check and rework
     auto& trie = fst.getAhoCorasickTrie();
@@ -15,6 +16,7 @@ void FSTLoader::buildAhoCorasick(FiniteStateTransducer& fst) { //check and rewor
     State* start = fst.getStartState();
 
     for (Transition* t : start->transitions) { //go through all transitions
+        if (t == nullptr || t->target == nullptr) continue;
         std::string word = t->inputSymbol; //word inserted into a trie
 
         if (word == EPSILON)
@@ -26,12 +28,12 @@ void FSTLoader::buildAhoCorasick(FiniteStateTransducer& fst) { //check and rewor
             char c = word[i];
 
 			if (trie[currentNode].children.find(c) == trie[currentNode].children.end()) { //if there is no existing edge - create
-                trie[currentNode].children[c] = trie.size();
+                trie[currentNode].children[c] = (int)trie.size();
                 trie.push_back(AhoCorasickNode());
             }
             currentNode = trie[currentNode].children[c];
         }
-        trie[currentNode].fstStates.push_back(t->target); //mark the end
+        trie[currentNode].fstStates.push_back(t->target);
         trie[currentNode].stem = word;
     }
 
@@ -83,11 +85,9 @@ void FSTLoader::load(const std::string& filepath, FiniteStateTransducer& fst) {
     int lineNumber = 0;
 
     //1st pass: create all states
-    //In order to wire the transitions, the states must exist first
     std::string line;
     while (std::getline(file, line)) { //read the file and format the input properly
         lineNumber++;
-        //remove leading whitespace
         size_t start = line.find_first_not_of(" \t\r\n");
         if (start == std::string::npos) continue;
         line = line.substr(start);
@@ -139,6 +139,7 @@ void FSTLoader::load(const std::string& filepath, FiniteStateTransducer& fst) {
     file.clear();
     file.seekg(0);
     lineNumber = 0;
+    int skippedTransitions = 0;
 
     while (std::getline(file, line)) {
         lineNumber++;
@@ -159,11 +160,10 @@ void FSTLoader::load(const std::string& filepath, FiniteStateTransducer& fst) {
                 throw std::runtime_error("Line " + std::to_string(lineNumber) +
                     ": TRANSITION requires: <from> <to> <input> <output>");
             }
-            if (!stateMap.count(fromName)) {
-                throw std::runtime_error("Line " + std::to_string(lineNumber) + ": Unknown state: " + fromName);
-            }
-            if (!stateMap.count(toName)) {
-                throw std::runtime_error("Line " + std::to_string(lineNumber) + ": Unknown state: " + toName);
+
+            if (!stateMap.count(fromName) || !stateMap.count(toName)) { //skip unknown transitions w undeclared states
+                skippedTransitions++;
+                continue;
             }
 
             std::string inputSym = parseToken(inputToken);
@@ -172,7 +172,12 @@ void FSTLoader::load(const std::string& filepath, FiniteStateTransducer& fst) {
             Transition* t = new Transition(inputSym, outputSym, stateMap[toName]);
             stateMap[fromName]->addTransition(t);
         }
-        //STATE lines are skipped in second pass because all of the states already exist in the stateMap
     }
-    FSTLoader::buildAhoCorasick(fst); //3rd pass: build the Aho-Corasick trie for efficient stem matching during transduction
+
+    if (skippedTransitions > 0) {
+        std::cerr << "Warning: skipped " << skippedTransitions
+            << " transition(s) referencing undeclared states.\n";
+    }
+
+    FSTLoader::buildAhoCorasick(fst);
 }

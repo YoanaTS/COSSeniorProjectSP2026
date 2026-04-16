@@ -72,4 +72,7 @@ public:
         transduce(const std::string& input); //valid analyses (multiple posissible)
 
     const std::vector<State*>& getStates() const { return states; } //accessor for the states
+
+    std::vector<std::string> enumerateWords() const; //returns surface forms
+
 };

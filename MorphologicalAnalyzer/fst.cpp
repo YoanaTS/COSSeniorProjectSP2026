@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stack>
 #include <unordered_set>
+#include <algorithm>
 
 //------------STATE------------
 State::State(const std::string& name, bool isFinal) :name(name), isFinal(isFinal) {} //state constructor implementation
@@ -9,14 +10,13 @@ State::State(const std::string& name, bool isFinal) :name(name), isFinal(isFinal
 void State::addTransition(Transition* t) {
     transitions.push_back(t);
 }
-//------------TRANSITION------------
 
+//------------TRANSITION------------
 Transition::Transition(const std::string& input, const std::string& output, State* target)
     : inputSymbol(input), outputMorpheme(output), target(target) {
 } //transition constructor implementation
 
 //------------FST------------
-
 FiniteStateTransducer::FiniteStateTransducer() : startState(nullptr) {} //FST constructor
 
 void FiniteStateTransducer::addState(State* state) { //register a state 
@@ -48,6 +48,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
             }
 
             for (State* s : ahoTrie[node].fstStates) {
+                if (s == nullptr) continue; //guard: skip null states from trie
                 matchingStates.push_back(s);
                 matchingStems.push_back(ahoTrie[node].stem);
             }
@@ -77,6 +78,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
     if (!matchingStates.empty()) {
         for (int m = 0; m < (int)matchingStates.size(); m++) { //find which transition from start leads to state
             for (Transition* t : startState->transitions) {
+                if (t == nullptr || t->target == nullptr) continue; // guard
                 if (t->inputSymbol == matchingStems[m] && t->target == matchingStates[m]) {
                     Configuration config;
                     config.state = matchingStates[m];
@@ -101,6 +103,8 @@ FiniteStateTransducer::transduce(const std::string& input) {
         agenda.pop();
 
         State* state = current.state;
+        if (state == nullptr) continue; // guard: skip null states
+
         int pos = current.position;
 
         VisitedConfig vc{ state, pos }; //check for repeats
@@ -112,6 +116,8 @@ FiniteStateTransducer::transduce(const std::string& input) {
         }
 
         for (Transition* t : state->transitions) {
+            if (t == nullptr || t->target == nullptr) continue; // guard: skip bad transitions
+
             const std::string& sym = t->inputSymbol;
 
             if (sym == EPSILON) {
@@ -147,9 +153,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
                 std::string stem = input.substr(pre.size());
                 auto stemResults = transduce(stem); //recursive call on the stem without the prefix
                 if (!stemResults.empty()) {
-                    //prepend the prefix to the lemma in each analysis
                     for (int i = 0; i < (int)stemResults.size(); i++)
-                        //insert prefix as a morpheme at the front
                         stemResults[i].insert(stemResults[i].begin(), { pre, "+PREF" });
                     return stemResults;
                 }
@@ -157,4 +161,43 @@ FiniteStateTransducer::transduce(const std::string& input) {
         }
     }
     return results;
+}
+
+std::vector<std::string> FiniteStateTransducer::enumerateWords() const {
+    std::vector<std::string> words;
+
+    struct Frame { State* state; std::string surface; };
+    std::vector<Frame> stack;
+    stack.push_back({ startState, "" });
+
+    while (!stack.empty()) {
+        auto [state, surface] = stack.back();
+        stack.pop_back();
+
+        if (state == nullptr) continue; //guard
+
+        for (Transition* t : state->transitions) {
+            if (t == nullptr || t->target == nullptr) continue; //guard
+
+            std::string sym = t->inputSymbol;
+
+            if (sym == EPSILON || sym.empty()) {
+                if (t->target->isFinal && !surface.empty())
+                    words.push_back(surface);
+                else
+                    stack.push_back({ t->target, surface });
+            }
+            else {
+                std::string newSurface = surface + sym;
+                if (t->target->isFinal)
+                    words.push_back(newSurface);
+                else
+                    stack.push_back({ t->target, newSurface });
+            }
+        }
+    }
+
+    std::sort(words.begin(), words.end());
+    words.erase(std::unique(words.begin(), words.end()), words.end());
+    return words;
 }
