@@ -66,6 +66,24 @@ void FSTLoader::buildAhoCorasick(FiniteStateTransducer& fst) { //check and rewor
     }
 }
 
+static std::string readToken(std::istringstream& iss) { // ead one token from iss: either a bare word (e.g. EPS) or a quoted string
+    char c;
+    //skip leading whitespace
+    while (iss.get(c) && (c == ' ' || c == '\t'));
+    if (!iss) return "";
+
+    if (c == '"') {
+        std::string result;
+        while (iss.get(c) && c != '"') result += c;
+        return '"' + result + '"';
+    } else {
+        std::string result;
+        result += c;
+        while (iss.get(c) && c != ' ' && c != '\t') result += c;
+        return result;
+    }
+}
+
 std::string FSTLoader::parseToken(const std::string& token) {
     if (token == "EPS") return EPSILON;
     if (token.size() >= 2 && token.front() == '"' && token.back() == '"') {
@@ -154,7 +172,9 @@ void FSTLoader::load(const std::string& filepath, FiniteStateTransducer& fst) {
 
         if (keyword == "TRANSITION") {
             std::string fromName, toName, inputToken, outputToken;
-            iss >> fromName >> toName >> inputToken >> outputToken;
+            iss >> fromName >> toName;
+            inputToken  = readToken(iss);
+            outputToken = readToken(iss);
 
             if (fromName.empty() || toName.empty() || inputToken.empty() || outputToken.empty()) {
                 throw std::runtime_error("Line " + std::to_string(lineNumber) +

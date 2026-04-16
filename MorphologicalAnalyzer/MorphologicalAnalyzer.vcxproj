@@ -103,13 +103,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include\unicode;C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include\unicode;C:\Users\radog\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include\unicode</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies) icuuc.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\radog\vcpkg\installed\x64-windows\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>icuuc.lib;icuin.lib;icudt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

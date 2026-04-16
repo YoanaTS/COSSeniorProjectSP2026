@@ -7,35 +7,8 @@
       "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst_loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector||{3B902123-F8A7-4915-9F01-361F908088D0}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\benchmark.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:benchmark.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\benchmark.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:benchmark.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator_BG.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:disambiguator_BG.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator_ENG.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:disambiguator_ENG.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\levenshtein.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -46,8 +19,35 @@
       "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:levenshtein.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator_ENG.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:disambiguator_ENG.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\benchmark.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:benchmark.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst_loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\pos_predicates.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:pos_predicates.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\benchmark.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:benchmark.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|solutionrelative:fst.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B04798AC-822C-492B-8469-359EBC82542E}|MorphologicalAnalyzer.vcxproj|C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator_BG.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -69,7 +69,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "vector",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector",
@@ -77,49 +77,50 @@
               "RelativeToolTip": "..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector",
               "ViewState": "AgIAAE8HAAAAAAAAAAAowGQHAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-04-16T12:24:04.318Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-16T12:24:04.318Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "benchmark.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\benchmark.cpp",
               "RelativeDocumentMoniker": "benchmark.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\benchmark.cpp",
               "RelativeToolTip": "benchmark.cpp",
-              "ViewState": "AgIAAOEAAAAAAAAAAAAcwPgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAPgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-04-12T21:30:44.064Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "disambiguator_ENG.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator_ENG.cpp",
               "RelativeDocumentMoniker": "disambiguator_ENG.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator_ENG.cpp",
               "RelativeToolTip": "disambiguator_ENG.cpp",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAowHQAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAALQAAAAAAAAAAAAAAHQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-03-08T19:32:46.253Z"
+              "WhenOpened": "2026-03-08T19:32:46.253Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "disambiguator_BG.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator_BG.cpp",
               "RelativeDocumentMoniker": "disambiguator_BG.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\disambiguator_BG.cpp",
               "RelativeToolTip": "disambiguator_BG.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAAAL4AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-11T21:58:51.812Z"
+              "WhenOpened": "2026-04-11T21:58:51.812Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "fst.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.cpp",
               "RelativeDocumentMoniker": "fst.cpp",
@@ -127,18 +128,17 @@
               "RelativeToolTip": "fst.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-02-10T21:59:12.523Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-10T21:59:12.523Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "fst_loader.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.cpp",
               "RelativeDocumentMoniker": "fst_loader.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst_loader.cpp",
               "RelativeToolTip": "fst_loader.cpp",
-              "ViewState": "AgIAAJkAAAAAAAAAAAAAAKMAAAB2AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-03-10T22:09:49.679Z",
               "EditorCaption": ""
@@ -151,14 +151,14 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAAAJwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAmwHgAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-03-10T22:06:31.149Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 9,
               "Title": "pos_predicates.h",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\pos_predicates.h",
               "RelativeDocumentMoniker": "pos_predicates.h",
@@ -170,19 +170,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "fst.h",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.h",
               "RelativeDocumentMoniker": "fst.h",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\fst.h",
               "RelativeToolTip": "fst.h",
-              "ViewState": "AgIAABgAAAAAAAAAAAAswCMAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-04-11T21:30:33.612Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "benchmark.h",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\benchmark.h",
               "RelativeDocumentMoniker": "benchmark.h",
@@ -190,12 +190,11 @@
               "RelativeToolTip": "benchmark.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-12T17:44:24.289Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-12T17:44:24.289Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 3,
               "Title": "levenshtein.h",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\levenshtein.h",
               "RelativeDocumentMoniker": "levenshtein.h",
@@ -203,19 +202,21 @@
               "RelativeToolTip": "levenshtein.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-12T17:44:09.528Z"
+              "WhenOpened": "2026-04-12T17:44:09.528Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 2,
               "Title": "levenshtein.cpp",
               "DocumentMoniker": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\levenshtein.cpp",
               "RelativeDocumentMoniker": "levenshtein.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\levenshtein.cpp",
               "RelativeToolTip": "levenshtein.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-04-05T17:20:10.25Z"
+              "WhenOpened": "2026-04-05T17:20:10.25Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

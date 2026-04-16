@@ -75,19 +75,11 @@ static void printResult(const std::vector<DisambiguatedWord>& result, const std:
     }
 }
 
-/*/static std::string toLowerUTF8(const std::string& s) {
+static std::string toLowerUTF8(const std::string& s) {
     icu::UnicodeString userString = icu::UnicodeString::fromUTF8(s);
     userString.toLower();
     std::string result;
     userString.toUTF8String(result);
-    return result;
-}*/ //fix ICU later - for now just a simple ASCII lowercase (works for English, not perfect for Bulgarian but should be fine for the known stems) update toLowerSimple then
-
-static std::string toLowerSimple(const std::string& s) {
-    std::string result = s;
-    for (int i = 0; i < (int)result.size(); i++) {
-        result[i] = tolower(result[i]);
-    }
     return result;
 }
 
@@ -129,6 +121,10 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
         return 1;
         }
     knownStems.clear();
+
+    std::cout << "States: " << fst.getStates().size() << "\n";
+    std::cout << "Start transitions: " << fst.getStartState()->transitions.size() << "\n";
+
     for (Transition* t : fst.getStartState()->transitions) {
         knownStems.push_back(t->inputSymbol);
     }
@@ -225,7 +221,7 @@ int main() {
             continue;
         }
 
-        line = toLowerSimple(line); //analysis
+        line = toLowerUTF8(line); //analysis
         std::vector<std::string> tokens = tokenize(line);
         if (tokens.empty()) continue;
 
