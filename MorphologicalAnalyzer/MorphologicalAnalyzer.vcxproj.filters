@@ -18,51 +18,54 @@
     <ClCompile Include="MorphologicalAnalyzer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fst.cpp">
+    <ClCompile Include="src\benchmark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\disambiguator_BG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="disambiguator_ENG.cpp">
+    <ClCompile Include="src\disambiguator_ENG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fst_loader.cpp">
+    <ClCompile Include="src\fst.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="disambiguator_BG.cpp">
+    <ClCompile Include="src\fst_loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="levenshtein.cpp">
+    <ClCompile Include="src\levenshtein.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pos_predicates.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="benchmark.cpp">
+    <ClCompile Include="src\pos_predicates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="fst.h">
+    <ClInclude Include="include\benchmark.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="disambiguator_ENG.h">
+    <ClInclude Include="include\disambiguator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fst_loader.h">
+    <ClInclude Include="include\disambiguator_BG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="disambiguator_BG.h">
+    <ClInclude Include="include\disambiguator_ENG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="levenshtein.h">
+    <ClInclude Include="include\fst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pos_predicates.h">
+    <ClInclude Include="include\fst_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="benchmark.h">
+    <ClInclude Include="include\levenshtein.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pos_predicates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

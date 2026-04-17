@@ -103,7 +103,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include\unicode;C:\Users\radog\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Yoana\uni\Applications\Anaconda\pkgs\icu-73.1-h6c2663c_0\Library\include\unicode;C:\Users\radog\vcpkg\installed\x64-windows\include;$(ProjectDir)\include;$(ProjectDir)\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,24 +128,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="benchmark.cpp" />
-    <ClCompile Include="disambiguator_ENG.cpp" />
-    <ClCompile Include="disambiguator_BG.cpp" />
-    <ClCompile Include="fst.cpp" />
-    <ClCompile Include="fst_loader.cpp" />
-    <ClCompile Include="levenshtein.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="MorphologicalAnalyzer.cpp" />
-    <ClCompile Include="pos_predicates.cpp" />
+    <ClCompile Include="src\benchmark.cpp" />
+    <ClCompile Include="src\disambiguator_BG.cpp" />
+    <ClCompile Include="src\disambiguator_ENG.cpp" />
+    <ClCompile Include="src\fst.cpp" />
+    <ClCompile Include="src\fst_loader.cpp" />
+    <ClCompile Include="src\levenshtein.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\pos_predicates.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="benchmark.h" />
-    <ClInclude Include="disambiguator_ENG.h" />
-    <ClInclude Include="disambiguator_BG.h" />
-    <ClInclude Include="fst.h" />
-    <ClInclude Include="fst_loader.h" />
-    <ClInclude Include="levenshtein.h" />
-    <ClInclude Include="pos_predicates.h" />
+    <ClInclude Include="include\benchmark.h" />
+    <ClInclude Include="include\disambiguator.h" />
+    <ClInclude Include="include\disambiguator_BG.h" />
+    <ClInclude Include="include\disambiguator_ENG.h" />
+    <ClInclude Include="include\fst.h" />
+    <ClInclude Include="include\fst_loader.h" />
+    <ClInclude Include="include\levenshtein.h" />
+    <ClInclude Include="include\pos_predicates.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
