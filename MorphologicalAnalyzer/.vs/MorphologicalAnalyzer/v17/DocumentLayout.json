@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "src\\disambiguator_BG.cpp",
               "ToolTip": "C:\\Yoana\\Senior Project\\COSSeniorProjectSP2026\\MorphologicalAnalyzer\\src\\disambiguator_BG.cpp",
               "RelativeToolTip": "src\\disambiguator_BG.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-04-17T00:29:16.423Z",
               "EditorCaption": ""
@@ -47,8 +47,7 @@
               "RelativeToolTip": "include\\disambiguator_BG.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-04-17T00:29:13.003Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-17T00:29:13.003Z"
             },
             {
               "$type": "Document",
@@ -60,8 +59,7 @@
               "RelativeToolTip": "tests\\test_fst.cpp",
               "ViewState": "AgIAALcAAAAAAAAAAAAAAMYAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-03-14T12:15:13.264Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T12:15:13.264Z"
             }
           ]
         },
