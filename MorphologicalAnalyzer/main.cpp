@@ -16,8 +16,7 @@
 #include "levenshtein.h"
 #include "benchmark.h"
 
-
-static bool isOuterPunctToSkip(char c) {//remove punctuation 
+static bool isOuterPunctToSkip(char c) { //skip punctuation
     static const char kSkip[] = ",.;:!?\"'()[]{}<>-_/`~@#$%^&*+=|\\";
     for (int i = 0; kSkip[i] != '\0'; i++) {
         if (kSkip[i] == c) return true;
@@ -25,7 +24,7 @@ static bool isOuterPunctToSkip(char c) {//remove punctuation
     return false;
 }
 
-static std::string trimOuterPunctuation(const std::string& s) {
+static std::string trimOuterPunctuation(const std::string& s) { //move indices
     if (s.empty()) return s;
     size_t i = 0, j = s.size();
     while (i < j && isOuterPunctToSkip(s[i])) i++;
@@ -101,14 +100,14 @@ static void printResult(const std::vector<DisambiguatedWord>& result, const std:
 static std::string toLowerUTF8(const std::string& s) {
     if (s.empty()) return s;
 
-    //UTF-8 -> UTF-16
+    //convert UTF-8 -> UTF-16
     int wideSize = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.c_str(), -1, nullptr, 0);
     if (wideSize > 0) {
         std::wstring wide((size_t)wideSize, L'\0');
         if (MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.c_str(), -1, &wide[0], wideSize) > 0) {
             std::wstring lowered = wide;
 
-            int mapped = LCMapStringEx(LOCALE_NAME_INVARIANT, LCMAP_LOWERCASE, wide.c_str(),-1, &lowered[0], wideSize, nullptr, nullptr, 0);
+            int mapped = LCMapStringEx(LOCALE_NAME_INVARIANT, LCMAP_LOWERCASE, wide.c_str(), -1, &lowered[0], wideSize, nullptr, nullptr, 0);
 
             if (mapped > 0) {
                 int utf8Size = WideCharToMultiByte(CP_UTF8, 0, lowered.c_str(), -1, nullptr, 0, nullptr, nullptr);
@@ -123,7 +122,7 @@ static std::string toLowerUTF8(const std::string& s) {
         }
     }
 
-    std::string fallback = s; //ASCII-safe fallback
+    std::string fallback = s;   //ASCII fallback
     for (char& c : fallback) {
         unsigned char uc = static_cast<unsigned char>(c);
         if (uc >= 'A' && uc <= 'Z') c = (char)(uc + ('a' - 'A'));
@@ -192,51 +191,73 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
 
     return true;
 }
-static void runBenchmark(FiniteStateTransducer& fst, Disambiguator& disambig) {
+static void runBenchmark(const std::string& language, FiniteStateTransducer& fst, Disambiguator& disambig) {
     DisambiguateFn disambigFn = [&disambig](const std::vector<AnnotatedWord>& s) {
         return disambig.disambiguate(s);
     };
 
     Benchmark bench(fst, disambigFn);
 
-    std::vector<std::string> words = fst.enumerateWords(); //get list of words 
-    std::cout << "[Benchmark] Testing on " << words.size() << " words from FST graph.\n";
+    std::vector<std::string> words = fst.enumerateWords();
+    std::cout << "[Benchmark] Language: " << language
+        << " | FST word surfaces: " << words.size() << "\n";
 
-    std::string consistencyWord = words.empty() ? "walk" : words[0];
+    std::vector<std::pair<std::string, std::string>> labelled;
+    std::vector<std::tuple<std::string, std::string, int>> levPairs;
+    std::vector<std::pair<std::vector<std::string>, std::string>> disambigCases;
+    std::string consistencyWord;
 
-	//correctness - predifined cases with expected analyses
-    std::vector<std::pair<std::string, std::string>> labelled = {
-        //nouns
-        {"cats",       "+NOUN+PL"},
-        {"children",   "+NOUN+PL"},
-        {"watches",    "+NOUN+PL"},
-        //verbs regular
-        {"walked",     "+VERB+PAST"},
-        {"running",    "+VERB+PROG"},
-        {"walks",      "+VERB+3SG"},
-        //verbs irregular
-        {"went",       "+VERB+PAST"},
-        {"written",    "+VERB+PASTPART"},
-        {"been",       "+VERB+PASTPART"},
-        //adjectives
-        {"happy",      "+ADJ+BASE"},
-        {"clear",      "+ADJ+BASE"},
-        //function words
-        {"the",        "+DET+DEF"},
-        {"will",       "+AUX+BASE"},
-        {"not",        "+NEG+BASE"},
-        //prefixed
-        {"rewrite",    "+PREF"},
-        {"unlikely",   "+PREF"},
-    };
+    if (language == "bg") {
+        consistencyWord = words.empty() ? "аз" : words[0];
+        // Tag substrings must appear in formatted analysis (see benchmark.cpp analysisContains).
+        labelled = {
+            {"аз", "+PRON+1SG.SUBJ"},
+            {"и", "+CONJ+BASE"},
+            {"в", "+PREP+BASE"},
+            {"котка", "+NOUN+SG"},
+            {"котки", "+NOUN+PL"},
+            {"съм", "+AUX"},
+            {"не", "+NEG+BASE"},
+            {"днес", "+ADV"},
+        };
 
-    std::vector<std::tuple<std::string, std::string, int>> levPairs = {
-        {"cat", "cats", 1}, {"play", "plai", 1}
-    };
-
-    std::vector<std::pair<std::vector<std::string>, std::string>> disambigCases = {
-        {{"i", "play"}, "+VERB"},{{"the", "play"}, "+NOUN"}
-    };
+        levPairs = {
+            //rework levenshtein pairs for bg
+        };
+        disambigCases = {
+            {{"аз", "съм"}, "+AUX"},
+            {{"не", "знам"}, "+VERB"},
+            {{"този", "човек"}, "+NOUN"},
+        };
+    }
+    else {
+        consistencyWord = words.empty() ? "walk" : words[0];
+        labelled = {
+            {"cats", "+NOUN+PL"},
+            {"children", "+NOUN+PL"},
+            {"watches", "+NOUN+PL"},
+            {"walked", "+VERB+PAST"},
+            {"running", "+VERB+PROG"},
+            {"walks", "+VERB+3SG"},
+            {"went", "+VERB+PAST"},
+            {"written", "+VERB+PASTPART"},
+            {"been", "+VERB+PASTPART"},
+            {"happy", "+ADJ+BASE"},
+            {"clear", "+ADJ+BASE"},
+            {"the", "+DET+DEF"},
+            {"will", "+AUX+BASE"},
+            {"not", "+NEG+BASE"},
+            {"rewrite", "+PREF"},
+            {"unlikely", "+PREF"},
+        };
+        levPairs = { {"cat", "cats", 1}, {"play", "plai", 1} };
+        disambigCases = {
+            {{"i", "play"}, "+VERB"},
+            {{"the", "play"}, "+NOUN"},
+            {{"they", "play"}, "+VERB"},
+            {{"will", "walk"}, "+VERB"},
+        };
+    }
 
     bench.runAll(words, consistencyWord, labelled, levPairs, disambigCases);
 }
@@ -270,7 +291,7 @@ int main() {
         }
 
         if (line == "benchmark") {
-            runBenchmark(fst, *disambig);
+            runBenchmark(language, fst, *disambig);
             continue;
         }
 

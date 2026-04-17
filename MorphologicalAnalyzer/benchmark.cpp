@@ -210,7 +210,7 @@ BenchmarkResult Benchmark::benchmarkDisambiguation(const std::vector<std::pair<s
     }
 
     result.elapsedMs = nowMs() - start;
-    result.passed = true; // can refine later
+    result.passed = (correct == (int)cases.size());
     result.details = std::to_string(correct) + "/" + std::to_string(cases.size()) + " correct";
 
     return result;
