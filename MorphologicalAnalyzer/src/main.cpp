@@ -4,7 +4,6 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
-#include <unordered_set>
 #include <cctype>
 #include <windows.h>
 #include "fst.h"
@@ -17,7 +16,7 @@
 #include "benchmark.h"
 
 static bool isOuterPunctToSkip(char c) { //skip punctuation
-    static const char kSkip[] = ",.;:!?\"'()[]{}<>-_/`~@#$%^&*+=|\\";
+    static const char kSkip[] = ",.;:!?\"'()[]{}<>_/`~@#$%^&*+=|\\";
     for (int i = 0; kSkip[i] != '\0'; i++) {
         if (kSkip[i] == c) return true;
     }
@@ -174,12 +173,7 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
     std::cout << "States: " << fst.getStates().size() << "\n";
     std::cout << "Start transitions: " << fst.getStartState()->transitions.size() << "\n";
 
-    std::unordered_set<std::string> seenStems;
-    for (Transition* t : fst.getStartState()->transitions) {
-        if (seenStems.insert(t->inputSymbol).second) {
-            knownStems.push_back(t->inputSymbol);
-        }
-    }
+    knownStems = fst.enumerateWords();
     transduceFn = [&fst](const std::string& w) {
         return fst.transduce(w);
         };
@@ -209,7 +203,6 @@ static void runBenchmark(const std::string& language, FiniteStateTransducer& fst
 
     if (language == "bg") {
         consistencyWord = words.empty() ? "аз" : words[0];
-        // Tag substrings must appear in formatted analysis (see benchmark.cpp analysisContains).
         labelled = {
             {"аз", "+PRON+1SG.SUBJ"},
             {"и", "+CONJ+BASE"},
@@ -305,6 +298,30 @@ int main() {
             AnnotatedWord aw;
             aw.surface = tokens[i];
             aw.analyses = fst.transduce(tokens[i]);
+
+            //hyphen-split fallback for compound words ("къща-музей")
+            //only fires when FST found nothing, so superlatives and comparatives are unaffected
+            if (aw.analyses.empty()) {
+                size_t hyphen = tokens[i].find('-');
+                if (hyphen != std::string::npos && hyphen > 0 && hyphen + 1 < tokens[i].size()) {
+                    std::string left  = tokens[i].substr(0, hyphen);
+                    std::string right = tokens[i].substr(hyphen + 1);
+                    AnalysisList leftAn  = fst.transduce(left);
+                    AnalysisList rightAn = fst.transduce(right);
+                    if (!leftAn.empty() || !rightAn.empty()) {
+                        if (!leftAn.empty()) {
+                            AnnotatedWord awL; awL.surface = left; awL.analyses = leftAn;
+                            sentence.push_back(awL);
+                        }
+                        if (!rightAn.empty()) {
+                            AnnotatedWord awR; awR.surface = right; awR.analyses = rightAn;
+                            sentence.push_back(awR);
+                        }
+                        continue;
+                    }
+                }
+            }
+
             sentence.push_back(aw);
         }
 

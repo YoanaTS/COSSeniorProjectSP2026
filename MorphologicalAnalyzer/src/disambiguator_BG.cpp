@@ -238,6 +238,29 @@ std::unordered_map<int, float> scores;
            return {};
        } });
 
+    // ADV vs ADJ homograph (e.g. "малко" = ADV or ADJ+N)
+    // after auxiliary → predicate adjective; before noun → attributive adjective; otherwise → adverb
+    rules.push_back({ "ADV_over_ADJ", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+        if (!isAdv(s[i].analyses, cfg) || !isAdj(s[i].analyses, cfg)) return {};
+        float auxW = windowMatchWord(s, i, -2, -1, auxVerbs);
+        bool nextIsNoun = (i + 1 < (int)s.size()) && isNoun(s[i + 1].analyses, cfg);
+        if (auxW > 0.0f)   return { POSVote::ADJ, 0.9f * auxW };
+        if (nextIsNoun)    return { POSVote::ADJ, 0.8f };
+        return { POSVote::ADV, 0.8f };
+    } });
+
+    // по-/най- prefix → always comparative/superlative ADJ or ADV — no other POS possible
+    // "по-" = 5 UTF-8 bytes (п=2, о=2, -=1); "най-" = 7 bytes (н=2, а=2, й=2, -=1)
+    rules.push_back({ "по/най+COMP/SUP", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+        const std::string& surf = s[i].surface;
+        bool isComp = surf.size() >= 5 && surf.compare(0, 5, "по-") == 0;
+        bool isSup  = surf.size() >= 7 && surf.compare(0, 7, "най-") == 0;
+        if (!isComp && !isSup) return {};
+        if (isAdj(s[i].analyses, cfg)) return { POSVote::ADJ, 1.0f };
+        if (isAdv(s[i].analyses, cfg)) return { POSVote::ADV, 1.0f };
+        return {};
+    } });
+
     //verb + noun (object)
     //"виждам котката", "искам вода"
     rules.push_back({ "verb+noun", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {

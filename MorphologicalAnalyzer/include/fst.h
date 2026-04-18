@@ -56,6 +56,7 @@ private:
 	std::vector<State*> states;   //collection of all states in the FST
     State* startState;
     std::vector<AhoCorasickNode> ahoTrie; //Aho-Corasick trie
+    std::unordered_map<std::string, std::vector<std::vector<std::pair<std::string, std::string>>>> transduceCache;
 
 public:
     FiniteStateTransducer();

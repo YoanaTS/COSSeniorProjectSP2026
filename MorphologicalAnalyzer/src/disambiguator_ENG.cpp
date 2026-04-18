@@ -47,6 +47,12 @@ std::vector<DisambiguatedWord> DisambiguatorENG::disambiguate(
 
         Analysis chosen;
 
+
+        //infinitive after "to"
+        //"to walk", "to run", "to play" -> verb
+        if (chosen.empty() && prev == "to" && isVerb(sentence[i].analyses, cfg))
+            chosen = pickVerb(sentence[i].analyses, cfg);
+
         //verb vs adjective
         //"am/is/are clear" -> adjective
         //"will/can clear the" -> verb
@@ -156,6 +162,14 @@ std::vector<DisambiguatedWord> DisambiguatorENG::disambiguate(
                 chosen = pickNoun(sentence[i].analyses, cfg);
             }
         }
+        //adverb vs verb in pre-noun position
+        //"a long walk", "a fast run" -> adverb (acting as modifier before noun)
+        if (chosen.empty() && isAdv(sentence[i].analyses, cfg) && isVerb(sentence[i].analyses, cfg)) {
+            bool nextIsNoun = (i + 1 < (int)sentence.size()) && isNoun(sentence[i + 1].analyses, cfg);
+            if (prevIsDet && nextIsNoun)
+                chosen = pickTag(sentence[i].analyses, "+ADV+BASE");
+        }
+
         //adverb vs adjective
         //"runs fast" -> adverb
         //"is fast"   -> adjective

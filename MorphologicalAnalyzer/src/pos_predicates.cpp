@@ -23,13 +23,13 @@ const POSConfig& englishConfig() {
 const POSConfig& bulgarianConfig() {
     static const POSConfig cfg = {
         //verbTags (pick priority order)
-        //да-форма, сегашно, минало свършено, минало несвършено, повелително, причастия
+        //пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         {
-			"+VERB+INF", //да-форма (да отида) = еквивалент на английския инфинитив
-			"+VERB+1SG.PRES", "+VERB+2SG.PRES", "+VERB+3SG.PRES", "+VERB+1PL.PRES", "+VERB+2PL.PRES", "+VERB+3PL.PRES", //сегашно време
-			"+VERB+1SG.AOR",  "+VERB+2SG.AOR",  "+VERB+3SG.AOR", "+VERB+1PL.AOR",  "+VERB+2PL.AOR",  "+VERB+3PL.AOR", //минало свършено време
-            "+VERB+1SG.IMPF", "+VERB+3SG.IMPF", "+VERB+3PL.IMPF", //минало несвършено време
-			"+VERB+IMP", //повелително наклонение
+			"+VERB+INF", //пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ) = пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+			"+VERB+1SG.PRES", "+VERB+2SG.PRES", "+VERB+3SG.PRES", "+VERB+1PL.PRES", "+VERB+2PL.PRES", "+VERB+3PL.PRES", //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+			"+VERB+1SG.AOR",  "+VERB+2SG.AOR",  "+VERB+3SG.AOR", "+VERB+1PL.AOR",  "+VERB+2PL.AOR",  "+VERB+3PL.AOR", //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            "+VERB+1SG.IMPF", "+VERB+3SG.IMPF", "+VERB+3PL.IMPF", //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+			"+VERB+IMP", //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             "+VERB+PASTPART", "+VERB+PASSPART"
         },
         //nounTags (pick priority order)
@@ -37,15 +37,19 @@ const POSConfig& bulgarianConfig() {
             "+NOUN+SG+DEF", "+NOUN+PL+DEF",
             "+NOUN+SG",     "+NOUN+PL"
         },
-        //adjTags (pick priority order)
+        //adjTags (pick priority order) вЂ” must match generate_fst_bg.py tag output
         {
-            "+ADJ+M+SG",     "+ADJ+F+SG",     "+ADJ+N+SG",     "+ADJ+PL",
-            "+ADJ+M+SG+DEF", "+ADJ+F+SG+DEF", "+ADJ+N+SG+DEF", "+ADJ+PL+DEF"
+            "+ADJ+M",          "+ADJ+F",          "+ADJ+N",          "+ADJ+PL",
+            "+ADJ+M.DEF",      "+ADJ+M.DEF.S",    "+ADJ+F.DEF",      "+ADJ+N.DEF",    "+ADJ+PL.DEF",
+            "+ADJ+COMP+M",     "+ADJ+COMP+F",     "+ADJ+COMP+N",     "+ADJ+COMP+PL",
+            "+ADJ+COMP+M.DEF", "+ADJ+COMP+M.DEF.S","+ADJ+COMP+F.DEF","+ADJ+COMP+N.DEF","+ADJ+COMP+PL.DEF",
+            "+ADJ+SUP+M",      "+ADJ+SUP+F",      "+ADJ+SUP+N",      "+ADJ+SUP+PL",
+            "+ADJ+SUP+M.DEF",  "+ADJ+SUP+M.DEF.S","+ADJ+SUP+F.DEF",  "+ADJ+SUP+N.DEF", "+ADJ+SUP+PL.DEF",
         },
 
         { "+ADV" }, //advTags
         {
-            "+VERB+PASTPART", "+VERB+PASSPART"     //PastPartTags (минало деятелно и страдателно причастие)
+            "+VERB+PASTPART", "+VERB+PASSPART"     //PastPartTags (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         }
     };
     return cfg;

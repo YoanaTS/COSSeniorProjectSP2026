@@ -31,6 +31,9 @@ void FiniteStateTransducer::setStartState(State* state) { //set start state
 std::vector<std::vector<std::pair<std::string, std::string>>>
 FiniteStateTransducer::transduce(const std::string& input) {
 
+    auto cached = transduceCache.find(input);
+    if (cached != transduceCache.end()) return cached->second;
+
     std::vector<std::vector<std::pair<std::string, std::string>>> results;
     std::vector<State*> matchingStates;
     std::vector<std::string> matchingStems;
@@ -154,7 +157,12 @@ FiniteStateTransducer::transduce(const std::string& input) {
     //if no analysis was found, try stripping known prefixes and retrying
     if (results.empty()) {
         static const std::vector<std::string> prefixes = {
-            "inter","under","over","mis","pre","dis","un","re","in","im", "non","anti","auto","bi","co","de","ex","out","post","pro","sub","super"
+            // English
+            "inter","under","over","mis","pre","dis","un","re","in","im","non","anti","auto","bi","co","de","ex","out","post","pro","sub","super",
+            // Bulgarian verbal prefixes (Cyrillic — won't match Latin stems, safe to combine)
+            "над","из","про","пре","за","раз","по","на","при","от","до","с","у","в",
+            // Bulgarian color/compound adjective prefixes
+            "светло","тъмно","ярко","бледо","тъмно","наситено"
         };
 
         auto hasExactStartStem = [this](const std::string& stem) {
@@ -189,12 +197,14 @@ FiniteStateTransducer::transduce(const std::string& input) {
                         prefixedResults.push_back(analysis);
                     }
                     if (!prefixedResults.empty()) {
+                        transduceCache[input] = prefixedResults;
                         return prefixedResults;
                     }
                 }
             }
         }
     }
+    transduceCache[input] = results;
     return results;
 }
 
