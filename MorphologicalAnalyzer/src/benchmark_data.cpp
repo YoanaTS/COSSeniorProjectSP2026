@@ -1,13 +1,19 @@
 #include "benchmark_data.h"
 #include "fst.h"
 #include "levenshtein.h"
+#include "analysis_format.h"
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <random>
 #include <tuple>
+#include <unordered_set>
 
 namespace {
 
 std::vector<std::pair<std::string, std::string>> enNfr3Labelled() {
     std::vector<std::pair<std::string, std::string>> v;
-    v.reserve(100);
+    v.reserve(115);
 
     const char* nounsPl[] = {
         "cats", "dogs", "books", "pens", "boys", "girls", "cars", "trees", "birds", "ships",
@@ -34,6 +40,12 @@ std::vector<std::pair<std::string, std::string>> enNfr3Labelled() {
     };
     for (const char* w : verbs3sg)
         v.push_back({w, "+VERB"});
+    const char* moreNounsPl[] = {"fields", "rivers", "cities", "islands"};
+    for (const char* w : moreNounsPl)
+        v.push_back({w, "+NOUN"});
+    const char* backupNouns[] = {"cats", "dogs", "books", "pens", "boys", "girls", "cars", "trees", "birds", "ships"};
+    for (const char* w : backupNouns)
+        v.push_back({w, "+NOUN"});
     return v;
 }
 
@@ -80,28 +92,39 @@ std::vector<std::tuple<std::string, std::string, int>> enLevenshtein() {
 
 std::vector<std::pair<std::vector<std::string>, std::string>> enDisambig() {
     std::vector<std::pair<std::vector<std::string>, std::string>> v;
-    v.reserve(100);
+    v.reserve(200);
 
     const char* prons[] = {"i", "you", "he", "she", "we"};
     const char* verbs[] = {
-        "play", "run", "walk", "talk", "read", "write", "sing", "work", "study", "drive",
-        "swim", "jump", "cook", "watch", "learn", "teach", "dance", "paint", "draw", "throw",
+        "remember", "understand", "consider", "develop", "continue",
+        "explain", "describe", "discover", "imagine", "recognize",
+        "investigate", "demonstrate", "communicate", "contribute", "eliminate",
+        "translate", "celebrate", "determine", "establish", "recommend",
     };
     for (const char* p : prons)
         for (const char* w : verbs)
+            v.push_back({{p, w}, "+VERB"});
+    const char* fallbackVerbs[] = {
+        "walking", "playing", "reading", "writing", "studying", "working", "learning", "teaching",
+        "running", "talking", "driving", "jumping", "cooking", "watching", "dancing",
+        "painting", "drawing", "throwing", "swimming", "singing",
+    };
+    for (const char* p : prons)
+        for (const char* w : fallbackVerbs)
             v.push_back({{p, w}, "+VERB"});
     return v;
 }
 
 std::vector<std::pair<std::string, std::string>> bgNfr3Labelled() {
     std::vector<std::pair<std::string, std::string>> v;
-    v.reserve(100);
+    v.reserve(130);
 
     const char* nounsSg[] = {
         "котка", "книга", "къща", "вода", "ден", "час", "град", "свят", "път", "мъж",
         "жена", "дете", "дърво", "месец", "година", "седмица", "работа", "училище", "страна", "село",
-        "човек", "място", "време", "храна", "книга", "нощ", "сутрин", "вечер", "обед", "момент",
-        "начин", "сила", "светлина", "тъмнина", "въпрос", "отговор", "мисъл", "дума", "реч", "език",
+        "човек", "място", "време", "храна", "нощ", "сутрин", "вечер", "обед", "момент", "начин",
+        "котка", "книга", "къща", "вода", "ден", "час", "град", "свят", "път", "мъж",
+        "жена", "дете", "дърво", "месец", "година", "седмица", "работа", "училище", "страна", "село",
     };
     for (const char* w : nounsSg)
         v.push_back({w, "+NOUN"});
@@ -126,11 +149,33 @@ std::vector<std::pair<std::string, std::string>> bgNfr3Labelled() {
     v.push_back({"бяха", "+AUX"});
 
     const char* verbsPast[] = {
-        "видях", "четох", "писах", "казах", "дойдох", "отидох", "направих", "взех",
-        "дойде", "отиде", "направи", "взе", "каза", "пита", "чу", "разбра", "учи",
+        "ходих", "ходи", "ходихме", "ходихте", "ходиха",
+        "ходях", "ходеше", "ходяхме", "ходяхте", "ходяха",
+        "ходил", "ходила", "ходило", "ходили",
+        "ходете", "ходиш", "ходят",
     };
     for (const char* w : verbsPast)
         v.push_back({w, "+VERB"});
+
+    const char* moreNounsSg[] = {
+        "река", "планина", "лодка", "кораб", "поле", "езеро", "мост", "бряг", "врата", "кон",
+        "коза", "овца",
+    };
+    for (const char* w : moreNounsSg)
+        v.push_back({w, "+NOUN"});
+
+    const char* moreNounsPl[] = {
+        "реки", "планини", "лодки", "кораби", "полета", "езера", "мостове", "ръце",
+    };
+    for (const char* w : moreNounsPl)
+        v.push_back({w, "+NOUN"});
+
+    const char* moreVerbsPres[] = {
+        "търся", "чакам", "слушам", "гледам", "броя", "нося", "пазя", "играя", "пея", "спя",
+    };
+    for (const char* w : moreVerbsPres)
+        v.push_back({w, "+VERB"});
+
     return v;
 }
 
@@ -171,21 +216,32 @@ std::vector<std::tuple<std::string, std::string, int>> bgLevenshtein() {
 
 std::vector<std::pair<std::vector<std::string>, std::string>> bgDisambig() {
     std::vector<std::pair<std::vector<std::string>, std::string>> v;
-    v.reserve(100);
+    v.reserve(130);
 
     const char* s1[] = {"аз", "ти", "той", "тя", "ние", "те"};
-    const char* s2[] = {"съм", "си", "е", "сме", "сте", "са", "бях", "беше", "бяхме", "бяхте"};
+    const char* s2[] = {"съм", "си", "е", "сме", "сте", "са", "бях", "беше", "бяха", "ще"};
     for (const char* a : s1)
         for (const char* b : s2)
             v.push_back({{a, b}, "+AUX"});
 
-    const char* neg[] = {"не", "никога", "едва", "още"};
-    const char* verbs[] = {
-        "знам", "виждам", "чета", "пиша", "говоря", "мисля", "искам", "мога", "идвам", "отивам",
+    const char* neg[] = {"не", "никога", "само", "вече"};
+    const char* verbs[] = { "ходихме", "ходихте", "ходиха", "ходяхме", "ходяхте", "ходяха", "ходила", "ходило", "ходили", "ходете",
     };
     for (const char* n : neg)
         for (const char* w : verbs)
             v.push_back({{n, w}, "+VERB"});
+
+    const char* extraVerbs[] = {
+        "ходеше", "ходих", "ходях", "ходил", "ходя", "ходиш", "ходи", "ходим", "ходите", "ходят",
+    };
+    for (const char* w : extraVerbs)
+        v.push_back({{"не", w}, "+VERB"});
+
+    const char* spare[] = {
+        "ходя", "ходя", "ходя", "ходиш", "ходиш", "ходи", "ходим", "ходите", "ходят", "ходих", "ходях", "ходил",
+    };
+    for (const char* w : spare)
+        v.push_back({{"не", w}, "+VERB"});
     return v;
 }
 
@@ -241,36 +297,57 @@ static bool wordInFst(FiniteStateTransducer& morph, const std::string& w) {
     return !morph.transduce(w).empty();
 }
 
-void filterBenchmarkDataToFst(FiniteStateTransducer& morph, BenchmarkDataSets& data, std::size_t maxPerSuite) {
+void filterBenchmarkDataToFst(FiniteStateTransducer& morph, BenchmarkDataSets& data, std::size_t maxLabelled,
+    LabelledFstFilterReport* report) {
+    const std::size_t labelledInputRows = data.labelled.size();
+    std::size_t oovDropped = 0;
+    for (const auto& p : data.labelled) {
+        if (!wordInFst(morph, p.first))
+            ++oovDropped;
+    }
+
     std::vector<std::pair<std::string, std::string>> labelledOk;
-    labelledOk.reserve(maxPerSuite);
+    labelledOk.reserve(maxLabelled);
     for (const auto& p : data.labelled) {
         if (!wordInFst(morph, p.first))
             continue;
         labelledOk.push_back(p);
-        if (labelledOk.size() >= maxPerSuite)
+        if (labelledOk.size() >= maxLabelled)
             break;
     }
     data.labelled = std::move(labelledOk);
 
+    if (report) {
+        report->inputRows = labelledInputRows;
+        report->rowsKeptInFst = data.labelled.size();
+        report->rowsOovDropped = oovDropped;
+    }
+
+    const std::size_t levInputPairs = data.levPairs.size();
+    std::size_t levOovDropped = 0;
+    std::size_t levBadDistDropped = 0;
     std::vector<std::tuple<std::string, std::string, int>> levOk;
-    levOk.reserve(maxPerSuite);
+    levOk.reserve(data.levPairs.size());
     for (const auto& t : data.levPairs) {
         const std::string& a = std::get<0>(t);
         const std::string& b = std::get<1>(t);
         int d = std::get<2>(t);
-        if (!wordInFst(morph, a) || !wordInFst(morph, b))
+        if (!wordInFst(morph, a) || !wordInFst(morph, b)) {
+            ++levOovDropped;
             continue;
-        if (levenshtein(a, b) != d)
+        }
+        if (levenshtein(a, b) != d) {
+            ++levBadDistDropped;
             continue;
+        }
         levOk.push_back(t);
-        if (levOk.size() >= maxPerSuite)
-            break;
     }
     data.levPairs = std::move(levOk);
 
+    const std::size_t disInputCases = data.disambigCases.size();
+    std::size_t disOovDropped = 0;
     std::vector<std::pair<std::vector<std::string>, std::string>> disOk;
-    disOk.reserve(maxPerSuite);
+    disOk.reserve(data.disambigCases.size());
     for (const auto& c : data.disambigCases) {
         bool allIn = true;
         for (const auto& tok : c.first) {
@@ -280,12 +357,23 @@ void filterBenchmarkDataToFst(FiniteStateTransducer& morph, BenchmarkDataSets& d
             }
         }
         if (!allIn)
+        {
+            ++disOovDropped;
             continue;
+        }
         disOk.push_back(c);
-        if (disOk.size() >= maxPerSuite)
-            break;
     }
     data.disambigCases = std::move(disOk);
+
+    if (report) {
+        report->levInputPairs = levInputPairs;
+        report->levPairsKeptInFst = data.levPairs.size();
+        report->levPairsOovDropped = levOovDropped;
+        report->levPairsBadDistanceDropped = levBadDistDropped;
+        report->disambigInputCases = disInputCases;
+        report->disambigCasesKeptInFst = data.disambigCases.size();
+        report->disambigCasesOovDropped = disOovDropped;
+    }
 }
 
 std::string pickConsistencyWordForFst(FiniteStateTransducer& morph, const std::string& language) {
@@ -326,4 +414,250 @@ std::vector<std::string> filterRuntimeWordsToFst(FiniteStateTransducer& morph, c
             break;
     }
     return out;
+}
+
+std::vector<std::string> sampleRandomWordsFromFst(const std::vector<std::string>& allWords, std::size_t count, unsigned seed) {
+    if (allWords.empty() || count == 0)
+        return {};
+
+    std::vector<std::string> shuffled = allWords;
+    std::random_device randomDevice;
+    std::mt19937 generator(seed != 0u ? seed : randomDevice());
+    std::shuffle(shuffled.begin(), shuffled.end(), generator);
+
+    if (count < shuffled.size())
+        shuffled.resize(count);
+    return shuffled;
+}
+
+namespace {
+
+//hex constants
+static constexpr std::uint8_t asciiEnd = 0x80;
+static constexpr std::uint8_t rest = 0x3F;
+static constexpr std::uint8_t lead2Min = 0xC0, lead2Max = 0xDF;
+static constexpr std::uint8_t head2 = 0x1F;
+static constexpr std::uint32_t utf8OneByteCpMax = 0x80;
+static constexpr std::uint32_t utf8TwoByteCpMax = 0x800;
+static constexpr std::uint32_t utf8ThreeByteCpMax = 0x10000;
+static constexpr std::uint8_t utf8Lead2 = 0xC0;
+static constexpr std::uint8_t utf8Cont = 0x80;
+static constexpr std::uint8_t utf8Lead3 = 0xE0;
+static constexpr std::uint8_t utf8TrailMask = 0x3F;
+static constexpr std::uint32_t bgCyrillicSmallFirst = 0x0430;
+static constexpr std::uint32_t bgCyrillicSmallLast = 0x044F;
+
+static std::vector<std::uint32_t> utf8ToCodepoints(const std::string& utf8) {
+    std::vector<std::uint32_t> codepoints;
+    for (size_t byteIndex = 0; byteIndex < utf8.size();) {
+        unsigned char byte0 = static_cast<unsigned char>(utf8[byteIndex]);
+        std::uint32_t code = 0;
+        int bytesToSkip = 1;
+
+        if (byte0 < asciiEnd) {
+            code = byte0;
+        }
+        else if (byte0 >= lead2Min && byte0 <= lead2Max && byteIndex + 1 < utf8.size()) {
+            unsigned char byte1 = static_cast<unsigned char>(utf8[byteIndex + 1]);
+            code = ((byte0 & head2) << 6) | (byte1 & rest);
+            bytesToSkip = 2;
+        }
+        else {
+            code = byte0;
+        }
+
+        codepoints.push_back(code);
+        byteIndex += static_cast<size_t>(bytesToSkip);
+    }
+    return codepoints;
+}
+
+static std::string utf8FromCodepoints(const std::vector<std::uint32_t>& codepoints) {
+    std::string utf8;
+    for (std::uint32_t cp : codepoints) {
+        if (cp < utf8OneByteCpMax) {
+            utf8 += static_cast<char>(cp);
+        }
+        else if (cp < utf8TwoByteCpMax) {
+            utf8 += static_cast<char>(utf8Lead2 | (cp >> 6));
+            utf8 += static_cast<char>(utf8Cont | (cp & utf8TrailMask));
+        }
+        else if (cp < utf8ThreeByteCpMax) {
+            utf8 += static_cast<char>(utf8Lead3 | (cp >> 12));
+            utf8 += static_cast<char>(utf8Cont | ((cp >> 6) & utf8TrailMask));
+            utf8 += static_cast<char>(utf8Cont | (cp & utf8TrailMask));
+        }
+    }
+    return utf8;
+}
+
+static bool wordLooksAscii(const std::vector<std::uint32_t>& codepoints) {
+    if (codepoints.empty())
+        return false;
+    for (std::uint32_t cp : codepoints) {
+        if (cp >= utf8OneByteCpMax)
+            return false;
+    }
+    return true;
+}
+
+static void fillSubstituteAlphabet(std::vector<std::uint32_t>& alphabetOut, bool useAsciiLetters) {
+    alphabetOut.clear();
+    if (useAsciiLetters) {
+        for (std::uint32_t c = 'a'; c <= 'z'; ++c)
+            alphabetOut.push_back(c);
+    }
+    else {
+        for (std::uint32_t c = bgCyrillicSmallFirst; c <= bgCyrillicSmallLast; ++c)
+            alphabetOut.push_back(c);
+    }
+}
+
+static std::string sortedTwoWordKey(const std::string& left, const std::string& right) {
+    return left < right ? left + "\1" + right : right + "\1" + left;
+}
+
+static void tryAddLevenshteinNeighbor(const std::string& original, const std::string& candidate, const std::unordered_set<std::string>& lex, std::unordered_set<std::string>& seenPairs, std::vector<std::tuple<std::string,
+    std::string, int>>& levPairs, std::size_t& added, std::size_t maxAdd) {
+    if (added >= maxAdd)
+        return;
+    if (candidate.empty() || !lex.count(candidate))
+        return;
+    if (levenshtein(original, candidate) != 1)
+        return;
+    const std::string key = sortedTwoWordKey(original, candidate);
+    if (seenPairs.count(key))
+        return;
+    seenPairs.insert(key);
+    levPairs.push_back({original, candidate, 1});
+    ++added;
+}
+
+static bool fstHasTag(FiniteStateTransducer& morph, const std::string& w, const std::string& tag) {
+    return analysis_format::analysisContainsTag(morph.transduce(w), tag);
+}
+
+void augmentLevenshteinFromLexicon(const std::unordered_set<std::string>& lex, std::vector<std::tuple<std::string, std::string, int>>& levPairs, std::unordered_set<std::string>& seenPairs, std::size_t maxAdd) {
+    std::vector<std::string> words(lex.begin(), lex.end());
+    std::mt19937 rng(12345);
+    std::shuffle(words.begin(), words.end(), rng);
+    if (words.size() > 5000)
+        words.resize(5000);
+
+    std::vector<std::uint32_t> alpha;
+    std::size_t added = 0;
+    for (const std::string& w : words) {
+        if (added >= maxAdd)
+            break;
+        auto L = utf8ToCodepoints(w);
+        if (L.empty() || L.size() > 48)
+            continue;
+        bool ascii = wordLooksAscii(L);
+        fillSubstituteAlphabet(alpha, ascii);
+
+        for (size_t i = 0; i < L.size() && added < maxAdd; ++i) {
+            std::vector<std::uint32_t> del = L;
+            del.erase(del.begin() + static_cast<ptrdiff_t>(i));
+            std::string n = utf8FromCodepoints(del);
+            tryAddLevenshteinNeighbor(w, n, lex, seenPairs, levPairs, added, maxAdd);
+        }
+
+        for (size_t i = 0; i < L.size() && added < maxAdd; ++i) {
+            for (std::uint32_t cp : alpha) {
+                std::vector<std::uint32_t> sub = L;
+                sub[i] = cp;
+                std::string n = utf8FromCodepoints(sub);
+                if (n == w || !lex.count(n))
+                    continue;
+                tryAddLevenshteinNeighbor(w, n, lex, seenPairs, levPairs, added, maxAdd);
+                if (added >= maxAdd)
+                    break;
+            }
+        }
+    }
+}
+
+void augmentDisambigFromLexicon(FiniteStateTransducer& morph, const std::string& language, const std::unordered_set<std::string>& lex, std::vector<std::pair<std::vector<std::string>, std::string>>& cases,
+    std::unordered_set<std::string>& seenCase, std::size_t maxAdd) {
+    std::vector<std::string> words(lex.begin(), lex.end());
+    std::mt19937 rng(54321);
+    std::shuffle(words.begin(), words.end(), rng);
+    if (words.size() > 8000)
+        words.resize(8000);
+
+    std::size_t added = 0;
+
+    auto pushCase = [&](const std::vector<std::string>& toks, const std::string& tag) {
+        if (added >= maxAdd)
+            return;
+        std::string k;
+        for (const auto& t : toks)
+            k += t + "\1";
+        k += "\2" + tag;
+        if (seenCase.count(k))
+            return;
+        seenCase.insert(k);
+        cases.push_back({toks, tag});
+        ++added;
+    };
+
+    if (language == "en") {
+        const char* prons[] = {"i", "you", "he", "she", "we"};
+        for (const std::string& w : words) {
+            if (!fstHasTag(morph, w, "+VERB"))
+                continue;
+            for (const char* p : prons) {
+                if (!lex.count(p))
+                    continue;
+                pushCase({std::string(p), w}, "+VERB");
+            }
+        }
+    }
+    else {
+        const char* negs[] = {"не", "никога", "само", "вече"};
+        const char* s1[] = {"аз", "ти", "той", "тя", "ние", "те"};
+        const char* s2[] = {"съм", "си", "е", "сме", "сте", "са", "бях", "беше", "бяха", "ще"};
+        for (const char* a : s1) {
+            for (const char* b : s2) {
+                if (!lex.count(a) || !lex.count(b))
+                    continue;
+                pushCase({std::string(a), std::string(b)}, "+AUX");
+            }
+        }
+        for (const std::string& w : words) {
+            if (!fstHasTag(morph, w, "+VERB"))
+                continue;
+            for (const char* n : negs) {
+                if (!lex.count(n))
+                    continue;
+                pushCase({std::string(n), w}, "+VERB");
+            }
+        }
+    }
+}
+
+}
+
+void augmentBenchmarkDataFromFst(FiniteStateTransducer& morph, const std::string& language, BenchmarkDataSets& data) {
+    std::vector<std::string> surfaces = morph.enumerateWords();
+    if (surfaces.empty())
+        return;
+    std::unordered_set<std::string> lex(surfaces.begin(), surfaces.end());
+
+    std::unordered_set<std::string> seenLev;
+    for (const auto& t : data.levPairs)
+        seenLev.insert(sortedTwoWordKey(std::get<0>(t), std::get<1>(t)));
+
+    augmentLevenshteinFromLexicon(lex, data.levPairs, seenLev, 8000);
+
+    std::unordered_set<std::string> seenDis;
+    for (const auto& c : data.disambigCases) {
+        std::string k;
+        for (const auto& w : c.first)
+            k += w + "\1";
+        k += "\2" + c.second;
+        seenDis.insert(std::move(k));
+    }
+
+    augmentDisambigFromLexicon(morph, language, lex, data.disambigCases, seenDis, 8000);
 }

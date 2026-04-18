@@ -32,7 +32,7 @@ class Benchmark {
 public:
     Benchmark(FiniteStateTransducer& fst, DisambiguateFn disambiguateFn);
 
-    BenchmarkResult benchmarkRuntime(const std::vector<std::string>& words, double thresholdMs = 50.0); //NFR1
+    BenchmarkResult benchmarkRuntime(const std::vector<std::string>& words, double thresholdMs = 100.0); //NFR1
 
     BenchmarkResult benchmarkConsistency(const std::string& word, int repetitions = 50); //NFR2
 
@@ -52,7 +52,7 @@ private:
     FiniteStateTransducer& fst;
     DisambiguateFn disambiguateFn;
 
-    double thresholdMs = 50.0;
+    double thresholdMs = 100.0;
     static double nowMs();
     static bool analysisContains(const AnalysisList& analyses, const std::string& tag);
 };

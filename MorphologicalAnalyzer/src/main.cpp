@@ -185,7 +185,8 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& morph, s
 
     return true;
 }
-static void runBenchmark(const std::string& language, FiniteStateTransducer& morph, Disambiguator& disambig) {
+static void runBenchmark(const std::string& language, FiniteStateTransducer& morph, Disambiguator& disambig,
+    bool randomRuntimeWords, std::size_t runtimeWordCount, unsigned randomSeed, std::size_t suiteN) {
     if (language == "bg") {
         SetConsoleCP(CP_UTF8);
         SetConsoleOutputCP(CP_UTF8);
@@ -197,21 +198,85 @@ static void runBenchmark(const std::string& language, FiniteStateTransducer& mor
 
     Benchmark bench(morph, disambigFn);
 
-    std::vector<std::string> words = filterRuntimeWordsToFst(morph, benchmarkRuntimeWords(language), 100);
-    std::cout << "[Benchmark] Language: " << language << " | FST word surfaces: " << morph.enumerateWords().size()
-        << " | runtime/throughput test words (in FST): " << words.size() << "\n";
+    std::vector<std::string> allSurfaces = morph.enumerateWords();
+    std::vector<std::string> words;
+    if (randomRuntimeWords) {
+        words = sampleRandomWordsFromFst(allSurfaces, runtimeWordCount, randomSeed);
+        std::cout << "[Benchmark] Language: " << language << " | FST surfaces: " << allSurfaces.size() << " | runtime/throughput: " << words.size() << " random words";
+        if (randomSeed != 0u)
+            std::cout << " (seed=" << randomSeed << ")";
+        std::cout << "\n";
+    }
+    else {
+        const std::size_t runtimeListLimit = (suiteN == 0) ? 100 : suiteN;
+        words = filterRuntimeWordsToFst(morph, benchmarkRuntimeWords(language), runtimeListLimit);
+        std::cout << "[Benchmark] Language: " << language << " | FST word surfaces: " << allSurfaces.size()
+            << " | runtime/throughput test words (in FST): " << words.size() << "\n";
+    }
+
+    if (suiteN > 0 && words.size() > suiteN)
+        words.resize(suiteN);
 
     BenchmarkDataSets benchData = benchmarkDataForLanguage(language);
-    filterBenchmarkDataToFst(morph, benchData, 100);
+    augmentBenchmarkDataFromFst(morph, language, benchData);
+    const std::size_t labelledMax =
+        (suiteN == 0) ? 100 : (randomRuntimeWords ? 100 : suiteN);
+    LabelledFstFilterReport nfr3FstReport;
+    filterBenchmarkDataToFst(morph, benchData, labelledMax, &nfr3FstReport);
     std::vector<std::pair<std::string, std::string>> labelled = benchData.labelled;
     std::vector<std::tuple<std::string, std::string, int>> levPairs = benchData.levPairs;
     std::vector<std::pair<std::vector<std::string>, std::string>> disambigCases = benchData.disambigCases;
+
+    if (suiteN > 0) {
+        if (!randomRuntimeWords && labelled.size() > suiteN)
+            labelled.resize(suiteN);
+        if (levPairs.size() > suiteN)
+            levPairs.resize(suiteN);
+        if (disambigCases.size() > suiteN)
+            disambigCases.resize(suiteN);
+    }
+
     std::string consistencyWord = pickConsistencyWordForFst(morph, language);
 
     const int consistencyRepetitions = 50;
 
-    std::cout << "[Benchmark] Cases (in FST, up to 100 each): labelled=" << labelled.size()
-        << ", levenshtein=" << levPairs.size() << ", disambig=" << disambigCases.size() << "\n";
+    if (suiteN > 0) {
+        if (randomRuntimeWords)
+            std::cout << "[Benchmark] Suite N=" << suiteN << " for NFR1, NFR5, Levenshtein, disambiguate (NFR3 labelled: up to 100)\n";
+        else
+            std::cout << "[Benchmark] Suite N=" << suiteN << " for NFR1, NFR3, NFR5, Levenshtein, disambiguate\n";
+    }
+    const std::size_t nfr3PastCap = (nfr3FstReport.inputRows > nfr3FstReport.rowsKeptInFst + nfr3FstReport.rowsOovDropped)
+        ? (nfr3FstReport.inputRows - nfr3FstReport.rowsKeptInFst - nfr3FstReport.rowsOovDropped)
+        : 0;
+    std::cout << "[Benchmark] NFR3: " << labelled.size() << " rows";
+    if (nfr3FstReport.rowsOovDropped > 0 || nfr3PastCap > 0 || labelled.size() < nfr3FstReport.rowsKeptInFst) {
+        std::cout << " (" << nfr3FstReport.inputRows << " cand";
+        if (nfr3FstReport.rowsOovDropped > 0)
+            std::cout << ", " << nfr3FstReport.rowsOovDropped << " not in FST";
+        if (nfr3PastCap > 0)
+            std::cout << ", " << nfr3PastCap << " past cap";
+        if (labelled.size() < nfr3FstReport.rowsKeptInFst)
+            std::cout << ", " << nfr3FstReport.rowsKeptInFst << "→" << labelled.size();
+        std::cout << ")";
+    }
+    std::cout << "\n";
+
+    if (nfr3FstReport.levInputPairs > 0 || nfr3FstReport.disambigInputCases > 0) {
+        std::cout << "[Benchmark] Filtered: levenshtein " << levPairs.size() << "/" << nfr3FstReport.levInputPairs;
+        if (nfr3FstReport.levPairsOovDropped > 0 || nfr3FstReport.levPairsBadDistanceDropped > 0) {
+            std::cout << " (" << nfr3FstReport.levPairsOovDropped << " not in FST";
+            if (nfr3FstReport.levPairsBadDistanceDropped > 0)
+                std::cout << ", " << nfr3FstReport.levPairsBadDistanceDropped << " bad dist";
+            std::cout << ")";
+        }
+        std::cout << " | disambiguation " << disambigCases.size() << "/" << nfr3FstReport.disambigInputCases;
+        if (nfr3FstReport.disambigCasesOovDropped > 0)
+            std::cout << " (" << nfr3FstReport.disambigCasesOovDropped << " not in FST)";
+        std::cout << "\n";
+    }
+
+    std::cout << "[Benchmark] Cases (in FST): levenshtein=" << levPairs.size() << ", disambiguation=" << disambigCases.size() << "\n";
 
     bench.runAll(words, consistencyWord, consistencyRepetitions, labelled, levPairs, disambigCases);
 }
@@ -232,7 +297,9 @@ int main() {
 
     std::string line;
     std::cout << "Enter a word or a sentence (write '-1' to exit)\n";
-    std::cout << "Commands: ? = change language, benchmark = run tests\n\n";
+    std::cout << "Commands: ? = change language\n";
+    std::cout << "         b / benchmark [N] = full benchmark (pre-defined list)\n";
+    std::cout << "         random N [seed] = N unique random FST words (seed is optional; NFR3 stays 100)\n\n";
     while (true) {
         std::cout << "> ";
         std::getline(std::cin, line);
@@ -245,9 +312,34 @@ int main() {
             continue;
         }
 
-        if (line == "benchmark" || line == "b" || line == "bench") {
-            runBenchmark(language, morph, *disambig);
-            continue;
+        {
+            std::istringstream iss(line);
+            std::string cmd;
+            iss >> cmd;
+
+            if (cmd == "benchmark" || cmd == "b" || cmd == "bench") {
+                std::size_t suiteN = 0;
+                if (iss >> suiteN) {
+                    if (suiteN == 0) {
+                        std::cout << "Usage: benchmark [N] (pre-defined list) \n";
+                        continue;
+                    }
+                }
+                runBenchmark(language, morph, *disambig, false, 100, 0, suiteN);
+                continue;
+            }
+
+            if (cmd == "random") {
+                std::size_t n = 0;
+                unsigned seed = 0;
+                if (!(iss >> n) || n == 0) {
+                    std::cout << "Usage: random N [seed]   (N = unique words for all; seed is optional; NFR3 stays 100)\n";
+                    continue;
+                }
+                iss >> seed;
+                runBenchmark(language, morph, *disambig, true, n, seed, n);
+                continue;
+            }
         }
 
         line = toLowerUTF8(line); //analysis

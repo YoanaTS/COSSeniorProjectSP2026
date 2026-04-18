@@ -1,7 +1,5 @@
-﻿  benchmark.cpp
-  benchmark_data.cpp
-  fst.cpp
-  levenshtein.cpp
+﻿  benchmark_data.cpp
+  disambiguator_BG.cpp
   main.cpp
   Generating Code...
   MorphologicalAnalyzer.vcxproj -> C:\Yoana\Senior Project\COSSeniorProjectSP2026\MorphologicalAnalyzer\x64\Debug\MorphologicalAnalyzer.exe

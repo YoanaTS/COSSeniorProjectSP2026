@@ -98,18 +98,32 @@ FiniteStateTransducer::transduce(const std::string& input) {
     //agenda
     std::stack<Configuration> agenda;
 
+    auto outputSignature = [](const std::vector<std::pair<std::string, std::string>>& out) -> std::string { //distinguish path with same end state
+        std::string s;
+        for (const auto& p : out) {
+            s += p.first;
+            s += '\0';
+            s += p.second;
+            s += '\0';
+        }
+        return s;
+    };
+
     struct VisitedConfig {
         State* state;
         int position;
+        std::string outputSig;
 
         bool operator==(const VisitedConfig& other) const {
-            return state == other.state && position == other.position;
+            return state == other.state && position == other.position && outputSig == other.outputSig;
         }
     };
 
     struct VisitedHash {
         std::size_t operator()(const VisitedConfig& vc) const {
-            return std::hash<State*>()(vc.state) ^ std::hash<int>()(vc.position);
+            std::size_t h = std::hash<State*>()(vc.state) ^ (std::hash<int>()(vc.position) << 1);
+            h ^= std::hash<std::string>()(vc.outputSig) + 0x9e3779b9 + (h << 6) + (h >> 2);
+            return h;
         }
     };
 
@@ -123,8 +137,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
                     Configuration config;
                     config.state = matchingStates[m];
                     config.position = (int)matchingStems[m].size();
-                    // Match non-start steps: lexical chunk is output morpheme (lemma), e.g. "lov"->"love", "cod"->"code".
-                    const std::string firstChunk = !t->outputMorpheme.empty()
+					const std::string firstChunk = !t->outputMorpheme.empty() //match the output morpheme if it exists, otherwise use the input symbol
                         ? t->outputMorpheme
                         : t->inputSymbol;
                     config.output = { { firstChunk, "" } };
@@ -151,7 +164,7 @@ FiniteStateTransducer::transduce(const std::string& input) {
 
         int pos = current.position;
 
-        VisitedConfig vc{ state, pos }; //check for repeats
+        VisitedConfig vc{ state, pos, outputSignature(current.output) }; //check for repeats
         if (visited.find(vc) != visited.end()) continue;
         visited.insert(vc);
 

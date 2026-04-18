@@ -81,8 +81,7 @@ for (int offset = minOffset; offset <= maxOffset; offset++) {
 
 
 //scoring types
-
-enum class POSVote {NONE, VERB, NOUN, ADJ, ADV};
+enum class POSVote {NONE, VERB, NOUN, ADJ, ADV, PARTICLE};
 
 //simple vote: what POS + how strong
 struct Vote {
@@ -122,6 +121,7 @@ std::unordered_map<int, float> scores;
             case POSVote::NOUN: match = isNoun(single, cfg); break;
             case POSVote::ADJ:  match = isAdj(single, cfg); break;
             case POSVote::ADV:  match = isAdv(single, cfg); break;
+            case POSVote::PARTICLE: match = analysisHasTag(analyses[j], "+PART+GRAD"); break;
             default: break;
             }
 
@@ -169,7 +169,7 @@ std::unordered_map<int, float> scores;
 
     //"да" + verb
     //"да отида", "да кажа", "да видя"
-    // подчинително наклонение (subjunctive form)
+    //подчинително наклонение (subjunctive form)
     rules.push_back({ "да+VERB", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
         float w = windowMatchWord(s, i, -2, -1, {"да"});
         if (w > 0 && isVerb(s[i].analyses, cfg))
@@ -242,6 +242,15 @@ std::unordered_map<int, float> scores;
     //after auxiliary → predicate adjective; before noun → attributive adjective; otherwise → adverb
     rules.push_back({ "ADV_over_ADJ", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
         if (!isAdv(s[i].analyses, cfg) || !isAdj(s[i].analyses, cfg)) return {};
+        //ADJ+ADV
+        auto homAdjAdv = [&](int j) {
+            return isAdj(s[j].analyses, cfg) && isAdv(s[j].analyses, cfg);
+        };
+        auto gradPrepMiddle = [&](int j) {
+            return hasTag(s[j].analyses, "+PART+GRAD") && hasTag(s[j].analyses, "+PREP+BASE");
+        };
+        //[ADJ+ADV] [grad prep] [ADJ+ADV]: keep ambiguous
+        if (i + 2 < (int)s.size() && gradPrepMiddle(i + 1) && homAdjAdv(i + 2)) return {};
         float auxW = windowMatchWord(s, i, -2, -1, auxVerbs);
         bool nextIsNoun = (i + 1 < (int)s.size()) && isNoun(s[i + 1].analyses, cfg);
         if (auxW > 0.0f)   return { POSVote::ADJ, 0.9f * auxW };
@@ -249,8 +258,17 @@ std::unordered_map<int, float> scores;
         return { POSVote::ADV, 0.8f };
     } });
 
-    // по-/най- prefix → always comparative/superlative ADJ or ADV — no other POS possible
-    // "по-" = 5 UTF-8 bytes (п=2, о=2, -=1); "най-" = 7 bytes (н=2, а=2, й=2, -=1)
+    //gradation "по" between two ADJ+ADV homographs
+    rules.push_back({ "ADJADV_gradPART_ADJADV", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
+        if (i < 1 || i + 1 >= (int)s.size()) return {};
+        if (!hasTag(s[i].analyses, "+PART+GRAD") || !hasTag(s[i].analyses, "+PREP+BASE")) return {};
+        if (!isAdj(s[i - 1].analyses, cfg) || !isAdv(s[i - 1].analyses, cfg)) return {};
+        if (!isAdj(s[i + 1].analyses, cfg) || !isAdv(s[i + 1].analyses, cfg)) return {};
+        return { POSVote::PARTICLE, 1.0f };
+    } });
+
+    //по-/най- prefix → always comparative/superlative
+    //"по-" = 5 UTF-8 bytes (п=2, о=2, -=1); "най-" = 7 bytes (н=2, а=2, й=2, -=1)
     rules.push_back({ "по/най+COMP/SUP", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
         const std::string& surf = s[i].surface;
         bool isComp = surf.size() >= 5 && surf.compare(0, 5, "по-") == 0;
