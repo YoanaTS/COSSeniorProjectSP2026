@@ -21,6 +21,12 @@
     <ClCompile Include="src\benchmark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\analysis_format.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\benchmark_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\disambiguator_BG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\benchmark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\analysis_format.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\benchmark_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\disambiguator.h">

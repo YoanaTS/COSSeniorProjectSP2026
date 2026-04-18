@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <memory>
 #include <cctype>
+#include <unordered_map>
 #include <windows.h>
 #include "fst.h"
 #include "fst_loader.h"
@@ -14,6 +15,8 @@
 #include <unicode/unistr.h>
 #include "levenshtein.h"
 #include "benchmark.h"
+#include "benchmark_data.h"
+#include "analysis_format.h"
 
 static bool isOuterPunctToSkip(char c) { //skip punctuation
     static const char kSkip[] = ",.;:!?\"'()[]{}<>_/`~@#$%^&*+=|\\";
@@ -44,17 +47,6 @@ static std::vector<std::string> tokenize(const std::string& line) {
     return tokens;
 }
 
-static std::string formatAnalysis(const Analysis& analysis) {
-    std::string result;
-    for (int i = 0; i < (int)analysis.size(); i++) {
-        if (analysis[i].first != "EPS" && !analysis[i].first.empty())
-            result += analysis[i].first;
-        if (analysis[i].second != "EPS" && !analysis[i].second.empty())
-            result += analysis[i].second;
-    }
-    return result;
-}
-
 static void printResult(const std::vector<DisambiguatedWord>& result, const std::vector<std::string>& knownStems, std::function<AnalysisList(const std::string&)> transduceFn) {
     std::cout << "\n";
     for (int i = 0; i < (int)result.size(); i++) {  //go through each word
@@ -73,8 +65,7 @@ static void printResult(const std::vector<DisambiguatedWord>& result, const std:
                     std::cout << "    \"" << suggestions[s].surface
                         << "\" (dist=" << suggestions[s].distance << ")\n";
                     for (int j = 0; j < (int)suggestions[s].analyses.size(); j++) {
-                        std::cout << "      "
-                            << formatAnalysis(suggestions[s].analyses[j]) << "\n";
+                        std::cout << "      " << analysis_format::formatAnalysis(suggestions[s].analyses[j]) << "\n";
                     }
                 }
             }
@@ -83,12 +74,12 @@ static void printResult(const std::vector<DisambiguatedWord>& result, const std:
         else if (result[i].ambiguous) { //multiple analyses
             std::cout << "  [ambiguous]\n";
             for (int j = 0; j < (int)result[i].analyses.size(); j++) {
-                std::cout << "    " << formatAnalysis(result[i].analyses[j]) << "\n"; //print analysis
+                std::cout << "    " << analysis_format::formatAnalysis(result[i].analyses[j]) << "\n"; //print analysis
             }
         }
         else {
             for (int j = 0; j < (int)result[i].analyses.size(); j++) {
-                std::cout << "  " << formatAnalysis(result[i].analyses[j]) << "\n"; //successful disambiguation case
+                std::cout << "  " << analysis_format::formatAnalysis(result[i].analyses[j]) << "\n"; //successful disambiguation case
             }
         }
 
@@ -129,7 +120,15 @@ static std::string toLowerUTF8(const std::string& s) {
     return fallback;
 }
 
-static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std::vector<std::string>& knownStems,
+static std::string trimWhitespace(const std::string& s) {
+    size_t start = 0;
+    while (start < s.size() && std::isspace(static_cast<unsigned char>(s[start]))) start++;
+    size_t end = s.size();
+    while (end > start && std::isspace(static_cast<unsigned char>(s[end - 1]))) end--;
+    return s.substr(start, end - start);
+}
+
+static bool setupLanguage(std::string& language, FiniteStateTransducer& morph, std::vector<std::string>& knownStems,
     std::function<AnalysisList(const std::string&)>& transduceFn,
     std::unique_ptr<Disambiguator>& disambig) {
     std::cout << "Select language:\n";
@@ -137,6 +136,7 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
     std::cout << "2) Bulgarian (BG)\n";
     std::string pick;
     std::getline(std::cin, pick);
+    pick = trimWhitespace(pick);
 
     for (char& c : pick) c = (char)std::tolower((unsigned char)c);
 
@@ -158,10 +158,10 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
         {"bg", "bulgarian_morphology.fst"}
     };
 
-    fst = FiniteStateTransducer(); // reset fst
+    morph = FiniteStateTransducer(); //reset transducer
 
     try {
-        FSTLoader::load(files[language], fst);
+        FSTLoader::load(files[language], morph);
         std::cout << "Loaded " << language << " rules\n\n";
     }
     catch (const std::exception& e) {
@@ -170,12 +170,12 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
         }
     knownStems.clear();
 
-    std::cout << "States: " << fst.getStates().size() << "\n";
-    std::cout << "Start transitions: " << fst.getStartState()->transitions.size() << "\n";
+    std::cout << "States: " << morph.getStates().size() << "\n";
+    std::cout << "Start transitions: " << morph.getStartState()->transitions.size() << "\n";
 
-    knownStems = fst.enumerateWords();
-    transduceFn = [&fst](const std::string& w) {
-        return fst.transduce(w);
+    knownStems = morph.enumerateWords();
+    transduceFn = [&morph](const std::string& w) {
+        return morph.transduce(w);
         };
 
     if (language == "bg")
@@ -185,87 +185,48 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& fst, std
 
     return true;
 }
-static void runBenchmark(const std::string& language, FiniteStateTransducer& fst, Disambiguator& disambig) {
+static void runBenchmark(const std::string& language, FiniteStateTransducer& morph, Disambiguator& disambig) {
+    if (language == "bg") {
+        SetConsoleCP(CP_UTF8);
+        SetConsoleOutputCP(CP_UTF8);
+    }
+
     DisambiguateFn disambigFn = [&disambig](const std::vector<AnnotatedWord>& s) {
         return disambig.disambiguate(s);
     };
 
-    Benchmark bench(fst, disambigFn);
+    Benchmark bench(morph, disambigFn);
 
-    std::vector<std::string> words = fst.enumerateWords();
-    std::cout << "[Benchmark] Language: " << language
-        << " | FST word surfaces: " << words.size() << "\n";
+    std::vector<std::string> words = filterRuntimeWordsToFst(morph, benchmarkRuntimeWords(language), 100);
+    std::cout << "[Benchmark] Language: " << language << " | FST word surfaces: " << morph.enumerateWords().size()
+        << " | runtime/throughput test words (in FST): " << words.size() << "\n";
 
-    std::vector<std::pair<std::string, std::string>> labelled;
-    std::vector<std::tuple<std::string, std::string, int>> levPairs;
-    std::vector<std::pair<std::vector<std::string>, std::string>> disambigCases;
-    std::string consistencyWord;
+    BenchmarkDataSets benchData = benchmarkDataForLanguage(language);
+    filterBenchmarkDataToFst(morph, benchData, 100);
+    std::vector<std::pair<std::string, std::string>> labelled = benchData.labelled;
+    std::vector<std::tuple<std::string, std::string, int>> levPairs = benchData.levPairs;
+    std::vector<std::pair<std::vector<std::string>, std::string>> disambigCases = benchData.disambigCases;
+    std::string consistencyWord = pickConsistencyWordForFst(morph, language);
 
-    if (language == "bg") {
-        consistencyWord = words.empty() ? "аз" : words[0];
-        labelled = {
-            {"аз", "+PRON+1SG.SUBJ"},
-            {"и", "+CONJ+BASE"},
-            {"в", "+PREP+BASE"},
-            {"котка", "+NOUN+SG"},
-            {"котки", "+NOUN+PL"},
-            {"съм", "+AUX"},
-            {"не", "+NEG+BASE"},
-            {"днес", "+ADV"},
-        };
+    const int consistencyRepetitions = 50;
 
-        levPairs = {
-            //rework levenshtein pairs for bg
-        };
-        disambigCases = {
-            {{"аз", "съм"}, "+AUX"},
-            {{"не", "знам"}, "+VERB"},
-            {{"този", "човек"}, "+NOUN"},
-        };
-    }
-    else {
-        consistencyWord = words.empty() ? "walk" : words[0];
-        labelled = {
-            {"cats", "+NOUN+PL"},
-            {"children", "+NOUN+PL"},
-            {"watches", "+NOUN+PL"},
-            {"walked", "+VERB+PAST"},
-            {"running", "+VERB+PROG"},
-            {"walks", "+VERB+3SG"},
-            {"went", "+VERB+PAST"},
-            {"written", "+VERB+PASTPART"},
-            {"been", "+VERB+PASTPART"},
-            {"happy", "+ADJ+BASE"},
-            {"clear", "+ADJ+BASE"},
-            {"the", "+DET+DEF"},
-            {"will", "+AUX+BASE"},
-            {"not", "+NEG+BASE"},
-            {"rewrite", "+PREF"},
-            {"unlikely", "+PREF"},
-        };
-        levPairs = { {"cat", "cats", 1}, {"play", "plai", 1} };
-        disambigCases = {
-            {{"i", "play"}, "+VERB"},
-            {{"the", "play"}, "+NOUN"},
-            {{"they", "play"}, "+VERB"},
-            {{"will", "walk"}, "+VERB"},
-        };
-    }
+    std::cout << "[Benchmark] Cases (in FST, up to 100 each): labelled=" << labelled.size()
+        << ", levenshtein=" << levPairs.size() << ", disambig=" << disambigCases.size() << "\n";
 
-    bench.runAll(words, consistencyWord, labelled, levPairs, disambigCases);
+    bench.runAll(words, consistencyWord, consistencyRepetitions, labelled, levPairs, disambigCases);
 }
 int main() {
 
     std::cout << "=== Morphological Analyzer ===\n";
 
     std::string language;
-    FiniteStateTransducer fst;
+    FiniteStateTransducer morph;
     std::vector<std::string> knownStems;
     std::unique_ptr<Disambiguator> disambig;
 
     std::function<AnalysisList(const std::string&)> transduceFn;
 
-    if (!setupLanguage(language, fst, knownStems, transduceFn, disambig)) {
+    if (!setupLanguage(language, morph, knownStems, transduceFn, disambig)) {
         return -1;
     }
 
@@ -275,16 +236,17 @@ int main() {
     while (true) {
         std::cout << "> ";
         std::getline(std::cin, line);
+        line = trimWhitespace(line);
 
         if (line == "-1") break; //exit
         if (line.empty()) continue;
         if (line == "?") { //language change
-            setupLanguage(language, fst, knownStems, transduceFn, disambig);
+            setupLanguage(language, morph, knownStems, transduceFn, disambig);
             continue;
         }
 
-        if (line == "benchmark") {
-            runBenchmark(language, fst, *disambig);
+        if (line == "benchmark" || line == "b" || line == "bench") {
+            runBenchmark(language, morph, *disambig);
             continue;
         }
 
@@ -297,17 +259,16 @@ int main() {
         for (int i = 0; i < (int)tokens.size(); i++) {
             AnnotatedWord aw;
             aw.surface = tokens[i];
-            aw.analyses = fst.transduce(tokens[i]);
+            aw.analyses = morph.transduce(tokens[i]);
 
-            //hyphen-split fallback for compound words ("къща-музей")
-            //only fires when FST found nothing, so superlatives and comparatives are unaffected
+            //hyphen-split fallback for compound words like "къща-музей"; superlative and comparative are not affected
             if (aw.analyses.empty()) {
                 size_t hyphen = tokens[i].find('-');
                 if (hyphen != std::string::npos && hyphen > 0 && hyphen + 1 < tokens[i].size()) {
                     std::string left  = tokens[i].substr(0, hyphen);
                     std::string right = tokens[i].substr(hyphen + 1);
-                    AnalysisList leftAn  = fst.transduce(left);
-                    AnalysisList rightAn = fst.transduce(right);
+                    AnalysisList leftAn  = morph.transduce(left);
+                    AnalysisList rightAn = morph.transduce(right);
                     if (!leftAn.empty() || !rightAn.empty()) {
                         if (!leftAn.empty()) {
                             AnnotatedWord awL; awL.surface = left; awL.analyses = leftAn;

@@ -66,6 +66,12 @@ BG_ADVERBS = [
     ("веднага", "+ADV"), ("никога", "+ADV"), ("понякога", "+ADV"),
 ]
 
+# Lemmas merged into the verb list after Stanza/CSV (full paradigm via write_verb_bg)
+# "ходя" → conj. 2 (-я): stem "ход" → ходя, ходиш, ходи, … + aorist, imperfect, imperatives, participles
+EXTRA_VERB_LEMMAS_BG = [
+    "ходя",
+]
+
 # ---------------------------------------------------------------
 # Morphology rules — nouns
 # ---------------------------------------------------------------
@@ -392,6 +398,10 @@ def write_fw_bg(lines, surface, tag, emitted_states):
 
 def generate():
     nouns, verbs, adjs = load_stems_bg()
+
+    for lemma in EXTRA_VERB_LEMMAS_BG:
+        if lemma not in verbs:
+            verbs.append(lemma)
 
     lines = [
         "STATE start START",

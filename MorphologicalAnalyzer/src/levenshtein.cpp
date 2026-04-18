@@ -1,32 +1,56 @@
 #include "levenshtein.h"
 #include "disambiguator_ENG.h"
 #include <algorithm>
+#include <cstdint>
 
-int levenshtein(const std::string& firstWord, const std::string& secondWord) {
-    int lenA = (int)firstWord.size();
-    int lenB = (int)secondWord.size();
-    std::vector<std::vector<int>> distanceMatrix(lenA + 1, std::vector<int>(lenB + 1, 0));
+//UTF-8 because Bulgarian Cyrillic = 2 bytes per letter.
+static constexpr std::uint8_t asciiEnd = 0x80;
+static constexpr std::uint8_t rest = 0x3F;
+static constexpr std::uint8_t lead2Min = 0xC0, lead2Max = 0xDF;
+static constexpr std::uint8_t head2 = 0x1F;
 
-    //base cases
-    for (int i = 0; i <= lenA; i++) distanceMatrix[i][0] = i;
-    for (int j = 0; j <= lenB; j++) distanceMatrix[0][j] = j;
+static std::vector<std::uint32_t> utf8Letters(const std::string& s) {
+    std::vector<std::uint32_t> letters;
+    for (size_t i = 0; i < s.size();) {
+        unsigned char c = static_cast<unsigned char>(s[i]);
+        std::uint32_t letter;
+        int n = 1;
+        if (c < asciiEnd) {
+            letter = c;
+        }
+        else if (c >= lead2Min && c <= lead2Max && i + 1 < s.size()) {
+            letter = ((c & head2) << 6) | (static_cast<unsigned char>(s[i + 1]) & rest);
+            n = 2;
+        }
+        else {
+            letter = c;
+            n = 1;
+        }
+        letters.push_back(letter);
+        i += (size_t)n;
+    }
+    return letters;
+}
 
+static int levenshteinLetters(const std::vector<std::uint32_t>& a, const std::vector<std::uint32_t>& b) { //use letters instead of chars for correct distance on UTF-8 strings
+    const int lenA = (int)a.size();
+    const int lenB = (int)b.size();
+    std::vector<std::vector<int>> dist(lenA + 1, std::vector<int>(lenB + 1, 0));
+    for (int i = 0; i <= lenA; i++) dist[i][0] = i;
+    for (int j = 0; j <= lenB; j++) dist[0][j] = j;
     for (int i = 1; i <= lenA; i++) {
         for (int j = 1; j <= lenB; j++) {
-
-            if (firstWord[i - 1] == secondWord[j - 1]) {
-                distanceMatrix[i][j] = distanceMatrix[i - 1][j - 1];
-            }
-            else {
-                int delCost = distanceMatrix[i - 1][j] + 1;
-                int insCost = distanceMatrix[i][j - 1] + 1;
-                int subCost = distanceMatrix[i - 1][j - 1] + 1;
-
-                distanceMatrix[i][j] = std::min({ delCost, insCost, subCost });
-            }
+            if (a[(size_t)i - 1] == b[(size_t)j - 1])
+                dist[i][j] = dist[i - 1][j - 1];
+            else
+                dist[i][j] = std::min({ dist[i - 1][j] + 1, dist[i][j - 1] + 1, dist[i - 1][j - 1] + 1 });
         }
     }
-    return distanceMatrix[lenA][lenB];
+    return dist[lenA][lenB];
+}
+
+int levenshtein(const std::string& firstWord, const std::string& secondWord) {
+    return levenshteinLetters(utf8Letters(firstWord), utf8Letters(secondWord));
 }
 
 std::vector<FuzzyMatch> fuzzyMatch( const std::string& word, const std::vector<std::string>& knownStems,

@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <unordered_map>
+#include <unordered_set>
 
 const std::string EPSILON = "EPS"; //maybe move later
 
@@ -35,9 +36,9 @@ public:
 //------AHO-CORASICK TRIE NODE-----
 struct AhoCorasickNode {
     std::unordered_map<char, int> children; //char -> child node index
-    int failure = 0;                         //failure link - longest proper suffix that is also a prefix
-    std::vector<State*> fstStates;           //FST state this stem leads to if it is a complete stem
-    std::string stem;                        //the stem string at this node
+    int failure = 0; //failure link - longest proper suffix that is also a prefix
+    std::vector<State*> fstStates; //FST state this stem leads to if it is a complete stem
+    std::string stem; //the stem string at this node
 };
 
 //------FST-----
@@ -57,12 +58,21 @@ private:
     State* startState;
     std::vector<AhoCorasickNode> ahoTrie; //Aho-Corasick trie
     std::unordered_map<std::string, std::vector<std::vector<std::pair<std::string, std::string>>>> transduceCache;
+    std::unordered_set<std::string> startStemIndex; //O(1) lookup for prefix fallback
 
 public:
     FiniteStateTransducer();
+    ~FiniteStateTransducer();
+
+    FiniteStateTransducer(const FiniteStateTransducer&) = delete;
+    FiniteStateTransducer& operator=(const FiniteStateTransducer&) = delete;
+
+    FiniteStateTransducer(FiniteStateTransducer&& other) noexcept;
+    FiniteStateTransducer& operator=(FiniteStateTransducer&& other) noexcept;
 
     void addState(State* state);
     void setStartState(State* state);
+    void clearCache() { transduceCache.clear(); }
 
     State* getStartState() const { return startState; } //accessor for the start state - FSTLoader builds the trie
 

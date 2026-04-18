@@ -14,7 +14,7 @@ const POSConfig& englishConfig() {
         },
 		{"+ADJ+BASE"}, //adjTag
         {"+ADV+BASE"}, //advTags
-        // pastPartTags
+        //pastPartTags
 		{ "+VERB+PASTPART" } //pastPartTags (subset of verbTags)
     };
     return cfg;
@@ -23,33 +23,33 @@ const POSConfig& englishConfig() {
 const POSConfig& bulgarianConfig() {
     static const POSConfig cfg = {
         //verbTags (pick priority order)
-        //��-�����, �������, ������ ��������, ������ ����������, �����������, ���������
+        //Инфинитив, сегашно време, аорист, имперфект, повелително, причастия
         {
-			"+VERB+INF", //��-����� (�� �����) = ���������� �� ���������� ���������
-			"+VERB+1SG.PRES", "+VERB+2SG.PRES", "+VERB+3SG.PRES", "+VERB+1PL.PRES", "+VERB+2PL.PRES", "+VERB+3PL.PRES", //������� �����
-			"+VERB+1SG.AOR",  "+VERB+2SG.AOR",  "+VERB+3SG.AOR", "+VERB+1PL.AOR",  "+VERB+2PL.AOR",  "+VERB+3PL.AOR", //������ �������� �����
-            "+VERB+1SG.IMPF", "+VERB+3SG.IMPF", "+VERB+3PL.IMPF", //������ ���������� �����
-			"+VERB+IMP", //����������� ����������
-            "+VERB+PASTPART", "+VERB+PASSPART"
+			"+VERB+INF", //инфинитив (да + глагол)
+			"+VERB+1SG.PRES", "+VERB+2SG.PRES", "+VERB+3SG.PRES", "+VERB+1PL.PRES", "+VERB+2PL.PRES", "+VERB+3PL.PRES", //сегашно време
+			"+VERB+1SG.AOR",  "+VERB+2SG.AOR",  "+VERB+3SG.AOR", "+VERB+1PL.AOR",  "+VERB+2PL.AOR",  "+VERB+3PL.AOR", //аорист (минало свършено)
+            "+VERB+1SG.IMPF", "+VERB+3SG.IMPF", "+VERB+3PL.IMPF", //имперфект
+			"+VERB+IMP", //повелително
+            "+VERB+PASTPART", "+VERB+PASSPART" //причастия
         },
         //nounTags (pick priority order)
         {
             "+NOUN+SG+DEF", "+NOUN+PL+DEF",
             "+NOUN+SG",     "+NOUN+PL"
         },
-        //adjTags (pick priority order) — must match generate_fst_bg.py tag output
+        //adjTags 
         {
-            "+ADJ+M",          "+ADJ+F",          "+ADJ+N",          "+ADJ+PL",
-            "+ADJ+M.DEF",      "+ADJ+M.DEF.S",    "+ADJ+F.DEF",      "+ADJ+N.DEF",    "+ADJ+PL.DEF",
-            "+ADJ+COMP+M",     "+ADJ+COMP+F",     "+ADJ+COMP+N",     "+ADJ+COMP+PL",
+            "+ADJ+M", "+ADJ+F", "+ADJ+N", "+ADJ+PL",
+            "+ADJ+M.DEF", "+ADJ+M.DEF.S", "+ADJ+F.DEF", "+ADJ+N.DEF", "+ADJ+PL.DEF",
+            "+ADJ+COMP+M", "+ADJ+COMP+F", "+ADJ+COMP+N", "+ADJ+COMP+PL",
             "+ADJ+COMP+M.DEF", "+ADJ+COMP+M.DEF.S","+ADJ+COMP+F.DEF","+ADJ+COMP+N.DEF","+ADJ+COMP+PL.DEF",
-            "+ADJ+SUP+M",      "+ADJ+SUP+F",      "+ADJ+SUP+N",      "+ADJ+SUP+PL",
-            "+ADJ+SUP+M.DEF",  "+ADJ+SUP+M.DEF.S","+ADJ+SUP+F.DEF",  "+ADJ+SUP+N.DEF", "+ADJ+SUP+PL.DEF",
+            "+ADJ+SUP+M", "+ADJ+SUP+F", "+ADJ+SUP+N", "+ADJ+SUP+PL",
+            "+ADJ+SUP+M.DEF", "+ADJ+SUP+M.DEF.S","+ADJ+SUP+F.DEF", "+ADJ+SUP+N.DEF", "+ADJ+SUP+PL.DEF",
         },
 
         { "+ADV" }, //advTags
         {
-            "+VERB+PASTPART", "+VERB+PASSPART"     //PastPartTags (������ �������� � ����������� ���������)
+            "+VERB+PASTPART", "+VERB+PASSPART"     //PastPartTags (причастия - минало деятелно и страдателно))
         }
     };
     return cfg;

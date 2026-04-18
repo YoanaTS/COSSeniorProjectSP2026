@@ -32,9 +32,9 @@ class Benchmark {
 public:
     Benchmark(FiniteStateTransducer& fst, DisambiguateFn disambiguateFn);
 
-    BenchmarkResult benchmarkRuntime(const std::vector<std::string>& words, double thresholdMs = 100.0); //NFR1
+    BenchmarkResult benchmarkRuntime(const std::vector<std::string>& words, double thresholdMs = 50.0); //NFR1
 
-    BenchmarkResult benchmarkConsistency(const std::string& word, int repetitions = 100); //NFR2
+    BenchmarkResult benchmarkConsistency(const std::string& word, int repetitions = 50); //NFR2
 
     BenchmarkResult benchmarkCorrectness(const std::vector<std::pair<std::string, std::string>>& labelledWords); //NFR3
 
@@ -45,7 +45,7 @@ public:
 	BenchmarkResult benchmarkLevenshtein(const std::vector<std::tuple<std::string, std::string, int>>& pairs); //Levenshtein distance benchmark
 
     void runAll(
-        const std::vector<std::string>& runtimeWords, const std::string& consistencyWord, const std::vector<std::pair<std::string, std::string>>& labelledWords,
+        const std::vector<std::string>& runtimeWords, const std::string& consistencyWord, int consistencyRepetitions, const std::vector<std::pair<std::string, std::string>>& labelledWords,
         const std::vector<std::tuple<std::string, std::string, int>>& levPairs, const std::vector<std::pair<std::vector<std::string>, std::string>>& disambigCases);
 
 private:
@@ -54,6 +54,5 @@ private:
 
     double thresholdMs = 50.0;
     static double nowMs();
-    static std::string formatAnalysis(const Analysis& a);
     static bool analysisContains(const AnalysisList& analyses, const std::string& tag);
 };

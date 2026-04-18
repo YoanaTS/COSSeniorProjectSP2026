@@ -1,4 +1,5 @@
 #include "benchmark.h"
+#include "analysis_format.h"
 #include "levenshtein.h"
 #include "fst.h"
 #include <iostream>
@@ -6,6 +7,7 @@
 #include <vector>
 #include <numeric>
 #include <chrono>
+#include <fstream>
 
 //timer helper
 double Benchmark::nowMs() {
@@ -14,27 +16,9 @@ double Benchmark::nowMs() {
         high_resolution_clock::now().time_since_epoch()).count();
 }
 
-//formatting
-std::string Benchmark::formatAnalysis(const Analysis& a) {
-    std::string result;
-    for (int i = 0; i < (int)a.size(); i++) {
-        if (a[i].first != "EPS" && !a[i].first.empty()) 
-            result += a[i].first;
-        if (a[i].second != "EPS" && !a[i].second.empty())
-            result += a[i].second;
-    }
-    return result;
-}
-
-//checks if a tag exists somewhere in the analyses
+//checks if a tag exists somewhere in the analyses (pairwise and full formatted string)
 bool Benchmark::analysisContains(const AnalysisList& analyses, const std::string& tag) {
-    for (int i = 0; i < (int)analyses.size(); i++) {
-        for (int j = 0; j < (int)analyses[i].size(); j++) {
-            if (analyses[i][j].first.find(tag) != std::string::npos || analyses[i][j].second.find(tag) != std::string::npos)
-                return true;
-        }
-    }
-    return false;
+    return analysis_format::analysisContainsTag(analyses, tag);
 }
 
 Benchmark::Benchmark(FiniteStateTransducer& fst, DisambiguateFn disambiguateFn) : fst(fst), disambiguateFn(disambiguateFn) {}
@@ -50,6 +34,7 @@ BenchmarkResult Benchmark::benchmarkRuntime(const std::vector<std::string>& word
     double worst = 0.0;
 
     for (int i = 0; i < (int)words.size(); i++) {
+        fst.clearCache();
         double start = nowMs();
         fst.transduce(words[i]);
         double elapsed = nowMs() - start;
@@ -79,13 +64,15 @@ BenchmarkResult Benchmark::benchmarkRuntime(const std::vector<std::string>& word
 BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int repetitions) {
 
     BenchmarkResult result;
-    result.testName = "NFR2 Consistency (\"" + word + "\" x" + std::to_string(repetitions) + ")";
+    result.testName = "NFR2 Consistency";
 
     double start = nowMs();
+    fst.clearCache();
     AnalysisList reference = fst.transduce(word);
     bool consistent = true;
 
     for (int i = 0; i < repetitions; i++) {
+        fst.clearCache();
         AnalysisList run = fst.transduce(word);
         if (run.size() != reference.size()) {
             consistent = false;
@@ -103,7 +90,7 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
     result.passed = consistent;
 
     std::ostringstream ss;
-    ss << repetitions << " runs, " << reference.size() << " analyses per run";
+    ss << "word=\"" << word << "\"  " << repetitions << " runs, " << reference.size() << " analyses per run";
     result.details = ss.str();
 
     return result;
@@ -133,10 +120,15 @@ BenchmarkResult Benchmark::benchmarkConsistency(const std::string& word, int rep
         }
         else {
             failures.push_back("\"" + word + "\" missing " + expectedTag);
-        }
+    }
     }
 
     result.elapsedMs = nowMs() - start;
+    if (labelledWords.empty()) {
+        result.passed = true;
+        result.details = "0 labelled cases (skipped)";
+        return result;
+    }
     double pct = 100.0 * correct / labelledWords.size();
     result.passed = (pct >= 90.0); //90% threshold as per NFR3
 
@@ -228,7 +220,9 @@ BenchmarkResult Benchmark::benchmarkThroughput(const std::vector<std::string>& w
     result.elapsedMs = nowMs() - start;
     result.passed = true;
 
-    double wordsPerSec = words.size() / (result.elapsedMs / 1000.0);
+    double wordsPerSec = 0.0;
+    if (result.elapsedMs > 0.0 && !words.empty())
+        wordsPerSec = words.size() / (result.elapsedMs / 1000.0);
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(0);
     ss << wordsPerSec << " words/sec  (" << result.elapsedMs << "ms total)";
@@ -238,7 +232,7 @@ BenchmarkResult Benchmark::benchmarkThroughput(const std::vector<std::string>& w
 }
 
 //Run everything
-void Benchmark::runAll(const std::vector<std::string>& runtimeWords, const std::string& consistencyWord,
+void Benchmark::runAll(const std::vector<std::string>& runtimeWords, const std::string& consistencyWord, int consistencyRepetitions,
     const std::vector<std::pair<std::string, std::string>>& labelledWords, const std::vector<std::tuple<std::string, std::string, int>>& levPairs,
     const std::vector<std::pair<std::vector<std::string>, std::string>>& disambigCases) {
 
@@ -248,7 +242,7 @@ void Benchmark::runAll(const std::vector<std::string>& runtimeWords, const std::
      std::vector<BenchmarkResult> results;
 
      results.push_back(benchmarkRuntime(runtimeWords));
-     results.push_back(benchmarkConsistency(consistencyWord));
+     results.push_back(benchmarkConsistency(consistencyWord, consistencyRepetitions));
      results.push_back(benchmarkCorrectness(labelledWords));
      results.push_back(benchmarkThroughput(runtimeWords));
      results.push_back(benchmarkLevenshtein(levPairs));

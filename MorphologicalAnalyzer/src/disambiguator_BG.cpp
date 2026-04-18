@@ -28,7 +28,7 @@ static const AnalysisList& getAnalyses(const std::vector<AnnotatedWord>& sentenc
 static const float DECAY_RATE = 0.6f;
 static float decay(int distance)
 {
-    return std::pow(DECAY_RATE, distance - 1);
+    return static_cast<float>(std::pow(static_cast<double>(DECAY_RATE), distance - 1));
 }
 
 
@@ -238,8 +238,8 @@ std::unordered_map<int, float> scores;
            return {};
        } });
 
-    // ADV vs ADJ homograph (e.g. "малко" = ADV or ADJ+N)
-    // after auxiliary → predicate adjective; before noun → attributive adjective; otherwise → adverb
+    //ADV vs ADJ homograph (e.g. "малко" = ADV or ADJ+N)
+    //after auxiliary → predicate adjective; before noun → attributive adjective; otherwise → adverb
     rules.push_back({ "ADV_over_ADJ", [](const std::vector<AnnotatedWord>& s, int i, const POSConfig& cfg) -> Vote {
         if (!isAdv(s[i].analyses, cfg) || !isAdj(s[i].analyses, cfg)) return {};
         float auxW = windowMatchWord(s, i, -2, -1, auxVerbs);
@@ -294,7 +294,7 @@ std::vector<DisambiguatedWord> DisambiguatorBG::disambiguate(
             continue;
         }
 
-        // run every rule and accumulate weighted votes
+        //run every rule and accumulate weighted votes
         ScoreBoard board;
 
         for (const auto& rule : rules) {
