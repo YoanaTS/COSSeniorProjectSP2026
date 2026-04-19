@@ -305,6 +305,23 @@ std::vector<DisambiguatedWord> DisambiguatorBG::disambiguate(
         dw.surface = sentence[i].surface;
         dw.ambiguous = false;
 
+        //"ще" + following verb - future marker (+AUX+FUT)
+        if (sentence[i].surface == "ще" && i + 1 < (int)sentence.size()
+            && isVerb(sentence[i + 1].analyses, cfg)) {
+            AnalysisList kept;
+            for (const auto& a : sentence[i].analyses) {
+                AnalysisList one = { a };
+                if (hasTag(one, "+AUX+FUT"))
+                    kept.push_back(a);
+            }
+            if (!kept.empty()) {
+                dw.analyses = kept;
+                dw.ambiguous = kept.size() > 1;
+                result.push_back(dw);
+                continue;
+            }
+        }
+
         //if there's only one analysis, no need to disambiguate
         if (sentence[i].analyses.size() <= 1) {
             dw.analyses = sentence[i].analyses;

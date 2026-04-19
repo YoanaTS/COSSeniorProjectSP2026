@@ -41,6 +41,7 @@ BG_CONJUNCTIONS = [
 BG_PARTICLES = [
     ("да", "+PART+SUBJ"), ("ли", "+PART+Q"), ("нека", "+PART+IMP"),
     ("дали", "+PART+Q"),
+    ("по", "+PART+GRAD"),
 ]
 
 BG_AUXILIARIES = [
@@ -64,13 +65,43 @@ BG_ADVERBS = [
     ("малко", "+ADV"), ("сега", "+ADV"), ("тогава", "+ADV"),
     ("вече", "+ADV"), ("още", "+ADV"), ("само", "+ADV"),
     ("веднага", "+ADV"), ("никога", "+ADV"), ("понякога", "+ADV"),
+    ("всъщност", "+ADV"),
 ]
 
-# Lemmas merged into the verb list after Stanza/CSV (full paradigm via write_verb_bg)
-# "ходя" → conj. 2 (-я): stem "ход" → ходя, ходиш, ходи, … + aorist, imperfect, imperatives, participles
-EXTRA_VERB_LEMMAS_BG = [
-    "ходя",
+# interrogative / question words (hard-coded so they are not missing or mis-tagged from corpus)
+BG_INTERROGATIVES = [
+    ("кога", "+ADV+Q"), ("къде", "+ADV+Q"), ("как", "+ADV+Q"), ("защо", "+ADV+Q"),
+    ("колко", "+ADV+Q"),
+    ("кой", "+PRON+Q"), ("коя", "+PRON+Q"), ("кое", "+PRON+Q"), ("кои", "+PRON+Q"),
+    ("какъв", "+PRON+Q"), ("каква", "+PRON+Q"), ("какво", "+PRON+Q"), ("какви", "+PRON+Q"),
+    ("чий", "+PRON+Q"), ("чия", "+PRON+Q"), ("чие", "+PRON+Q"), ("чии", "+PRON+Q"),
 ]
+
+#additional verbs
+#"ходя" → conj. 2 (-я): stem "ход" → ходя, ходиш, ходи,...
+#"отивам" → conj. 3 (-ам): stem "отива" → отивам, отиваш, …
+#"разходя" → conj. 2: stem "разход" → разходя, разходиш, … (раз- + ходя)
+EXTRA_VERB_LEMMAS_BG = [
+    "ходя","отивам","разходя",
+]
+
+#additional adjectives (string lemmas; full adj paradigm)
+EXTRA_ADJ_LEMMAS_BG = [
+    "всъщностен",
+]
+#nouns list - (lemma, gender) with gender one of "m", "f", "n"
+EXTRA_NOUN_LEMMAS_BG = [
+    ("разходка", "f"),
+]
+
+#surface, tag
+EXTRA_ADVERB_LEMMAS_BG = []
+EXTRA_PRONOUN_LEMMAS_BG = []
+EXTRA_PREPOSITION_LEMMAS_BG = []
+EXTRA_CONJUNCTION_LEMMAS_BG = []
+EXTRA_PARTICLE_LEMMAS_BG = []
+EXTRA_AUXILIARY_LEMMAS_BG = []
+EXTRA_NUMERAL_LEMMAS_BG = []
 
 # ---------------------------------------------------------------
 # Morphology rules — nouns
@@ -95,6 +126,10 @@ IRREGULAR_PLURALS_BG = {
     "ухо":     "уши",
 }
 
+#nouns built with prefix + stem
+NOUN_COMPOUND_GLOSS_BG = {
+    "разходка": "раз-ходка",
+}
 # ---------------------------------------------------------------
 # Morphology rules — verbs
 # ---------------------------------------------------------------
@@ -256,7 +291,8 @@ def load_stems_bg():
 
     #don't re-process words already handled as function words
     fw_surfaces = {w for w, _ in BG_PRONOUNS + BG_PREPOSITIONS + BG_CONJUNCTIONS
-                                + BG_PARTICLES + BG_AUXILIARIES + BG_NUMERALS + BG_ADVERBS}
+                                + BG_PARTICLES + BG_AUXILIARIES + BG_NUMERALS + BG_ADVERBS
+                                + BG_INTERROGATIVES}
     adjs = [l for l in adjs if l not in fw_surfaces]
 
     print(f"Nouns: {len(nouns)}  Verbs: {len(verbs)}  Adjs: {len(adjs)}")
@@ -269,10 +305,18 @@ def load_stems_bg():
 def write_noun_bg(lines, lemma, gender, emitted_states):
     s = f"ns_{safe_name(lemma)}"
 
+    def compound_noun_tag(base_tag):
+        if lemma in NOUN_COMPOUND_GLOSS_BG:
+            return base_tag + "+" + NOUN_COMPOUND_GLOSS_BG[lemma]
+        return None
+
     if s not in emitted_states:
         emitted_states.add(s)
         lines += [st(s), tr("start", s, lemma, lemma),
                   tr(s, "n_end", "", "+NOUN+SG")]
+        cg = compound_noun_tag("+NOUN+SG")
+        if cg:
+            lines.append(tr(s, "n_end", "", cg))
 
         if lemma in IRREGULAR_PLURALS_BG:
             pl   = IRREGULAR_PLURALS_BG[lemma]
@@ -281,6 +325,9 @@ def write_noun_bg(lines, lemma, gender, emitted_states):
             lines += [st(pl_s),
                       tr("start", pl_s, pl, lemma),
                       tr(pl_s, "n_end", "", "+NOUN+PL")]
+            cg_pl = compound_noun_tag("+NOUN+PL")
+            if cg_pl:
+                lines.append(tr(pl_s, "n_end", "", cg_pl))
         elif gender == "f" and lemma.endswith("а"):
             #"книга" → plural "книги": drop final "а", add "и"
             pl_surface = lemma[:-1] + "и"
@@ -289,8 +336,14 @@ def write_noun_bg(lines, lemma, gender, emitted_states):
             lines += [st(pl_s),
                       tr("start", pl_s, pl_surface, lemma),
                       tr(pl_s, "n_end", "", "+NOUN+PL")]
+            cg_pl = compound_noun_tag("+NOUN+PL")
+            if cg_pl:
+                lines.append(tr(pl_s, "n_end", "", cg_pl))
         else:
             lines.append(tr(s, "n_end", PL_SUFFIX[gender], "+NOUN+PL"))
+            cg_pl = compound_noun_tag("+NOUN+PL")
+            if cg_pl:
+                lines.append(tr(s, "n_end", PL_SUFFIX[gender], cg_pl))
     #if already emitted, skip entirely — same lemma seen before
 
 
@@ -339,6 +392,14 @@ def write_verb_bg(lines, lemma, emitted_states):
 def write_adj_bg(lines, lemma, emitted_states):
     #ъ-drop: добър → добр, малък → малк (drop ъ whenever it is second-to-last)
     soft = (lemma[:-2] + lemma[-1]) if len(lemma) >= 2 and lemma[-2] == "ъ" else lemma
+    #е-drop before final -н: умен -> умн-, парламентарен -> парламентарн-
+    if len(soft) >= 2 and soft[-2] == "е" and soft[-1] == "н":
+        soft = soft[:-2] + "н"
+    #и-ending adjectives (български/албански)
+    i_adj = len(soft) >= 1 and soft[-1] == "и"
+    i_stem = soft[:-1] if i_adj else soft
+    #-о, -е lemmas are adverb-like (слабо, умно) -> no articles
+    invariable_oe = len(lemma) >= 1 and lemma[-1] in ("о", "е")
 
     def _emit(surface, tag):
         nonlocal lines
@@ -350,41 +411,48 @@ def write_adj_bg(lines, lemma, emitted_states):
                   tr("start", state, surface, lemma),
                   tr(state, "fw_end", "", tag)]
 
+    if invariable_oe:
+        _emit(lemma, "+ADJ+N")
+        _emit("по-" + lemma, "+ADJ+COMP+N")
+        _emit("най-" + lemma, "+ADJ+SUP+N")
+        return
+
     #base forms
     _emit(lemma,               "+ADJ+M")
-    _emit(soft + "а",          "+ADJ+F")
-    _emit(soft + "о",          "+ADJ+N")
-    _emit(soft + "и",          "+ADJ+PL")
+    _emit((i_stem + "а") if i_adj else (soft + "а"), "+ADJ+F")
+    _emit((i_stem + "о") if i_adj else (soft + "о"), "+ADJ+N")
+    _emit(soft if i_adj else (soft + "и"), "+ADJ+PL")
     #definite forms
-    _emit(soft + "ият",        "+ADJ+M.DEF")
-    _emit(soft + "ия",         "+ADJ+M.DEF.S")
-    _emit(soft + "ата",        "+ADJ+F.DEF")
-    _emit(soft + "ото",        "+ADJ+N.DEF")
-    _emit(soft + "ите",        "+ADJ+PL.DEF")
+    _emit((soft + "ят") if i_adj else (soft + "ият"), "+ADJ+M.DEF")
+    _emit((soft + "я") if i_adj else (soft + "ия"), "+ADJ+M.DEF.S")
+    _emit((i_stem + "ата") if i_adj else (soft + "ата"), "+ADJ+F.DEF")
+    _emit((i_stem + "ото") if i_adj else (soft + "ото"), "+ADJ+N.DEF")
+    _emit((i_stem + "ите") if i_adj else (soft + "ите"), "+ADJ+PL.DEF")
     #comparative (по-)
     _emit("по-" + lemma,       "+ADJ+COMP+M")
-    _emit("по-" + soft + "а",  "+ADJ+COMP+F")
-    _emit("по-" + soft + "о",  "+ADJ+COMP+N")
-    _emit("по-" + soft + "и",  "+ADJ+COMP+PL")
-    _emit("по-" + soft + "ият","+ADJ+COMP+M.DEF")
-    _emit("по-" + soft + "ия", "+ADJ+COMP+M.DEF.S")
-    _emit("по-" + soft + "ата","+ADJ+COMP+F.DEF")
-    _emit("по-" + soft + "ото","+ADJ+COMP+N.DEF")
-    _emit("по-" + soft + "ите","+ADJ+COMP+PL.DEF")
+    _emit(("по-" + i_stem + "а") if i_adj else ("по-" + soft + "а"), "+ADJ+COMP+F")
+    _emit(("по-" + i_stem + "о") if i_adj else ("по-" + soft + "о"), "+ADJ+COMP+N")
+    _emit(("по-" + soft) if i_adj else ("по-" + soft + "и"), "+ADJ+COMP+PL")
+    _emit(("по-" + soft + "ят") if i_adj else ("по-" + soft + "ият"), "+ADJ+COMP+M.DEF")
+    _emit(("по-" + soft + "я") if i_adj else ("по-" + soft + "ия"), "+ADJ+COMP+M.DEF.S")
+    _emit(("по-" + i_stem + "ата") if i_adj else ("по-" + soft + "ата"), "+ADJ+COMP+F.DEF")
+    _emit(("по-" + i_stem + "ото") if i_adj else ("по-" + soft + "ото"), "+ADJ+COMP+N.DEF")
+    _emit(("по-" + i_stem + "ите") if i_adj else ("по-" + soft + "ите"), "+ADJ+COMP+PL.DEF")
     #superlative (най-)
     _emit("най-" + lemma,       "+ADJ+SUP+M")
-    _emit("най-" + soft + "а",  "+ADJ+SUP+F")
-    _emit("най-" + soft + "о",  "+ADJ+SUP+N")
-    _emit("най-" + soft + "и",  "+ADJ+SUP+PL")
-    _emit("най-" + soft + "ият","+ADJ+SUP+M.DEF")
-    _emit("най-" + soft + "ия", "+ADJ+SUP+M.DEF.S")
-    _emit("най-" + soft + "ата","+ADJ+SUP+F.DEF")
-    _emit("най-" + soft + "ото","+ADJ+SUP+N.DEF")
-    _emit("най-" + soft + "ите","+ADJ+SUP+PL.DEF")
+    _emit(("най-" + i_stem + "а") if i_adj else ("най-" + soft + "а"), "+ADJ+SUP+F")
+    _emit(("най-" + i_stem + "о") if i_adj else ("най-" + soft + "о"), "+ADJ+SUP+N")
+    _emit(("най-" + soft) if i_adj else ("най-" + soft + "и"), "+ADJ+SUP+PL")
+    _emit(("най-" + soft + "ят") if i_adj else ("най-" + soft + "ият"), "+ADJ+SUP+M.DEF")
+    _emit(("най-" + soft + "я") if i_adj else ("най-" + soft + "ия"), "+ADJ+SUP+M.DEF.S")
+    _emit(("най-" + i_stem + "ата") if i_adj else ("най-" + soft + "ата"), "+ADJ+SUP+F.DEF")
+    _emit(("най-" + i_stem + "ото") if i_adj else ("най-" + soft + "ото"), "+ADJ+SUP+N.DEF")
+    _emit(("най-" + i_stem + "ите") if i_adj else ("най-" + soft + "ите"), "+ADJ+SUP+PL.DEF")
 
 
 def write_fw_bg(lines, surface, tag, emitted_states):
-    s = f"fw_{safe_name(surface)}"
+    tag_id = tag.replace("+", "").replace(".", "_")
+    s = f"fw_{safe_name(surface)}_{tag_id}"
 
     if s not in emitted_states:
         emitted_states.add(s)
@@ -403,6 +471,16 @@ def generate():
         if lemma not in verbs:
             verbs.append(lemma)
 
+    for lemma in EXTRA_ADJ_LEMMAS_BG:
+        if lemma not in adjs:
+            adjs.append(lemma)
+
+    seen_noun_lemmas = {lemma for lemma, _ in nouns}
+    for lemma, gender in EXTRA_NOUN_LEMMAS_BG:
+        if lemma not in seen_noun_lemmas:
+            nouns.append((lemma, gender))
+            seen_noun_lemmas.add(lemma)
+
     lines = [
         "STATE start START",
         "STATE n_end FINAL",
@@ -413,7 +491,13 @@ def generate():
     #track every state name that has already been emitted
     emitted_states = {"start", "n_end", "v_end", "fw_end"}
 
-    for w, t in BG_PRONOUNS + BG_PREPOSITIONS + BG_CONJUNCTIONS + BG_PARTICLES + BG_AUXILIARIES + BG_NUMERALS + BG_ADVERBS:
+    extra_fw = (
+        EXTRA_PRONOUN_LEMMAS_BG + EXTRA_PREPOSITION_LEMMAS_BG + EXTRA_CONJUNCTION_LEMMAS_BG
+        + EXTRA_PARTICLE_LEMMAS_BG + EXTRA_AUXILIARY_LEMMAS_BG + EXTRA_NUMERAL_LEMMAS_BG
+        + EXTRA_ADVERB_LEMMAS_BG
+    )
+    for w, t in (BG_PRONOUNS + BG_PREPOSITIONS + BG_CONJUNCTIONS + BG_PARTICLES + BG_AUXILIARIES
+                 + BG_NUMERALS + BG_ADVERBS + BG_INTERROGATIVES + extra_fw):
         write_fw_bg(lines, w, t, emitted_states)
 
     for lemma, g in nouns:
