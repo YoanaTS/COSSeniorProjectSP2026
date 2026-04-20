@@ -12,7 +12,6 @@
 #include "disambiguator.h"
 #include "disambiguator_ENG.h"
 #include "disambiguator_BG.h"
-#include <unicode/unistr.h>
 #include "levenshtein.h"
 #include "benchmark.h"
 #include "benchmark_data.h"

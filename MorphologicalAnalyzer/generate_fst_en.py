@@ -21,6 +21,25 @@ The tag format used here matches pos_predicates.cpp exactly:
 
 import re
 
+# Extra lemmas - add words that WordNet does not include
+# ---------------------------------------------------------------
+
+EXTRA_NOUN_LEMMAS_EN = [
+    # "lamp",      #add a noun here
+]
+
+EXTRA_VERB_LEMMAS_EN = [
+    # "glitch",    #add a verb here
+]
+
+EXTRA_ADJ_LEMMAS_EN = [
+    # "gloomy",    #add an adjective here
+]
+
+EXTRA_ADV_LEMMAS_EN = [
+    # "sideways",  #add an adverb here
+]
+
 # ---------------------------------------------------------------
 # Hand-coded function words - closed class so no need for a corpus
 # ---------------------------------------------------------------
@@ -89,8 +108,7 @@ AUXILIARIES = [
 ]
 
 # ---------------------------------------------------------------
-# Irregular forms - hand-coded because they are too common
-# and too unpredictable to leave to a general rule
+# Irregular forms - hand-coded because they are too common and too unpredictable to leave to a general rule
 # ---------------------------------------------------------------
 
 IRREGULAR_VERBS = {
@@ -177,7 +195,7 @@ IRREGULAR_NOUNS = {
     "analysis":  "analyses",  "thesis":     "theses",    "hypothesis": "hypotheses",
 }
 
-# verbs where -e is dropped before -ing (love -> loving, make -> making)
+#verbs where -e is dropped before -ing (love -> loving, make -> making)
 E_DELETION = {
     "make","take","give","come","write","ride","drive","arrive",
     "leave","live","love","move","prove","remove","serve","smile",
@@ -189,7 +207,7 @@ E_DELETION = {
     "debate","locate","rotate","game","frame","flame","blame",
 }
 
-# verbs where the final consonant is doubled before -ed/-ing (stop -> stopped)
+#verbs where the final consonant is doubled before -ed/-ing (stop -> stopped)
 DOUBLING = {
     "stop","drop","plan","sit","hit","cut","put","let","get",
     "begin","swim","win","spin","skip","snap","wrap","tap","tip",
@@ -204,8 +222,7 @@ DOUBLING = {
 
 SIBILANT_ENDINGS = ("ch", "sh", "ss", "x", "z", "tch")
 
-# these forms must never get auto-generated regular entries
-# because they are handled by hand-coded irregular rules above
+#these forms must never get auto-generated regular entries because they are handled by hand-coded irregular rules above
 BLOCKLIST = {
     "is","am","are","was","were","been","being",
     "has","had","having",
@@ -229,7 +246,7 @@ BLOCKLIST = {
     "stole","stolen","swore","sworn","tore","torn","wound",
 }
 
-# WordNet sometimes includes inflected forms as lemmas - filter these out
+#WordNet sometimes includes inflected forms as lemmas - filter these out
 INFLECTION_SUFFIXES = (
     "ing","ed","est","ness","ment","tion","sion",
     "ous","ful","less","ish","ity","ize","ise",
@@ -311,7 +328,7 @@ def write_verb(lines, stem, shared):
                   tr("start", sv, stem, stem),
                   tr(sv, shared["v_end"], "",  "+VERB+INF"),
                   tr(sv, shared["v_end"], "s", "+VERB+3SG")]
-        # progressive
+        #progressive
         if stem.endswith("e"):
             sv_bare = f"vs_{stem}_bare"
             lines += [st(sv_bare),
@@ -319,7 +336,7 @@ def write_verb(lines, stem, shared):
                       tr(sv_bare, shared["v_ing"], "ing", "")]
         else:
             lines.append(tr(sv, shared["v_ing"], "ing", ""))
-        # past tense
+        #past tense
         if past != stem:
             sv_p = f"vs_{stem}_past"
             lines += [st(sv_p),
@@ -327,7 +344,7 @@ def write_verb(lines, stem, shared):
                       tr(sv_p, shared["v_end"], "", "+VERB+PAST")]
         else:
             lines.append(tr(sv, shared["v_end"], "", "+VERB+PAST"))
-        # past participle
+        #past participle
         if pastpart != past:
             sv_pp = f"vs_{stem}_pp"
             lines += [st(sv_pp),
@@ -371,8 +388,7 @@ def write_verb(lines, stem, shared):
 
 
 def write_be(lines, shared):
-    # each surface form of "be" gets its own state
-    # so the lemma output is always "be" regardless of the form
+    #each surface form of "be" gets its own state so the lemma output is always "be" regardless of the form
     forms = {
         "be":   "+VERB+INF",
         "am":   "+VERB+1SG.PRES",
@@ -394,7 +410,7 @@ def write_be(lines, shared):
 
 
 def write_simple_word(lines, surface, lemma, tag, final_state):
-    # used for pronouns, determiners, prepositions, conjunctions, auxiliaries
+    #used for pronouns, determiners, prepositions, conjunctions, auxiliaries
     sname = f"fw_{surface}"
     lines += [st(sname),
               tr("start", sname, surface, lemma),
@@ -426,7 +442,7 @@ def load_stems():
         for lemma in synset.lemmas():
             word = lemma.name().lower()
 
-            # WordNet uses underscores for multi-word entries - skip those
+            #WordNet uses underscores for multi-word entries - skip those
             if "_" in word or not word.isalpha() or len(word) < 2:
                 continue
             if word in BLOCKLIST:
@@ -445,8 +461,7 @@ def load_stems():
             elif pos == "r":
                 advs[word] = advs.get(word, 1)
 
-    # words that appear as both noun and verb get both sets of rules
-    # this is what causes "game", "love", "walk" etc. to be ambiguous
+    #words that appear as both noun and verb get both sets of rules this is what causes "game", "love", "walk" etc. to be ambiguous
     ambig = {}
     for word in list(nouns.keys()):
         if word in verbs:
@@ -454,7 +469,7 @@ def load_stems():
             del nouns[word]
             del verbs[word]
 
-    # remove inflected forms that slipped through as lemmas
+    #remove inflected forms that slipped through as lemmas
     all_base_nouns = set(nouns.keys()) | set(ambig.keys())
     nouns = {w: f for w, f in nouns.items()
              if not (w.endswith("s")  and w[:-1]  in all_base_nouns)
@@ -472,6 +487,15 @@ def load_stems():
 
 def generate():
     nouns, verbs, adjs, advs, ambig = load_stems()
+
+    for w in EXTRA_NOUN_LEMMAS_EN:
+        nouns.setdefault(w, 1)
+    for w in EXTRA_VERB_LEMMAS_EN:
+        verbs.setdefault(w, 1)
+    for w in EXTRA_ADJ_LEMMAS_EN:
+        adjs.setdefault(w, 1)
+    for w in EXTRA_ADV_LEMMAS_EN:
+        advs.setdefault(w, 1)
 
     lines = [
         "# ============================================================",
@@ -533,7 +557,7 @@ def generate():
     for surface, tag in AUXILIARIES:
         write_fw(lines, surface, tag)
 
-    # be is the most irregular verb in English - handle it entirely by hand
+    #be is the most irregular verb in English; handle it entirely by hand
     lines += ["", "# === BE (irregular) ==="]
     write_be(lines, shared)
     done_verbs = {"be"}
@@ -585,9 +609,7 @@ def generate():
                   tr("start", rb, stem, stem),
                   tr(rb, "fw_end", "", "+ADV+BASE")]
 
-    # ambiguous noun+verb words get both sets of rules
-    # this is what makes "walk", "love", "game" etc. show as ambiguous
-    # when there is no sentence context to resolve them
+    #ambiguous noun+verb words get both sets of rules
     lines += ["", "# === AMBIGUOUS NOUN+VERB ==="]
     for stem in sorted(ambig):
         if stem not in done_nouns:
