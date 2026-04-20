@@ -9,7 +9,7 @@ import csv
 # ---------------------------------------------------------------
 # Hand-coded function words (Cyrillic)
 # ---------------------------------------------------------------
-WORD_LIMIT = 10000
+WORD_LIMIT = 20000
 
 BG_PRONOUNS = [
     ("аз", "+PRON+1SG.SUBJ"), ("мен", "+PRON+1SG.OBJ"), ("ме", "+PRON+1SG.OBJ"), ("ми", "+PRON+1SG.DAT"),
@@ -68,7 +68,7 @@ BG_ADVERBS = [
     ("всъщност", "+ADV"),
 ]
 
-# interrogative / question words (hard-coded so they are not missing or mis-tagged from corpus)
+#question words (hard-coded so they are not missing or mis-tagged from corpus)
 BG_INTERROGATIVES = [
     ("кога", "+ADV+Q"), ("къде", "+ADV+Q"), ("как", "+ADV+Q"), ("защо", "+ADV+Q"),
     ("колко", "+ADV+Q"),
@@ -78,11 +78,7 @@ BG_INTERROGATIVES = [
 ]
 
 #additional verbs
-#"ходя" → conj. 2 (-я): stem "ход" → ходя, ходиш, ходи,...
-#"отивам" → conj. 3 (-ам): stem "отива" → отивам, отиваш, …
-#"разходя" → conj. 2: stem "разход" → разходя, разходиш, … (раз- + ходя)
-EXTRA_VERB_LEMMAS_BG = [
-    "ходя","отивам","разходя",
+EXTRA_VERB_LEMMAS_BG = [ "ходя","отивам","разходя",
 ]
 
 #additional adjectives (string lemmas; full adj paradigm)
@@ -290,9 +286,7 @@ def load_stems_bg():
     adjs  = list(set(adjs))
 
     #don't re-process words already handled as function words
-    fw_surfaces = {w for w, _ in BG_PRONOUNS + BG_PREPOSITIONS + BG_CONJUNCTIONS
-                                + BG_PARTICLES + BG_AUXILIARIES + BG_NUMERALS + BG_ADVERBS
-                                + BG_INTERROGATIVES}
+    fw_surfaces = {w for w, _ in BG_PRONOUNS + BG_PREPOSITIONS + BG_CONJUNCTIONS+ BG_PARTICLES + BG_AUXILIARIES + BG_NUMERALS + BG_ADVERBS + BG_INTERROGATIVES}
     adjs = [l for l in adjs if l not in fw_surfaces]
 
     print(f"Nouns: {len(nouns)}  Verbs: {len(verbs)}  Adjs: {len(adjs)}")
@@ -331,6 +325,17 @@ def write_noun_bg(lines, lemma, gender, emitted_states):
         elif gender == "f" and lemma.endswith("а"):
             #"книга" → plural "книги": drop final "а", add "и"
             pl_surface = lemma[:-1] + "и"
+            pl_s = s + "_pl"
+            emitted_states.add(pl_s)
+            lines += [st(pl_s),
+                      tr("start", pl_s, pl_surface, lemma),
+                      tr(pl_s, "n_end", "", "+NOUN+PL")]
+            cg_pl = compound_noun_tag("+NOUN+PL")
+            if cg_pl:
+                lines.append(tr(pl_s, "n_end", "", cg_pl))
+        elif gender == "n" and lemma.endswith("о"):
+            #"правителство" -> plural "правителства": replace final "о" with "а"
+            pl_surface = lemma[:-1] + "а"
             pl_s = s + "_pl"
             emitted_states.add(pl_s)
             lines += [st(pl_s),
@@ -390,6 +395,15 @@ def write_verb_bg(lines, lemma, emitted_states):
 
 
 def write_adj_bg(lines, lemma, emitted_states):
+    #Some analyzers occasionally return short/definite adjective forms as lemmas; normalize those to base -и to avoid invalid forms
+    #-ен adjectives often appear as "...нният" before definite -ият (e.g. постоянен / постоянният)
+    if len(lemma) > 6 and lemma.endswith("ият") and lemma[-5] == "н" and lemma[-4] == "н":
+        lemma = lemma[:-4] + "ен"
+    elif len(lemma) > 3 and lemma.endswith("ият"):
+        lemma = lemma[:-3] + "и"
+    elif len(lemma) > 2 and lemma.endswith("ия"):
+        lemma = lemma[:-2] + "и"
+
     #ъ-drop: добър → добр, малък → малк (drop ъ whenever it is second-to-last)
     soft = (lemma[:-2] + lemma[-1]) if len(lemma) >= 2 and lemma[-2] == "ъ" else lemma
     #е-drop before final -н: умен -> умн-, парламентарен -> парламентарн-

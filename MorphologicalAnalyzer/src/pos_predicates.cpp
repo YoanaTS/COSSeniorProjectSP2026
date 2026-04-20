@@ -26,6 +26,7 @@ const POSConfig& bulgarianConfig() {
         //Инфинитив, сегашно време, аорист, имперфект, повелително, причастия
         {
 			"+VERB+INF", //инфинитив (да + глагол)
+			"+VERB+BASE", //маркер за непълна/лексикална глаг. форма в FST (напр. съществуваща само +VERB+BASE)
 			"+VERB+1SG.PRES", "+VERB+2SG.PRES", "+VERB+3SG.PRES", "+VERB+1PL.PRES", "+VERB+2PL.PRES", "+VERB+3PL.PRES", //сегашно време
 			"+VERB+1SG.AOR",  "+VERB+2SG.AOR",  "+VERB+3SG.AOR", "+VERB+1PL.AOR",  "+VERB+2PL.AOR",  "+VERB+3PL.AOR", //аорист (минало свършено)
             "+VERB+1SG.IMPF", "+VERB+3SG.IMPF", "+VERB+3PL.IMPF", //имперфект
