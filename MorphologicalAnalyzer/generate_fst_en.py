@@ -195,6 +195,9 @@ IRREGULAR_NOUNS = {
     "analysis":  "analyses",  "thesis":     "theses",    "hypothesis": "hypotheses",
 }
 
+# productive prefixes for participle-like adjectives (e.g. undone, premade)
+PREFIXED_PARTICIPLE_PREFIXES = ("un", "pre", "re")
+
 #verbs where -e is dropped before -ing (love -> loving, make -> making)
 E_DELETION = {
     "make","take","give","come","write","ride","drive","arrive",
@@ -252,6 +255,12 @@ INFLECTION_SUFFIXES = (
     "ous","ful","less","ish","ity","ize","ise",
     "ify","ology","ism","ist",
 )
+
+VOWELS = set("aeiouy")
+
+def looks_acronym_like(word):
+    # Filter short consonant-only items like dmd/dmz/dms that behave like acronyms.
+    return len(word) <= 4 and all(ch not in VOWELS for ch in word)
 
 # ---------------------------------------------------------------
 # Helpers - same pattern as the original generate_fst.py
@@ -409,6 +418,23 @@ def write_be(lines, shared):
               tr(sv_ing, shared["v_ing"], "", "+VERB+PROG")]
 
 
+def write_prefixed_irregular_participle_adjs(lines, base_verbs):
+    #only irregular participles to avoid overgeneration
+    for base in sorted(base_verbs):
+        if base not in IRREGULAR_VERBS:
+            continue
+        _past, pastpart = IRREGULAR_VERBS[base]
+        if not pastpart or not pastpart.isalpha():
+            continue
+        for pref in PREFIXED_PARTICIPLE_PREFIXES:
+            lemma = pref + base
+            surface = pref + pastpart
+            sa = f"as_{lemma}_pp"
+            lines += [st(sa),
+                      tr("start", sa, surface, lemma),
+                      tr(sa, "fw_end", "", "+ADJ+BASE")]
+
+
 def write_simple_word(lines, surface, lemma, tag, final_state):
     #used for pronouns, determiners, prepositions, conjunctions, auxiliaries
     sname = f"fw_{surface}"
@@ -446,6 +472,8 @@ def load_stems():
             if "_" in word or not word.isalpha() or len(word) < 2:
                 continue
             if word in BLOCKLIST:
+                continue
+            if looks_acronym_like(word):
                 continue
             if any(word.endswith(s) for s in INFLECTION_SUFFIXES):
                 continue
@@ -597,6 +625,10 @@ def generate():
         lines += [st(sa),
                   tr("start", sa, stem, stem),
                   tr(sa, "fw_end", "", "+ADJ+BASE")]
+
+    lines += ["", "# === PREFIXED IRREGULAR PARTICIPLE ADJECTIVES ==="]
+    verb_inventory = set(done_verbs) | set(verbs.keys()) | set(ambig.keys()) | set(IRREGULAR_VERBS.keys())
+    write_prefixed_irregular_participle_adjs(lines, verb_inventory)
 
     lines += ["", "# === ADVERBS ==="]
     done_advs = set()

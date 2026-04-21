@@ -132,7 +132,7 @@ static bool setupLanguage(std::string& language, FiniteStateTransducer& morph, s
     std::unique_ptr<Disambiguator>& disambig) {
     std::cout << "Select language:\n";
     std::cout << "1) English (EN)\n";
-    std::cout << "2) Bulgarian (BG)\n";
+    std::cout << "2) Bulgarian (BG)\n" << "\n";
     std::string pick;
     std::getline(std::cin, pick);
     pick = trimWhitespace(pick);
@@ -295,7 +295,7 @@ int main() {
     }
 
     std::string line;
-    std::cout << "Enter a word or a sentence (write '-1' to exit)\n";
+    std::cout << "Enter a word or a sentence (write '-1' to exit)\n" << "\n" << "\n";
     std::cout << "Commands: ? = change language\n";
     std::cout << "         b / benchmark [N] = full benchmark (pre-defined list)\n";
     std::cout << "         random N [seed] = N unique random FST words (seed is optional; NFR3 stays 100)\n\n";

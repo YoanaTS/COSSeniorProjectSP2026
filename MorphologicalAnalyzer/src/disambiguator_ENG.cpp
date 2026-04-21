@@ -2,12 +2,45 @@
 #include "disambiguator.h"
 #include "pos_predicates.h"
 #include <algorithm>
+#include "analysis_format.h"
 
 //returns the word at position pos+offset, lowercase, or "" if out of bounds
 static std::string getWord(const std::vector<AnnotatedWord>& sentence, int pos, int offset) {
     int idx = pos + offset;
     if (idx < 0 || idx >= (int)sentence.size()) return "";
     return sentence[idx].surface;
+}
+static bool hasAnyTag(const std::string& s, std::initializer_list<const char*> tags) {
+    for (const char* t : tags) {
+        if (s.find(t) != std::string::npos) return true;
+    }
+    return false;
+}
+
+static std::string extractLemmaFromAnalysis(const Analysis& a) {
+    std::string s = analysis_format::formatAnalysis(a); // e.g. "wa+NOUN+PL"
+    size_t plus = s.find('+');
+    return (plus == std::string::npos) ? s : s.substr(0, plus);
+}
+
+static AnalysisList filterShortOpenClassLemmas(const AnalysisList& in) {
+    AnalysisList out;
+
+    for (const auto& a : in) {
+        std::string s = analysis_format::formatAnalysis(a);
+        std::string lemma = extractLemmaFromAnalysis(a);
+
+        bool openClass = hasAnyTag(s, { "+NOUN+", "+VERB+", "+ADJ+", "+ADV+" });
+        bool closedClass = hasAnyTag(s, { "+PRON+", "+DET+", "+PREP+", "+CONJ+", "+AUX+", "+NEG+", "+PART+", "+NUM+" });
+
+        if (openClass && !closedClass && lemma.size() < 3) { //drop
+            continue;
+        }
+        out.push_back(a);
+    }
+
+    return out.empty() ? in : out; 	//return originals if all were filtered out
+
 }
 
 std::vector<DisambiguatedWord> DisambiguatorENG::disambiguate(
