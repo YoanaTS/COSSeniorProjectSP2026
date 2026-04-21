@@ -47,5 +47,5 @@ The tests are as follows:
 | **Disambiguation** Context must resolve ambiguous POS (e.g., "the play" → NOUN)
 
 ### References
-Full methodology, literature review, and evaluation are documented in the accompanying thesis `Finite_State_Transducer_for_Morphological_Analysis_in_English.docx`.
+Full methodology, literature review, and evaluation are documented in the accompanying thesis `Finite_State_Transducer_for_Morphological_Analysis_in_English_and_Bulgarian.docx`.
 
