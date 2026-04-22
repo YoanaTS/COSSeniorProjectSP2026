@@ -23,6 +23,8 @@ python generate_fst_bg.py    # produces bulgarian_morphology.fst
 ```
 The rule files are plain text, and while editing by hand is possible, it is not encouraged as it requires multiple STATE and TRANSITION declarations rather than a single entry. It is better to add words through the Python generator files. The current files generate over 73,000 states for English (~60,000 lemmas) and nearly 73,000 states for Bulgarian (~20,000 lemmas). The comparable state counts reflect Bulgarian's richer inflectional morphology: fewer base words, but significantly more surface forms per word.
 
+The initial Bulgarian corpus is built on the Leipzig - bul_news_2022 collection, which can be downloaded here: https://dict.wortschatz-leipzig.de/en?corpusId=bul_news_2022. Any corpus collection of a similar structure can be used for the generator, once it is renamed to bulgarian_words.
+
 Once opened, the program accepts the following commands:
 ### Commands
 ```
