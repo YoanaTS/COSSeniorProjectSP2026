@@ -14,5 +14,5 @@ x64/
 x86/
 ipch/
 
-# rules file (too large for GitHub, regenerate with generate_fst.py)
+# rules file (too large for GitHub, regenerate with generate_fst_bg.py and generate_fst_bg.py)
 english_morphology.fst

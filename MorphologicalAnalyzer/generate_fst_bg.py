@@ -1,5 +1,5 @@
 # ============================================================
-# generate_fst_bg.py
+#generate_fst_bg.py
 # ============================================================
 
 import re
@@ -7,7 +7,7 @@ import os
 import csv
 
 # ---------------------------------------------------------------
-# Hand-coded function words (Cyrillic)
+#Hand-coded function words (Cyrillic)
 # ---------------------------------------------------------------
 WORD_LIMIT = 20000
 
@@ -126,9 +126,9 @@ IRREGULAR_PLURALS_BG = {
 NOUN_COMPOUND_GLOSS_BG = {
     "разходка": "раз-ходка",
 }
-# ---------------------------------------------------------------
-# Morphology rules — verbs
-# ---------------------------------------------------------------
+#---------------------------------------------------------------
+#Morphology rules — verbs
+#---------------------------------------------------------------
 
 PRES_TAGS  = ["+VERB+1SG.PRES", "+VERB+2SG.PRES", "+VERB+3SG.PRES",
               "+VERB+1PL.PRES", "+VERB+2PL.PRES", "+VERB+3PL.PRES"]
@@ -179,9 +179,9 @@ def get_verb_stem_bg(lemma, conj):
         return lemma[:-1]
     return lemma
 
-# ---------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------
+#---------------------------------------------------------------
+#Helpers
+#---------------------------------------------------------------
 
 def st(name, mod=""):
     return f"STATE {name} {mod}".strip()
@@ -195,7 +195,7 @@ def safe_name(word):
     return word.replace(" ", "_")
 
 # ---------------------------------------------------------------
-# Word list (CSV-based)
+#Word list (CSV-based)
 # ---------------------------------------------------------------
 
 def get_word_list():
@@ -231,7 +231,7 @@ def get_word_list():
         return ["човек", "жена", "град"]
 
 # ---------------------------------------------------------------
-# Stanza loading
+#Stanza loading
 # ---------------------------------------------------------------
 
 def load_stems_bg():
@@ -472,7 +472,7 @@ def write_fw_bg(lines, surface, tag, emitted_states):
         emitted_states.add(s)
         lines += [st(s), tr("start", s, surface, surface),
                   tr(s, "fw_end", "", tag)]
-    # If already emitted, skip entirely
+    #If already emitted, skip entirely
 
 # ---------------------------------------------------------------
 # MAIN

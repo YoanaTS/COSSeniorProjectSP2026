@@ -229,3 +229,15 @@ void testUnknownWords(FiniteStateTransducer& fst) {
     r = fst.transduce("blorgwump");
     report("blorgwump -> [unknown]", !hasAnyResult(r));
 }
+void runAllTests(FiniteStateTransducer& fst) {
+    testRegularNouns(fst);
+    testIrregularNouns(fst);
+    testSibilantNouns(fst);
+    testRegularVerbs(fst);
+    testIrregularVerbs(fst);
+    testFunctionWords(fst);
+    testPrefixedWords(fst);
+    testUnknownWords(fst);
+
+    std::cout << "\nPassed: " << passed << "\nFailed: " << failed << std::endl;
+}

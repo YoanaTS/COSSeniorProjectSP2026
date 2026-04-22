@@ -21,27 +21,27 @@ The tag format used here matches pos_predicates.cpp exactly:
 
 import re
 
-# Extra lemmas - add words that WordNet does not include
+#Extra lemmas - add words that WordNet does not include
 # ---------------------------------------------------------------
 
 EXTRA_NOUN_LEMMAS_EN = [
-    # "lamp",      #add a noun here
+    #"lamp",      #add a noun here
 ]
 
 EXTRA_VERB_LEMMAS_EN = [
-    # "glitch",    #add a verb here
+    #"glitch",    #add a verb here
 ]
 
 EXTRA_ADJ_LEMMAS_EN = [
-    # "gloomy",    #add an adjective here
+    #"gloomy",    #add an adjective here
 ]
 
 EXTRA_ADV_LEMMAS_EN = [
-    # "sideways",  #add an adverb here
+    #"sideways",  #add an adverb here
 ]
 
 # ---------------------------------------------------------------
-# Hand-coded function words - closed class so no need for a corpus
+#Hand-coded function words - closed class so no need for a corpus
 # ---------------------------------------------------------------
 
 PRONOUNS = [
@@ -108,7 +108,7 @@ AUXILIARIES = [
 ]
 
 # ---------------------------------------------------------------
-# Irregular forms - hand-coded because they are too common and too unpredictable to leave to a general rule
+#Irregular forms - hand-coded because they are too common and too unpredictable to leave to a general rule
 # ---------------------------------------------------------------
 
 IRREGULAR_VERBS = {
@@ -195,7 +195,7 @@ IRREGULAR_NOUNS = {
     "analysis":  "analyses",  "thesis":     "theses",    "hypothesis": "hypotheses",
 }
 
-# productive prefixes for participle-like adjectives (e.g. undone, premade)
+#productive prefixes for participle-like adjectives (e.g. undone, premade)
 PREFIXED_PARTICIPLE_PREFIXES = ("un", "pre", "re")
 
 #verbs where -e is dropped before -ing (love -> loving, make -> making)
@@ -259,7 +259,7 @@ INFLECTION_SUFFIXES = (
 VOWELS = set("aeiouy")
 
 def looks_acronym_like(word):
-    # Filter short consonant-only items like dmd/dmz/dms that behave like acronyms.
+    #filter short consonant-only items like dmd/dmz/dms that behave like acronyms.
     return len(word) <= 4 and all(ch not in VOWELS for ch in word)
 
 # ---------------------------------------------------------------
@@ -484,7 +484,7 @@ def load_stems():
                 nouns[word] = nouns.get(word, 1)
             elif pos == "v":
                 verbs[word] = verbs.get(word, 1)
-            elif pos in ("a", "s"):   # s = satellite adjective in WordNet
+            elif pos in ("a", "s"):   #s = satellite adjective in WordNet
                 adjs[word] = adjs.get(word, 1)
             elif pos == "r":
                 advs[word] = advs.get(word, 1)
@@ -538,9 +538,9 @@ def generate():
         "STATE v_end  FINAL",
         "STATE fw_end FINAL",
         "",
-        "# shared intermediate states for verb suffixes",
-        "# -ed leads to either +VERB+PAST or +VERB+PASTPART via epsilon",
-        "# -ing leads to +VERB+PROG via epsilon",
+        "#shared intermediate states for verb suffixes",
+        "#-ed leads to either +VERB+PAST or +VERB+PASTPART via epsilon",
+        "#-ing leads to +VERB+PROG via epsilon",
         "STATE v_ed_shared",
         "STATE v_ing_shared",
         "",

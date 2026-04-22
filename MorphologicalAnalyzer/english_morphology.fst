@@ -10,9 +10,9 @@ STATE n_end  FINAL
 STATE v_end  FINAL
 STATE fw_end FINAL
 
-# shared intermediate states for verb suffixes
-# -ed leads to either +VERB+PAST or +VERB+PASTPART via epsilon
-# -ing leads to +VERB+PROG via epsilon
+#shared intermediate states for verb suffixes
+#-ed leads to either +VERB+PAST or +VERB+PASTPART via epsilon
+#-ing leads to +VERB+PROG via epsilon
 STATE v_ed_shared
 STATE v_ing_shared
 
@@ -16881,18 +16881,6 @@ STATE ns_bazooka
 TRANSITION start ns_bazooka "bazooka" "bazooka"
 TRANSITION ns_bazooka n_end EPS "+NOUN+SG"
 TRANSITION ns_bazooka n_end "s" "+NOUN+PL"
-STATE ns_bb
-TRANSITION start ns_bb "bb" "bb"
-TRANSITION ns_bb n_end EPS "+NOUN+SG"
-TRANSITION ns_bb n_end "s" "+NOUN+PL"
-STATE ns_bbl
-TRANSITION start ns_bbl "bbl" "bbl"
-TRANSITION ns_bbl n_end EPS "+NOUN+SG"
-TRANSITION ns_bbl n_end "s" "+NOUN+PL"
-STATE ns_bd
-TRANSITION start ns_bd "bd" "bd"
-TRANSITION ns_bd n_end EPS "+NOUN+SG"
-TRANSITION ns_bd n_end "s" "+NOUN+PL"
 STATE ns_bdellium
 TRANSITION start ns_bdellium "bdellium" "bdellium"
 TRANSITION ns_bdellium n_end EPS "+NOUN+SG"
@@ -18229,10 +18217,6 @@ STATE ns_bezzant
 TRANSITION start ns_bezzant "bezzant" "bezzant"
 TRANSITION ns_bezzant n_end EPS "+NOUN+SG"
 TRANSITION ns_bezzant n_end "s" "+NOUN+PL"
-STATE ns_bh
-TRANSITION start ns_bh "bh" "bh"
-TRANSITION ns_bh n_end EPS "+NOUN+SG"
-TRANSITION ns_bh n_end "s" "+NOUN+PL"
 STATE ns_bhadon
 TRANSITION start ns_bhadon "bhadon" "bhadon"
 TRANSITION ns_bhadon n_end EPS "+NOUN+SG"
@@ -19185,14 +19169,6 @@ STATE ns_bja
 TRANSITION start ns_bja "bja" "bja"
 TRANSITION ns_bja n_end EPS "+NOUN+SG"
 TRANSITION ns_bja n_end "s" "+NOUN+PL"
-STATE ns_bjs
-TRANSITION start ns_bjs "bjs" "bjs"
-TRANSITION ns_bjs n_end EPS "+NOUN+SG"
-TRANSITION ns_bjs n_end "s" "+NOUN+PL"
-STATE ns_bk
-TRANSITION start ns_bk "bk" "bk"
-TRANSITION ns_bk n_end EPS "+NOUN+SG"
-TRANSITION ns_bk n_end "s" "+NOUN+PL"
 STATE ns_blabbermouth
 TRANSITION start ns_blabbermouth "blabbermouth" "blabbermouth"
 TRANSITION ns_blabbermouth n_end EPS "+NOUN+SG"
@@ -19931,10 +19907,6 @@ STATE ns_blowup
 TRANSITION start ns_blowup "blowup" "blowup"
 TRANSITION ns_blowup n_end EPS "+NOUN+SG"
 TRANSITION ns_blowup n_end "s" "+NOUN+PL"
-STATE ns_blt
-TRANSITION start ns_blt "blt" "blt"
-TRANSITION ns_blt n_end EPS "+NOUN+SG"
-TRANSITION ns_blt n_end "s" "+NOUN+PL"
 STATE ns_blubberer
 TRANSITION start ns_blubberer "blubberer" "blubberer"
 TRANSITION ns_blubberer n_end EPS "+NOUN+SG"
@@ -20057,10 +20029,6 @@ STATE ns_blusterer
 TRANSITION start ns_blusterer "blusterer" "blusterer"
 TRANSITION ns_blusterer n_end EPS "+NOUN+SG"
 TRANSITION ns_blusterer n_end "s" "+NOUN+PL"
-STATE ns_bm
-TRANSITION start ns_bm "bm" "bm"
-TRANSITION ns_bm n_end EPS "+NOUN+SG"
-TRANSITION ns_bm n_end "s" "+NOUN+PL"
 STATE ns_bmdo
 TRANSITION start ns_bmdo "bmdo" "bmdo"
 TRANSITION ns_bmdo n_end EPS "+NOUN+SG"
@@ -20069,18 +20037,10 @@ STATE ns_bmi
 TRANSITION start ns_bmi "bmi" "bmi"
 TRANSITION ns_bmi n_end EPS "+NOUN+SG"
 TRANSITION ns_bmi n_end "s" "+NOUN+PL"
-STATE ns_bmr
-TRANSITION start ns_bmr "bmr" "bmr"
-TRANSITION ns_bmr n_end EPS "+NOUN+SG"
-TRANSITION ns_bmr n_end "s" "+NOUN+PL"
 STATE ns_bmus
 TRANSITION start ns_bmus "bmus" "bmus"
 TRANSITION ns_bmus n_end EPS "+NOUN+SG"
 TRANSITION ns_bmus n_end "s" "+NOUN+PL"
-STATE ns_bns
-TRANSITION start ns_bns "bns" "bns"
-TRANSITION ns_bns n_end EPS "+NOUN+SG"
-TRANSITION ns_bns n_end "s" "+NOUN+PL"
 STATE ns_boa
 TRANSITION start ns_boa "boa" "boa"
 TRANSITION ns_boa n_end EPS "+NOUN+SG"
@@ -21631,26 +21591,10 @@ STATE ns_bozo
 TRANSITION start ns_bozo "bozo" "bozo"
 TRANSITION ns_bozo n_end EPS "+NOUN+SG"
 TRANSITION ns_bozo n_end "s" "+NOUN+PL"
-STATE ns_bph
-TRANSITION start ns_bph "bph" "bph"
-TRANSITION ns_bph n_end EPS "+NOUN+SG"
-TRANSITION ns_bph n_end "s" "+NOUN+PL"
 STATE ns_bpi
 TRANSITION start ns_bpi "bpi" "bpi"
 TRANSITION ns_bpi n_end EPS "+NOUN+SG"
 TRANSITION ns_bpi n_end "s" "+NOUN+PL"
-STATE ns_bpm
-TRANSITION start ns_bpm "bpm" "bpm"
-TRANSITION ns_bpm n_end EPS "+NOUN+SG"
-TRANSITION ns_bpm n_end "s" "+NOUN+PL"
-STATE ns_bps
-TRANSITION start ns_bps "bps" "bps"
-TRANSITION ns_bps n_end EPS "+NOUN+SG"
-TRANSITION ns_bps n_end "s" "+NOUN+PL"
-STATE ns_br
-TRANSITION start ns_br "br" "br"
-TRANSITION ns_br n_end EPS "+NOUN+SG"
-TRANSITION ns_br n_end "s" "+NOUN+PL"
 STATE ns_bra
 TRANSITION start ns_bra "bra" "bra"
 TRANSITION ns_bra n_end EPS "+NOUN+SG"
@@ -23261,10 +23205,6 @@ STATE ns_bryum
 TRANSITION start ns_bryum "bryum" "bryum"
 TRANSITION ns_bryum n_end EPS "+NOUN+SG"
 TRANSITION ns_bryum n_end "s" "+NOUN+PL"
-STATE ns_bs
-TRANSITION start ns_bs "bs" "bs"
-TRANSITION ns_bs n_end EPS "+NOUN+SG"
-TRANSITION ns_bs n_end "s" "+NOUN+PL"
 STATE ns_bsarch
 STATE ns_bsarch_e
 TRANSITION start ns_bsarch "bsarch" "bsarch"
@@ -24423,18 +24363,6 @@ STATE ns_buzzword
 TRANSITION start ns_buzzword "buzzword" "buzzword"
 TRANSITION ns_buzzword n_end EPS "+NOUN+SG"
 TRANSITION ns_buzzword n_end "s" "+NOUN+PL"
-STATE ns_bvd
-TRANSITION start ns_bvd "bvd" "bvd"
-TRANSITION ns_bvd n_end EPS "+NOUN+SG"
-TRANSITION ns_bvd n_end "s" "+NOUN+PL"
-STATE ns_bw
-TRANSITION start ns_bw "bw" "bw"
-TRANSITION ns_bw n_end EPS "+NOUN+SG"
-TRANSITION ns_bw n_end "s" "+NOUN+PL"
-STATE ns_bwr
-TRANSITION start ns_bwr "bwr" "bwr"
-TRANSITION ns_bwr n_end EPS "+NOUN+SG"
-TRANSITION ns_bwr n_end "s" "+NOUN+PL"
 STATE ns_byblos
 TRANSITION start ns_byblos "byblos" "byblos"
 TRANSITION ns_byblos n_end EPS "+NOUN+SG"
@@ -28505,30 +28433,6 @@ STATE ns_cazique
 TRANSITION start ns_cazique "cazique" "cazique"
 TRANSITION ns_cazique n_end EPS "+NOUN+SG"
 TRANSITION ns_cazique n_end "s" "+NOUN+PL"
-STATE ns_cbc
-TRANSITION start ns_cbc "cbc" "cbc"
-TRANSITION ns_cbc n_end EPS "+NOUN+SG"
-TRANSITION ns_cbc n_end "s" "+NOUN+PL"
-STATE ns_cbr
-TRANSITION start ns_cbr "cbr" "cbr"
-TRANSITION ns_cbr n_end EPS "+NOUN+SG"
-TRANSITION ns_cbr n_end "s" "+NOUN+PL"
-STATE ns_cc
-TRANSITION start ns_cc "cc" "cc"
-TRANSITION ns_cc n_end EPS "+NOUN+SG"
-TRANSITION ns_cc n_end "s" "+NOUN+PL"
-STATE ns_ccrc
-TRANSITION start ns_ccrc "ccrc" "ccrc"
-TRANSITION ns_ccrc n_end EPS "+NOUN+SG"
-TRANSITION ns_ccrc n_end "s" "+NOUN+PL"
-STATE ns_cd
-TRANSITION start ns_cd "cd" "cd"
-TRANSITION ns_cd n_end EPS "+NOUN+SG"
-TRANSITION ns_cd n_end "s" "+NOUN+PL"
-STATE ns_cdc
-TRANSITION start ns_cdc "cdc" "cdc"
-TRANSITION ns_cdc n_end EPS "+NOUN+SG"
-TRANSITION ns_cdc n_end "s" "+NOUN+PL"
 STATE ns_cdna
 TRANSITION start ns_cdna "cdna" "cdna"
 TRANSITION ns_cdna n_end EPS "+NOUN+SG"
@@ -29591,26 +29495,10 @@ STATE ns_cezanne
 TRANSITION start ns_cezanne "cezanne" "cezanne"
 TRANSITION ns_cezanne n_end EPS "+NOUN+SG"
 TRANSITION ns_cezanne n_end "s" "+NOUN+PL"
-STATE ns_cf
-TRANSITION start ns_cf "cf" "cf"
-TRANSITION ns_cf n_end EPS "+NOUN+SG"
-TRANSITION ns_cf n_end "s" "+NOUN+PL"
-STATE ns_cfc
-TRANSITION start ns_cfc "cfc" "cfc"
-TRANSITION ns_cfc n_end EPS "+NOUN+SG"
-TRANSITION ns_cfc n_end "s" "+NOUN+PL"
 STATE ns_cfo
 TRANSITION start ns_cfo "cfo" "cfo"
 TRANSITION ns_cfo n_end EPS "+NOUN+SG"
 TRANSITION ns_cfo n_end "s" "+NOUN+PL"
-STATE ns_cftr
-TRANSITION start ns_cftr "cftr" "cftr"
-TRANSITION ns_cftr n_end EPS "+NOUN+SG"
-TRANSITION ns_cftr n_end "s" "+NOUN+PL"
-STATE ns_cgs
-TRANSITION start ns_cgs "cgs" "cgs"
-TRANSITION ns_cgs n_end EPS "+NOUN+SG"
-TRANSITION ns_cgs n_end "s" "+NOUN+PL"
 STATE ns_chabad
 TRANSITION start ns_chabad "chabad" "chabad"
 TRANSITION ns_chabad n_end EPS "+NOUN+SG"
@@ -32991,14 +32879,6 @@ STATE ns_civvies
 TRANSITION start ns_civvies "civvies" "civvies"
 TRANSITION ns_civvies n_end EPS "+NOUN+SG"
 TRANSITION ns_civvies n_end "s" "+NOUN+PL"
-STATE ns_cjd
-TRANSITION start ns_cjd "cjd" "cjd"
-TRANSITION ns_cjd n_end EPS "+NOUN+SG"
-TRANSITION ns_cjd n_end "s" "+NOUN+PL"
-STATE ns_cl
-TRANSITION start ns_cl "cl" "cl"
-TRANSITION ns_cl n_end EPS "+NOUN+SG"
-TRANSITION ns_cl n_end "s" "+NOUN+PL"
 STATE ns_clade
 TRANSITION start ns_clade "clade" "clade"
 TRANSITION ns_clade n_end EPS "+NOUN+SG"
@@ -33837,22 +33717,6 @@ STATE ns_clytemnestra
 TRANSITION start ns_clytemnestra "clytemnestra" "clytemnestra"
 TRANSITION ns_clytemnestra n_end EPS "+NOUN+SG"
 TRANSITION ns_clytemnestra n_end "s" "+NOUN+PL"
-STATE ns_cm
-TRANSITION start ns_cm "cm" "cm"
-TRANSITION ns_cm n_end EPS "+NOUN+SG"
-TRANSITION ns_cm n_end "s" "+NOUN+PL"
-STATE ns_cmb
-TRANSITION start ns_cmb "cmb" "cmb"
-TRANSITION ns_cmb n_end EPS "+NOUN+SG"
-TRANSITION ns_cmb n_end "s" "+NOUN+PL"
-STATE ns_cmbr
-TRANSITION start ns_cmbr "cmbr" "cmbr"
-TRANSITION ns_cmbr n_end EPS "+NOUN+SG"
-TRANSITION ns_cmbr n_end "s" "+NOUN+PL"
-STATE ns_cmv
-TRANSITION start ns_cmv "cmv" "cmv"
-TRANSITION ns_cmv n_end EPS "+NOUN+SG"
-TRANSITION ns_cmv n_end "s" "+NOUN+PL"
 STATE ns_cnemidophorus
 TRANSITION start ns_cnemidophorus "cnemidophorus" "cnemidophorus"
 TRANSITION ns_cnemidophorus n_end EPS "+NOUN+SG"
@@ -33885,16 +33749,6 @@ STATE ns_cnossus
 TRANSITION start ns_cnossus "cnossus" "cnossus"
 TRANSITION ns_cnossus n_end EPS "+NOUN+SG"
 TRANSITION ns_cnossus n_end "s" "+NOUN+PL"
-STATE ns_cnpz
-STATE ns_cnpz_e
-TRANSITION start ns_cnpz "cnpz" "cnpz"
-TRANSITION ns_cnpz n_end EPS "+NOUN+SG"
-TRANSITION ns_cnpz ns_cnpz_e "e" EPS
-TRANSITION ns_cnpz_e n_end "s" "+NOUN+PL"
-STATE ns_cns
-TRANSITION start ns_cns "cns" "cns"
-TRANSITION ns_cns n_end EPS "+NOUN+SG"
-TRANSITION ns_cns n_end "s" "+NOUN+PL"
 STATE ns_cnut
 TRANSITION start ns_cnut "cnut" "cnut"
 TRANSITION ns_cnut n_end EPS "+NOUN+SG"
@@ -38761,22 +38615,10 @@ STATE ns_cpi
 TRANSITION start ns_cpi "cpi" "cpi"
 TRANSITION ns_cpi n_end EPS "+NOUN+SG"
 TRANSITION ns_cpi n_end "s" "+NOUN+PL"
-STATE ns_cpr
-TRANSITION start ns_cpr "cpr" "cpr"
-TRANSITION ns_cpr n_end EPS "+NOUN+SG"
-TRANSITION ns_cpr n_end "s" "+NOUN+PL"
-STATE ns_cps
-TRANSITION start ns_cps "cps" "cps"
-TRANSITION ns_cps n_end EPS "+NOUN+SG"
-TRANSITION ns_cps n_end "s" "+NOUN+PL"
 STATE ns_cpu
 TRANSITION start ns_cpu "cpu" "cpu"
 TRANSITION ns_cpu n_end EPS "+NOUN+SG"
 TRANSITION ns_cpu n_end "s" "+NOUN+PL"
-STATE ns_cr
-TRANSITION start ns_cr "cr" "cr"
-TRANSITION ns_cr n_end EPS "+NOUN+SG"
-TRANSITION ns_cr n_end "s" "+NOUN+PL"
 STATE ns_crabapple
 TRANSITION start ns_crabapple "crabapple" "crabapple"
 TRANSITION ns_crabapple n_end EPS "+NOUN+SG"
@@ -39749,14 +39591,6 @@ STATE ns_crozier
 TRANSITION start ns_crozier "crozier" "crozier"
 TRANSITION ns_crozier n_end EPS "+NOUN+SG"
 TRANSITION ns_crozier n_end "s" "+NOUN+PL"
-STATE ns_crp
-TRANSITION start ns_crp "crp" "crp"
-TRANSITION ns_crp n_end EPS "+NOUN+SG"
-TRANSITION ns_crp n_end "s" "+NOUN+PL"
-STATE ns_crt
-TRANSITION start ns_crt "crt" "crt"
-TRANSITION ns_crt n_end EPS "+NOUN+SG"
-TRANSITION ns_crt n_end "s" "+NOUN+PL"
 STATE ns_crucible
 TRANSITION start ns_crucible "crucible" "crucible"
 TRANSITION ns_crucible n_end EPS "+NOUN+SG"
@@ -40077,10 +39911,6 @@ TRANSITION start ns_crystallography "crystallography" "crystallography"
 TRANSITION ns_crystallography n_end EPS "+NOUN+SG"
 TRANSITION start ns_crystallography_ies "crystallographies" "crystallography"
 TRANSITION ns_crystallography_ies n_end EPS "+NOUN+PL"
-STATE ns_cs
-TRANSITION start ns_cs "cs" "cs"
-TRANSITION ns_cs n_end EPS "+NOUN+SG"
-TRANSITION ns_cs n_end "s" "+NOUN+PL"
 STATE ns_cse
 TRANSITION start ns_cse "cse" "cse"
 TRANSITION ns_cse n_end EPS "+NOUN+SG"
@@ -40089,18 +39919,6 @@ STATE ns_csis
 TRANSITION start ns_csis "csis" "csis"
 TRANSITION ns_csis n_end EPS "+NOUN+SG"
 TRANSITION ns_csis n_end "s" "+NOUN+PL"
-STATE ns_cst
-TRANSITION start ns_cst "cst" "cst"
-TRANSITION ns_cst n_end EPS "+NOUN+SG"
-TRANSITION ns_cst n_end "s" "+NOUN+PL"
-STATE ns_ct
-TRANSITION start ns_ct "ct" "ct"
-TRANSITION ns_ct n_end EPS "+NOUN+SG"
-TRANSITION ns_ct n_end "s" "+NOUN+PL"
-STATE ns_ctc
-TRANSITION start ns_ctc "ctc" "ctc"
-TRANSITION ns_ctc n_end EPS "+NOUN+SG"
-TRANSITION ns_ctc n_end "s" "+NOUN+PL"
 STATE ns_ctene
 TRANSITION start ns_ctene "ctene" "ctene"
 TRANSITION ns_ctene n_end EPS "+NOUN+SG"
@@ -40881,22 +40699,10 @@ STATE ns_cuzco
 TRANSITION start ns_cuzco "cuzco" "cuzco"
 TRANSITION ns_cuzco n_end EPS "+NOUN+SG"
 TRANSITION ns_cuzco n_end "s" "+NOUN+PL"
-STATE ns_cv
-TRANSITION start ns_cv "cv" "cv"
-TRANSITION ns_cv n_end EPS "+NOUN+SG"
-TRANSITION ns_cv n_end "s" "+NOUN+PL"
 STATE ns_cva
 TRANSITION start ns_cva "cva" "cva"
 TRANSITION ns_cva n_end EPS "+NOUN+SG"
 TRANSITION ns_cva n_end "s" "+NOUN+PL"
-STATE ns_cwm
-TRANSITION start ns_cwm "cwm" "cwm"
-TRANSITION ns_cwm n_end EPS "+NOUN+SG"
-TRANSITION ns_cwm n_end "s" "+NOUN+PL"
-STATE ns_cwt
-TRANSITION start ns_cwt "cwt" "cwt"
-TRANSITION ns_cwt n_end EPS "+NOUN+SG"
-TRANSITION ns_cwt n_end "s" "+NOUN+PL"
 STATE ns_cyamopsis
 TRANSITION start ns_cyamopsis "cyamopsis" "cyamopsis"
 TRANSITION ns_cyamopsis n_end EPS "+NOUN+SG"
@@ -42627,46 +42433,18 @@ STATE ns_dayton
 TRANSITION start ns_dayton "dayton" "dayton"
 TRANSITION ns_dayton n_end EPS "+NOUN+SG"
 TRANSITION ns_dayton n_end "s" "+NOUN+PL"
-STATE ns_db
-TRANSITION start ns_db "db" "db"
-TRANSITION ns_db n_end EPS "+NOUN+SG"
-TRANSITION ns_db n_end "s" "+NOUN+PL"
 STATE ns_dba
 TRANSITION start ns_dba "dba" "dba"
 TRANSITION ns_dba n_end EPS "+NOUN+SG"
 TRANSITION ns_dba n_end "s" "+NOUN+PL"
-STATE ns_dbms
-TRANSITION start ns_dbms "dbms" "dbms"
-TRANSITION ns_dbms n_end EPS "+NOUN+SG"
-TRANSITION ns_dbms n_end "s" "+NOUN+PL"
-STATE ns_dc
-TRANSITION start ns_dc "dc" "dc"
-TRANSITION ns_dc n_end EPS "+NOUN+SG"
-TRANSITION ns_dc n_end "s" "+NOUN+PL"
-STATE ns_dccp
-TRANSITION start ns_dccp "dccp" "dccp"
-TRANSITION ns_dccp n_end EPS "+NOUN+SG"
-TRANSITION ns_dccp n_end "s" "+NOUN+PL"
 STATE ns_dci
 TRANSITION start ns_dci "dci" "dci"
 TRANSITION ns_dci n_end EPS "+NOUN+SG"
 TRANSITION ns_dci n_end "s" "+NOUN+PL"
-STATE ns_dd
-TRANSITION start ns_dd "dd" "dd"
-TRANSITION ns_dd n_end EPS "+NOUN+SG"
-TRANSITION ns_dd n_end "s" "+NOUN+PL"
-STATE ns_ddc
-TRANSITION start ns_ddc "ddc" "ddc"
-TRANSITION ns_ddc n_end EPS "+NOUN+SG"
-TRANSITION ns_ddc n_end "s" "+NOUN+PL"
 STATE ns_ddi
 TRANSITION start ns_ddi "ddi" "ddi"
 TRANSITION ns_ddi n_end EPS "+NOUN+SG"
 TRANSITION ns_ddi n_end "s" "+NOUN+PL"
-STATE ns_ddt
-TRANSITION start ns_ddt "ddt" "ddt"
-TRANSITION ns_ddt n_end EPS "+NOUN+SG"
-TRANSITION ns_ddt n_end "s" "+NOUN+PL"
 STATE ns_de
 TRANSITION start ns_de "de" "de"
 TRANSITION ns_de n_end EPS "+NOUN+SG"
@@ -44581,14 +44359,6 @@ STATE ns_dextrose
 TRANSITION start ns_dextrose "dextrose" "dextrose"
 TRANSITION ns_dextrose n_end EPS "+NOUN+SG"
 TRANSITION ns_dextrose n_end "s" "+NOUN+PL"
-STATE ns_dflp
-TRANSITION start ns_dflp "dflp" "dflp"
-TRANSITION ns_dflp n_end EPS "+NOUN+SG"
-TRANSITION ns_dflp n_end "s" "+NOUN+PL"
-STATE ns_dg
-TRANSITION start ns_dg "dg" "dg"
-TRANSITION ns_dg n_end EPS "+NOUN+SG"
-TRANSITION ns_dg n_end "s" "+NOUN+PL"
 STATE ns_dhahran
 TRANSITION start ns_dhahran "dhahran" "dhahran"
 TRANSITION ns_dhahran n_end EPS "+NOUN+SG"
@@ -46709,44 +46479,14 @@ TRANSITION start ns_djinny "djinny" "djinny"
 TRANSITION ns_djinny n_end EPS "+NOUN+SG"
 TRANSITION start ns_djinny_ies "djinnies" "djinny"
 TRANSITION ns_djinny_ies n_end EPS "+NOUN+PL"
-STATE ns_dkg
-TRANSITION start ns_dkg "dkg" "dkg"
-TRANSITION ns_dkg n_end EPS "+NOUN+SG"
-TRANSITION ns_dkg n_end "s" "+NOUN+PL"
-STATE ns_dkl
-TRANSITION start ns_dkl "dkl" "dkl"
-TRANSITION ns_dkl n_end EPS "+NOUN+SG"
-TRANSITION ns_dkl n_end "s" "+NOUN+PL"
-STATE ns_dkm
-TRANSITION start ns_dkm "dkm" "dkm"
-TRANSITION ns_dkm n_end EPS "+NOUN+SG"
-TRANSITION ns_dkm n_end "s" "+NOUN+PL"
-STATE ns_dl
-TRANSITION start ns_dl "dl" "dl"
-TRANSITION ns_dl n_end EPS "+NOUN+SG"
-TRANSITION ns_dl n_end "s" "+NOUN+PL"
 STATE ns_dle
 TRANSITION start ns_dle "dle" "dle"
 TRANSITION ns_dle n_end EPS "+NOUN+SG"
 TRANSITION ns_dle n_end "s" "+NOUN+PL"
-STATE ns_dm
-TRANSITION start ns_dm "dm" "dm"
-TRANSITION ns_dm n_end EPS "+NOUN+SG"
-TRANSITION ns_dm n_end "s" "+NOUN+PL"
-STATE ns_dmd
-TRANSITION start ns_dmd "dmd" "dmd"
-TRANSITION ns_dmd n_end EPS "+NOUN+SG"
-TRANSITION ns_dmd n_end "s" "+NOUN+PL"
 STATE ns_dmus
 TRANSITION start ns_dmus "dmus" "dmus"
 TRANSITION ns_dmus n_end EPS "+NOUN+SG"
 TRANSITION ns_dmus n_end "s" "+NOUN+PL"
-STATE ns_dmz
-STATE ns_dmz_e
-TRANSITION start ns_dmz "dmz" "dmz"
-TRANSITION ns_dmz n_end EPS "+NOUN+SG"
-TRANSITION ns_dmz ns_dmz_e "e" EPS
-TRANSITION ns_dmz_e n_end "s" "+NOUN+PL"
 STATE ns_dna
 TRANSITION start ns_dna "dna" "dna"
 TRANSITION ns_dna n_end EPS "+NOUN+SG"
@@ -47847,22 +47587,10 @@ STATE ns_dozer
 TRANSITION start ns_dozer "dozer" "dozer"
 TRANSITION ns_dozer n_end EPS "+NOUN+SG"
 TRANSITION ns_dozer n_end "s" "+NOUN+PL"
-STATE ns_dp
-TRANSITION start ns_dp "dp" "dp"
-TRANSITION ns_dp n_end EPS "+NOUN+SG"
-TRANSITION ns_dp n_end "s" "+NOUN+PL"
-STATE ns_dph
-TRANSITION start ns_dph "dph" "dph"
-TRANSITION ns_dph n_end EPS "+NOUN+SG"
-TRANSITION ns_dph n_end "s" "+NOUN+PL"
 STATE ns_dphil
 TRANSITION start ns_dphil "dphil" "dphil"
 TRANSITION ns_dphil n_end EPS "+NOUN+SG"
 TRANSITION ns_dphil n_end "s" "+NOUN+PL"
-STATE ns_dprk
-TRANSITION start ns_dprk "dprk" "dprk"
-TRANSITION ns_dprk n_end EPS "+NOUN+SG"
-TRANSITION ns_dprk n_end "s" "+NOUN+PL"
 STATE ns_drab
 TRANSITION start ns_drab "drab" "drab"
 TRANSITION ns_drab n_end EPS "+NOUN+SG"
@@ -48237,10 +47965,6 @@ STATE ns_drixoral
 TRANSITION start ns_drixoral "drixoral" "drixoral"
 TRANSITION ns_drixoral n_end EPS "+NOUN+SG"
 TRANSITION ns_drixoral n_end "s" "+NOUN+PL"
-STATE ns_drms
-TRANSITION start ns_drms "drms" "drms"
-TRANSITION ns_drms n_end EPS "+NOUN+SG"
-TRANSITION ns_drms n_end "s" "+NOUN+PL"
 STATE ns_drogheda
 TRANSITION start ns_drogheda "drogheda" "drogheda"
 TRANSITION ns_drogheda n_end EPS "+NOUN+SG"
@@ -48499,26 +48223,14 @@ STATE ns_drywall
 TRANSITION start ns_drywall "drywall" "drywall"
 TRANSITION ns_drywall n_end EPS "+NOUN+SG"
 TRANSITION ns_drywall n_end "s" "+NOUN+PL"
-STATE ns_ds
-TRANSITION start ns_ds "ds" "ds"
-TRANSITION ns_ds n_end EPS "+NOUN+SG"
-TRANSITION ns_ds n_end "s" "+NOUN+PL"
 STATE ns_dscdna
 TRANSITION start ns_dscdna "dscdna" "dscdna"
 TRANSITION ns_dscdna n_end EPS "+NOUN+SG"
 TRANSITION ns_dscdna n_end "s" "+NOUN+PL"
-STATE ns_dsl
-TRANSITION start ns_dsl "dsl" "dsl"
-TRANSITION ns_dsl n_end EPS "+NOUN+SG"
-TRANSITION ns_dsl n_end "s" "+NOUN+PL"
 STATE ns_dtic
 TRANSITION start ns_dtic "dtic" "dtic"
 TRANSITION ns_dtic n_end EPS "+NOUN+SG"
 TRANSITION ns_dtic n_end "s" "+NOUN+PL"
-STATE ns_dts
-TRANSITION start ns_dts "dts" "dts"
-TRANSITION ns_dts n_end EPS "+NOUN+SG"
-TRANSITION ns_dts n_end "s" "+NOUN+PL"
 STATE ns_duad
 TRANSITION start ns_duad "duad" "duad"
 TRANSITION ns_duad n_end EPS "+NOUN+SG"
@@ -49063,10 +48775,6 @@ STATE ns_duvet
 TRANSITION start ns_duvet "duvet" "duvet"
 TRANSITION ns_duvet n_end EPS "+NOUN+SG"
 TRANSITION ns_duvet n_end "s" "+NOUN+PL"
-STATE ns_dvd
-TRANSITION start ns_dvd "dvd" "dvd"
-TRANSITION ns_dvd n_end EPS "+NOUN+SG"
-TRANSITION ns_dvd n_end "s" "+NOUN+PL"
 STATE ns_dvorak
 TRANSITION start ns_dvorak "dvorak" "dvorak"
 TRANSITION ns_dvorak n_end EPS "+NOUN+SG"
@@ -56155,14 +55863,6 @@ STATE ns_fbi
 TRANSITION start ns_fbi "fbi" "fbi"
 TRANSITION ns_fbi n_end EPS "+NOUN+SG"
 TRANSITION ns_fbi n_end "s" "+NOUN+PL"
-STATE ns_fcc
-TRANSITION start ns_fcc "fcc" "fcc"
-TRANSITION ns_fcc n_end EPS "+NOUN+SG"
-TRANSITION ns_fcc n_end "s" "+NOUN+PL"
-STATE ns_fcs
-TRANSITION start ns_fcs "fcs" "fcs"
-TRANSITION ns_fcs n_end EPS "+NOUN+SG"
-TRANSITION ns_fcs n_end "s" "+NOUN+PL"
 STATE ns_fda
 TRANSITION start ns_fda "fda" "fda"
 TRANSITION ns_fda n_end EPS "+NOUN+SG"
@@ -56171,10 +55871,6 @@ STATE ns_fdic
 TRANSITION start ns_fdic "fdic" "fdic"
 TRANSITION ns_fdic n_end EPS "+NOUN+SG"
 TRANSITION ns_fdic n_end "s" "+NOUN+PL"
-STATE ns_fdr
-TRANSITION start ns_fdr "fdr" "fdr"
-TRANSITION ns_fdr n_end EPS "+NOUN+SG"
-TRANSITION ns_fdr n_end "s" "+NOUN+PL"
 STATE ns_fe
 TRANSITION start ns_fe "fe" "fe"
 TRANSITION ns_fe n_end EPS "+NOUN+SG"
@@ -57635,10 +57331,6 @@ STATE ns_fjord
 TRANSITION start ns_fjord "fjord" "fjord"
 TRANSITION ns_fjord n_end EPS "+NOUN+SG"
 TRANSITION ns_fjord n_end "s" "+NOUN+PL"
-STATE ns_fl
-TRANSITION start ns_fl "fl" "fl"
-TRANSITION ns_fl n_end EPS "+NOUN+SG"
-TRANSITION ns_fl n_end "s" "+NOUN+PL"
 STATE ns_flab
 TRANSITION start ns_flab "flab" "flab"
 TRANSITION ns_flab n_end EPS "+NOUN+SG"
@@ -58079,10 +57771,6 @@ TRANSITION start ns_flitch "flitch" "flitch"
 TRANSITION ns_flitch n_end EPS "+NOUN+SG"
 TRANSITION ns_flitch ns_flitch_e "e" EPS
 TRANSITION ns_flitch_e n_end "s" "+NOUN+PL"
-STATE ns_flnc
-TRANSITION start ns_flnc "flnc" "flnc"
-TRANSITION ns_flnc n_end EPS "+NOUN+SG"
-TRANSITION ns_flnc n_end "s" "+NOUN+PL"
 STATE ns_floater
 TRANSITION start ns_floater "floater" "floater"
 TRANSITION ns_floater n_end EPS "+NOUN+SG"
@@ -58469,10 +58157,6 @@ STATE ns_flywheel
 TRANSITION start ns_flywheel "flywheel" "flywheel"
 TRANSITION ns_flywheel n_end EPS "+NOUN+SG"
 TRANSITION ns_flywheel n_end "s" "+NOUN+PL"
-STATE ns_fm
-TRANSITION start ns_fm "fm" "fm"
-TRANSITION ns_fm n_end EPS "+NOUN+SG"
-TRANSITION ns_fm n_end "s" "+NOUN+PL"
 STATE ns_fmri
 TRANSITION start ns_fmri "fmri" "fmri"
 TRANSITION ns_fmri n_end EPS "+NOUN+SG"
@@ -59475,18 +59159,6 @@ STATE ns_foyer
 TRANSITION start ns_foyer "foyer" "foyer"
 TRANSITION ns_foyer n_end EPS "+NOUN+SG"
 TRANSITION ns_foyer n_end "s" "+NOUN+PL"
-STATE ns_fpd
-TRANSITION start ns_fpd "fpd" "fpd"
-TRANSITION ns_fpd n_end EPS "+NOUN+SG"
-TRANSITION ns_fpd n_end "s" "+NOUN+PL"
-STATE ns_fps
-TRANSITION start ns_fps "fps" "fps"
-TRANSITION ns_fps n_end EPS "+NOUN+SG"
-TRANSITION ns_fps n_end "s" "+NOUN+PL"
-STATE ns_fr
-TRANSITION start ns_fr "fr" "fr"
-TRANSITION ns_fr n_end EPS "+NOUN+SG"
-TRANSITION ns_fr n_end "s" "+NOUN+PL"
 STATE ns_fracas
 TRANSITION start ns_fracas "fracas" "fracas"
 TRANSITION ns_fracas n_end EPS "+NOUN+SG"
@@ -59913,10 +59585,6 @@ STATE ns_freyr
 TRANSITION start ns_freyr "freyr" "freyr"
 TRANSITION ns_freyr n_end EPS "+NOUN+SG"
 TRANSITION ns_freyr n_end "s" "+NOUN+PL"
-STATE ns_frg
-TRANSITION start ns_frg "frg" "frg"
-TRANSITION ns_frg n_end EPS "+NOUN+SG"
-TRANSITION ns_frg n_end "s" "+NOUN+PL"
 STATE ns_fri
 TRANSITION start ns_fri "fri" "fri"
 TRANSITION ns_fri n_end EPS "+NOUN+SG"
@@ -60237,28 +59905,6 @@ STATE ns_frypan
 TRANSITION start ns_frypan "frypan" "frypan"
 TRANSITION ns_frypan n_end EPS "+NOUN+SG"
 TRANSITION ns_frypan n_end "s" "+NOUN+PL"
-STATE ns_fsb
-TRANSITION start ns_fsb "fsb" "fsb"
-TRANSITION ns_fsb n_end EPS "+NOUN+SG"
-TRANSITION ns_fsb n_end "s" "+NOUN+PL"
-STATE ns_fsh
-STATE ns_fsh_e
-TRANSITION start ns_fsh "fsh" "fsh"
-TRANSITION ns_fsh n_end EPS "+NOUN+SG"
-TRANSITION ns_fsh ns_fsh_e "e" EPS
-TRANSITION ns_fsh_e n_end "s" "+NOUN+PL"
-STATE ns_ft
-TRANSITION start ns_ft "ft" "ft"
-TRANSITION ns_ft n_end EPS "+NOUN+SG"
-TRANSITION ns_ft n_end "s" "+NOUN+PL"
-STATE ns_ftc
-TRANSITION start ns_ftc "ftc" "ftc"
-TRANSITION ns_ftc n_end EPS "+NOUN+SG"
-TRANSITION ns_ftc n_end "s" "+NOUN+PL"
-STATE ns_fthm
-TRANSITION start ns_fthm "fthm" "fthm"
-TRANSITION ns_fthm n_end EPS "+NOUN+SG"
-TRANSITION ns_fthm n_end "s" "+NOUN+PL"
 STATE ns_fto
 TRANSITION start ns_fto "fto" "fto"
 TRANSITION ns_fto n_end EPS "+NOUN+SG"
@@ -60709,10 +60355,6 @@ TRANSITION start ns_fuzz "fuzz" "fuzz"
 TRANSITION ns_fuzz n_end EPS "+NOUN+SG"
 TRANSITION ns_fuzz ns_fuzz_e "e" EPS
 TRANSITION ns_fuzz_e n_end "s" "+NOUN+PL"
-STATE ns_fws
-TRANSITION start ns_fws "fws" "fws"
-TRANSITION ns_fws n_end EPS "+NOUN+SG"
-TRANSITION ns_fws n_end "s" "+NOUN+PL"
 STATE ns_ga
 TRANSITION start ns_ga "ga" "ga"
 TRANSITION ns_ga n_end EPS "+NOUN+SG"
@@ -62099,18 +61741,10 @@ STATE ns_gazpacho
 TRANSITION start ns_gazpacho "gazpacho" "gazpacho"
 TRANSITION ns_gazpacho n_end EPS "+NOUN+SG"
 TRANSITION ns_gazpacho n_end "s" "+NOUN+PL"
-STATE ns_gb
-TRANSITION start ns_gb "gb" "gb"
-TRANSITION ns_gb n_end EPS "+NOUN+SG"
-TRANSITION ns_gb n_end "s" "+NOUN+PL"
 STATE ns_gbit
 TRANSITION start ns_gbit "gbit" "gbit"
 TRANSITION ns_gbit n_end EPS "+NOUN+SG"
 TRANSITION ns_gbit n_end "s" "+NOUN+PL"
-STATE ns_gc
-TRANSITION start ns_gc "gc" "gc"
-TRANSITION ns_gc n_end EPS "+NOUN+SG"
-TRANSITION ns_gc n_end "s" "+NOUN+PL"
 STATE ns_gca
 TRANSITION start ns_gca "gca" "gca"
 TRANSITION ns_gca n_end EPS "+NOUN+SG"
@@ -62119,18 +61753,10 @@ STATE ns_gcse
 TRANSITION start ns_gcse "gcse" "gcse"
 TRANSITION ns_gcse n_end EPS "+NOUN+SG"
 TRANSITION ns_gcse n_end "s" "+NOUN+PL"
-STATE ns_gd
-TRANSITION start ns_gd "gd" "gd"
-TRANSITION ns_gd n_end EPS "+NOUN+SG"
-TRANSITION ns_gd n_end "s" "+NOUN+PL"
 STATE ns_gdansk
 TRANSITION start ns_gdansk "gdansk" "gdansk"
 TRANSITION ns_gdansk n_end EPS "+NOUN+SG"
 TRANSITION ns_gdansk n_end "s" "+NOUN+PL"
-STATE ns_gdp
-TRANSITION start ns_gdp "gdp" "gdp"
-TRANSITION ns_gdp n_end EPS "+NOUN+SG"
-TRANSITION ns_gdp n_end "s" "+NOUN+PL"
 STATE ns_ge
 TRANSITION start ns_ge "ge" "ge"
 TRANSITION ns_ge n_end EPS "+NOUN+SG"
@@ -62945,10 +62571,6 @@ STATE ns_ghatti
 TRANSITION start ns_ghatti "ghatti" "ghatti"
 TRANSITION ns_ghatti n_end EPS "+NOUN+SG"
 TRANSITION ns_ghatti n_end "s" "+NOUN+PL"
-STATE ns_ghb
-TRANSITION start ns_ghb "ghb" "ghb"
-TRANSITION ns_ghb n_end EPS "+NOUN+SG"
-TRANSITION ns_ghb n_end "s" "+NOUN+PL"
 STATE ns_ghee
 TRANSITION start ns_ghee "ghee" "ghee"
 TRANSITION ns_ghee n_end EPS "+NOUN+SG"
@@ -62981,24 +62603,10 @@ STATE ns_ghoul
 TRANSITION start ns_ghoul "ghoul" "ghoul"
 TRANSITION ns_ghoul n_end EPS "+NOUN+SG"
 TRANSITION ns_ghoul n_end "s" "+NOUN+PL"
-STATE ns_ghq
-TRANSITION start ns_ghq "ghq" "ghq"
-TRANSITION ns_ghq n_end EPS "+NOUN+SG"
-TRANSITION ns_ghq n_end "s" "+NOUN+PL"
 STATE ns_ghrelin
 TRANSITION start ns_ghrelin "ghrelin" "ghrelin"
 TRANSITION ns_ghrelin n_end EPS "+NOUN+SG"
 TRANSITION ns_ghrelin n_end "s" "+NOUN+PL"
-STATE ns_ghrf
-TRANSITION start ns_ghrf "ghrf" "ghrf"
-TRANSITION ns_ghrf n_end EPS "+NOUN+SG"
-TRANSITION ns_ghrf n_end "s" "+NOUN+PL"
-STATE ns_ghz
-STATE ns_ghz_e
-TRANSITION start ns_ghz "ghz" "ghz"
-TRANSITION ns_ghz n_end EPS "+NOUN+SG"
-TRANSITION ns_ghz ns_ghz_e "e" EPS
-TRANSITION ns_ghz_e n_end "s" "+NOUN+PL"
 STATE ns_gia
 TRANSITION start ns_gia "gia" "gia"
 TRANSITION ns_gia n_end EPS "+NOUN+SG"
@@ -64045,14 +63653,6 @@ TRANSITION start ns_glyptography "glyptography" "glyptography"
 TRANSITION ns_glyptography n_end EPS "+NOUN+SG"
 TRANSITION start ns_glyptography_ies "glyptographies" "glyptography"
 TRANSITION ns_glyptography_ies n_end EPS "+NOUN+PL"
-STATE ns_gm
-TRANSITION start ns_gm "gm" "gm"
-TRANSITION ns_gm n_end EPS "+NOUN+SG"
-TRANSITION ns_gm n_end "s" "+NOUN+PL"
-STATE ns_gmt
-TRANSITION start ns_gmt "gmt" "gmt"
-TRANSITION ns_gmt n_end EPS "+NOUN+SG"
-TRANSITION ns_gmt n_end "s" "+NOUN+PL"
 STATE ns_gnaphalium
 TRANSITION start ns_gnaphalium "gnaphalium" "gnaphalium"
 TRANSITION ns_gnaphalium n_end EPS "+NOUN+SG"
@@ -64131,10 +63731,6 @@ STATE ns_gnostic
 TRANSITION start ns_gnostic "gnostic" "gnostic"
 TRANSITION ns_gnostic n_end EPS "+NOUN+SG"
 TRANSITION ns_gnostic n_end "s" "+NOUN+PL"
-STATE ns_gnp
-TRANSITION start ns_gnp "gnp" "gnp"
-TRANSITION ns_gnp n_end EPS "+NOUN+SG"
-TRANSITION ns_gnp n_end "s" "+NOUN+PL"
 STATE ns_gnu
 TRANSITION start ns_gnu "gnu" "gnu"
 TRANSITION ns_gnu n_end EPS "+NOUN+SG"
@@ -65029,10 +64625,6 @@ STATE ns_goya
 TRANSITION start ns_goya "goya" "goya"
 TRANSITION ns_goya n_end EPS "+NOUN+SG"
 TRANSITION ns_goya n_end "s" "+NOUN+PL"
-STATE ns_gp
-TRANSITION start ns_gp "gp" "gp"
-TRANSITION ns_gp n_end EPS "+NOUN+SG"
-TRANSITION ns_gp n_end "s" "+NOUN+PL"
 STATE ns_gpa
 TRANSITION start ns_gpa "gpa" "gpa"
 TRANSITION ns_gpa n_end EPS "+NOUN+SG"
@@ -66265,14 +65857,6 @@ STATE ns_gsa
 TRANSITION start ns_gsa "gsa" "gsa"
 TRANSITION ns_gsa n_end EPS "+NOUN+SG"
 TRANSITION ns_gsa n_end "s" "+NOUN+PL"
-STATE ns_gspc
-TRANSITION start ns_gspc "gspc" "gspc"
-TRANSITION ns_gspc n_end EPS "+NOUN+SG"
-TRANSITION ns_gspc n_end "s" "+NOUN+PL"
-STATE ns_gsr
-TRANSITION start ns_gsr "gsr" "gsr"
-TRANSITION ns_gsr n_end EPS "+NOUN+SG"
-TRANSITION ns_gsr n_end "s" "+NOUN+PL"
 STATE ns_gu
 TRANSITION start ns_gu "gu" "gu"
 TRANSITION ns_gu n_end EPS "+NOUN+SG"
@@ -69319,26 +68903,6 @@ STATE ns_hazmat
 TRANSITION start ns_hazmat "hazmat" "hazmat"
 TRANSITION ns_hazmat n_end EPS "+NOUN+SG"
 TRANSITION ns_hazmat n_end "s" "+NOUN+PL"
-STATE ns_hb
-TRANSITION start ns_hb "hb" "hb"
-TRANSITION ns_hb n_end EPS "+NOUN+SG"
-TRANSITION ns_hb n_end "s" "+NOUN+PL"
-STATE ns_hcfc
-TRANSITION start ns_hcfc "hcfc" "hcfc"
-TRANSITION ns_hcfc n_end EPS "+NOUN+SG"
-TRANSITION ns_hcfc n_end "s" "+NOUN+PL"
-STATE ns_hcg
-TRANSITION start ns_hcg "hcg" "hcg"
-TRANSITION ns_hcg n_end EPS "+NOUN+SG"
-TRANSITION ns_hcg n_end "s" "+NOUN+PL"
-STATE ns_hdl
-TRANSITION start ns_hdl "hdl" "hdl"
-TRANSITION ns_hdl n_end EPS "+NOUN+SG"
-TRANSITION ns_hdl n_end "s" "+NOUN+PL"
-STATE ns_hdtv
-TRANSITION start ns_hdtv "hdtv" "hdtv"
-TRANSITION ns_hdtv n_end EPS "+NOUN+SG"
-TRANSITION ns_hdtv n_end "s" "+NOUN+PL"
 STATE ns_he
 TRANSITION start ns_he "he" "he"
 TRANSITION ns_he n_end EPS "+NOUN+SG"
@@ -71291,22 +70855,6 @@ STATE ns_hezekiah
 TRANSITION start ns_hezekiah "hezekiah" "hezekiah"
 TRANSITION ns_hezekiah n_end EPS "+NOUN+SG"
 TRANSITION ns_hezekiah n_end "s" "+NOUN+PL"
-STATE ns_hf
-TRANSITION start ns_hf "hf" "hf"
-TRANSITION ns_hf n_end EPS "+NOUN+SG"
-TRANSITION ns_hf n_end "s" "+NOUN+PL"
-STATE ns_hfc
-TRANSITION start ns_hfc "hfc" "hfc"
-TRANSITION ns_hfc n_end EPS "+NOUN+SG"
-TRANSITION ns_hfc n_end "s" "+NOUN+PL"
-STATE ns_hg
-TRANSITION start ns_hg "hg" "hg"
-TRANSITION ns_hg n_end EPS "+NOUN+SG"
-TRANSITION ns_hg n_end "s" "+NOUN+PL"
-STATE ns_hhs
-TRANSITION start ns_hhs "hhs" "hhs"
-TRANSITION ns_hhs n_end EPS "+NOUN+SG"
-TRANSITION ns_hhs n_end "s" "+NOUN+PL"
 STATE ns_hi
 TRANSITION start ns_hi "hi" "hi"
 TRANSITION ns_hi n_end EPS "+NOUN+SG"
@@ -71959,14 +71507,6 @@ STATE ns_hizbullah
 TRANSITION start ns_hizbullah "hizbullah" "hizbullah"
 TRANSITION ns_hizbullah n_end EPS "+NOUN+SG"
 TRANSITION ns_hizbullah n_end "s" "+NOUN+PL"
-STATE ns_hl
-TRANSITION start ns_hl "hl" "hl"
-TRANSITION ns_hl n_end EPS "+NOUN+SG"
-TRANSITION ns_hl n_end "s" "+NOUN+PL"
-STATE ns_hm
-TRANSITION start ns_hm "hm" "hm"
-TRANSITION ns_hm n_end EPS "+NOUN+SG"
-TRANSITION ns_hm n_end "s" "+NOUN+PL"
 STATE ns_hmo
 TRANSITION start ns_hmo "hmo" "hmo"
 TRANSITION ns_hmo n_end EPS "+NOUN+SG"
@@ -71975,14 +71515,6 @@ STATE ns_hmong
 TRANSITION start ns_hmong "hmong" "hmong"
 TRANSITION ns_hmong n_end EPS "+NOUN+SG"
 TRANSITION ns_hmong n_end "s" "+NOUN+PL"
-STATE ns_hn
-TRANSITION start ns_hn "hn" "hn"
-TRANSITION ns_hn n_end EPS "+NOUN+SG"
-TRANSITION ns_hn n_end "s" "+NOUN+PL"
-STATE ns_hnd
-TRANSITION start ns_hnd "hnd" "hnd"
-TRANSITION ns_hnd n_end EPS "+NOUN+SG"
-TRANSITION ns_hnd n_end "s" "+NOUN+PL"
 STATE ns_ho
 TRANSITION start ns_ho "ho" "ho"
 TRANSITION ns_ho n_end EPS "+NOUN+SG"
@@ -73569,26 +73101,10 @@ STATE ns_hoyle
 TRANSITION start ns_hoyle "hoyle" "hoyle"
 TRANSITION ns_hoyle n_end EPS "+NOUN+SG"
 TRANSITION ns_hoyle n_end "s" "+NOUN+PL"
-STATE ns_hp
-TRANSITION start ns_hp "hp" "hp"
-TRANSITION ns_hp n_end EPS "+NOUN+SG"
-TRANSITION ns_hp n_end "s" "+NOUN+PL"
-STATE ns_hq
-TRANSITION start ns_hq "hq" "hq"
-TRANSITION ns_hq n_end EPS "+NOUN+SG"
-TRANSITION ns_hq n_end "s" "+NOUN+PL"
-STATE ns_hr
-TRANSITION start ns_hr "hr" "hr"
-TRANSITION ns_hr n_end EPS "+NOUN+SG"
-TRANSITION ns_hr n_end "s" "+NOUN+PL"
 STATE ns_hrolf
 TRANSITION start ns_hrolf "hrolf" "hrolf"
 TRANSITION ns_hrolf n_end EPS "+NOUN+SG"
 TRANSITION ns_hrolf n_end "s" "+NOUN+PL"
-STATE ns_hrt
-TRANSITION start ns_hrt "hrt" "hrt"
-TRANSITION ns_hrt n_end EPS "+NOUN+SG"
-TRANSITION ns_hrt n_end "s" "+NOUN+PL"
 STATE ns_hrvatska
 TRANSITION start ns_hrvatska "hrvatska" "hrvatska"
 TRANSITION ns_hrvatska n_end EPS "+NOUN+SG"
@@ -73597,22 +73113,10 @@ STATE ns_hryvnia
 TRANSITION start ns_hryvnia "hryvnia" "hryvnia"
 TRANSITION ns_hryvnia n_end EPS "+NOUN+SG"
 TRANSITION ns_hryvnia n_end "s" "+NOUN+PL"
-STATE ns_hs
-TRANSITION start ns_hs "hs" "hs"
-TRANSITION ns_hs n_end EPS "+NOUN+SG"
-TRANSITION ns_hs n_end "s" "+NOUN+PL"
 STATE ns_hsian
 TRANSITION start ns_hsian "hsian" "hsian"
 TRANSITION ns_hsian n_end EPS "+NOUN+SG"
 TRANSITION ns_hsian n_end "s" "+NOUN+PL"
-STATE ns_html
-TRANSITION start ns_html "html" "html"
-TRANSITION ns_html n_end EPS "+NOUN+SG"
-TRANSITION ns_html n_end "s" "+NOUN+PL"
-STATE ns_http
-TRANSITION start ns_http "http" "http"
-TRANSITION ns_http n_end EPS "+NOUN+SG"
-TRANSITION ns_http n_end "s" "+NOUN+PL"
 STATE ns_hua
 TRANSITION start ns_hua "hua" "hua"
 TRANSITION ns_hua n_end EPS "+NOUN+SG"
@@ -75417,12 +74921,6 @@ STATE ns_hytrin
 TRANSITION start ns_hytrin "hytrin" "hytrin"
 TRANSITION ns_hytrin n_end EPS "+NOUN+SG"
 TRANSITION ns_hytrin n_end "s" "+NOUN+PL"
-STATE ns_hz
-STATE ns_hz_e
-TRANSITION start ns_hz "hz" "hz"
-TRANSITION ns_hz n_end EPS "+NOUN+SG"
-TRANSITION ns_hz ns_hz_e "e" EPS
-TRANSITION ns_hz_e n_end "s" "+NOUN+PL"
 STATE ns_ia
 TRANSITION start ns_ia "ia" "ia"
 TRANSITION ns_ia n_end EPS "+NOUN+SG"
@@ -80047,14 +79545,6 @@ STATE ns_jezebel
 TRANSITION start ns_jezebel "jezebel" "jezebel"
 TRANSITION ns_jezebel n_end EPS "+NOUN+SG"
 TRANSITION ns_jezebel n_end "s" "+NOUN+PL"
-STATE ns_jfk
-TRANSITION start ns_jfk "jfk" "jfk"
-TRANSITION ns_jfk n_end EPS "+NOUN+SG"
-TRANSITION ns_jfk n_end "s" "+NOUN+PL"
-STATE ns_jhvh
-TRANSITION start ns_jhvh "jhvh" "jhvh"
-TRANSITION ns_jhvh n_end EPS "+NOUN+SG"
-TRANSITION ns_jhvh n_end "s" "+NOUN+PL"
 STATE ns_ji
 TRANSITION start ns_ji "ji" "ji"
 TRANSITION ns_ji n_end EPS "+NOUN+SG"
@@ -80189,14 +79679,6 @@ STATE ns_jiujitsu
 TRANSITION start ns_jiujitsu "jiujitsu" "jiujitsu"
 TRANSITION ns_jiujitsu n_end EPS "+NOUN+SG"
 TRANSITION ns_jiujitsu n_end "s" "+NOUN+PL"
-STATE ns_jnd
-TRANSITION start ns_jnd "jnd" "jnd"
-TRANSITION ns_jnd n_end EPS "+NOUN+SG"
-TRANSITION ns_jnd n_end "s" "+NOUN+PL"
-STATE ns_jnr
-TRANSITION start ns_jnr "jnr" "jnr"
-TRANSITION ns_jnr n_end EPS "+NOUN+SG"
-TRANSITION ns_jnr n_end "s" "+NOUN+PL"
 STATE ns_joachim
 TRANSITION start ns_joachim "joachim" "joachim"
 TRANSITION ns_joachim n_end EPS "+NOUN+SG"
@@ -80465,10 +79947,6 @@ STATE ns_joystick
 TRANSITION start ns_joystick "joystick" "joystick"
 TRANSITION ns_joystick n_end EPS "+NOUN+SG"
 TRANSITION ns_joystick n_end "s" "+NOUN+PL"
-STATE ns_jr
-TRANSITION start ns_jr "jr" "jr"
-TRANSITION ns_jr n_end EPS "+NOUN+SG"
-TRANSITION ns_jr n_end "s" "+NOUN+PL"
 STATE ns_jra
 TRANSITION start ns_jra "jra" "jra"
 TRANSITION ns_jra n_end EPS "+NOUN+SG"
@@ -80841,10 +80319,6 @@ STATE ns_juvenile
 TRANSITION start ns_juvenile "juvenile" "juvenile"
 TRANSITION ns_juvenile n_end EPS "+NOUN+SG"
 TRANSITION ns_juvenile n_end "s" "+NOUN+PL"
-STATE ns_jv
-TRANSITION start ns_jv "jv" "jv"
-TRANSITION ns_jv n_end EPS "+NOUN+SG"
-TRANSITION ns_jv n_end "s" "+NOUN+PL"
 STATE ns_jyaistha
 TRANSITION start ns_jyaistha "jyaistha" "jyaistha"
 TRANSITION ns_jyaistha n_end EPS "+NOUN+SG"
@@ -81595,10 +81069,6 @@ STATE ns_kazoo
 TRANSITION start ns_kazoo "kazoo" "kazoo"
 TRANSITION ns_kazoo n_end EPS "+NOUN+SG"
 TRANSITION ns_kazoo n_end "s" "+NOUN+PL"
-STATE ns_kb
-TRANSITION start ns_kb "kb" "kb"
-TRANSITION ns_kb n_end EPS "+NOUN+SG"
-TRANSITION ns_kb n_end "s" "+NOUN+PL"
 STATE ns_kbit
 TRANSITION start ns_kbit "kbit" "kbit"
 TRANSITION ns_kbit n_end EPS "+NOUN+SG"
@@ -81607,10 +81077,6 @@ STATE ns_kbo
 TRANSITION start ns_kbo "kbo" "kbo"
 TRANSITION ns_kbo n_end EPS "+NOUN+SG"
 TRANSITION ns_kbo n_end "s" "+NOUN+PL"
-STATE ns_kc
-TRANSITION start ns_kc "kc" "kc"
-TRANSITION ns_kc n_end EPS "+NOUN+SG"
-TRANSITION ns_kc n_end "s" "+NOUN+PL"
 STATE ns_kea
 TRANSITION start ns_kea "kea" "kea"
 TRANSITION ns_kea n_end EPS "+NOUN+SG"
@@ -82149,14 +81615,6 @@ STATE ns_keystroke
 TRANSITION start ns_keystroke "keystroke" "keystroke"
 TRANSITION ns_keystroke n_end EPS "+NOUN+SG"
 TRANSITION ns_keystroke n_end "s" "+NOUN+PL"
-STATE ns_kg
-TRANSITION start ns_kg "kg" "kg"
-TRANSITION ns_kg n_end EPS "+NOUN+SG"
-TRANSITION ns_kg n_end "s" "+NOUN+PL"
-STATE ns_kgb
-TRANSITION start ns_kgb "kgb" "kgb"
-TRANSITION ns_kgb n_end EPS "+NOUN+SG"
-TRANSITION ns_kgb n_end "s" "+NOUN+PL"
 STATE ns_khabarovsk
 TRANSITION start ns_khabarovsk "khabarovsk" "khabarovsk"
 TRANSITION ns_khabarovsk n_end EPS "+NOUN+SG"
@@ -82323,12 +81781,6 @@ STATE ns_khukuri
 TRANSITION start ns_khukuri "khukuri" "khukuri"
 TRANSITION ns_khukuri n_end EPS "+NOUN+SG"
 TRANSITION ns_khukuri n_end "s" "+NOUN+PL"
-STATE ns_khz
-STATE ns_khz_e
-TRANSITION start ns_khz "khz" "khz"
-TRANSITION ns_khz n_end EPS "+NOUN+SG"
-TRANSITION ns_khz ns_khz_e "e" EPS
-TRANSITION ns_khz_e n_end "s" "+NOUN+PL"
 STATE ns_ki
 TRANSITION start ns_ki "ki" "ki"
 TRANSITION ns_ki n_end EPS "+NOUN+SG"
@@ -82989,10 +82441,6 @@ STATE ns_kiwi
 TRANSITION start ns_kiwi "kiwi" "kiwi"
 TRANSITION ns_kiwi n_end EPS "+NOUN+SG"
 TRANSITION ns_kiwi n_end "s" "+NOUN+PL"
-STATE ns_kkk
-TRANSITION start ns_kkk "kkk" "kkk"
-TRANSITION ns_kkk n_end EPS "+NOUN+SG"
-TRANSITION ns_kkk n_end "s" "+NOUN+PL"
 STATE ns_klaipeda
 TRANSITION start ns_klaipeda "klaipeda" "klaipeda"
 TRANSITION ns_klaipeda n_end EPS "+NOUN+SG"
@@ -83107,10 +82555,6 @@ STATE ns_klyuchevskaya
 TRANSITION start ns_klyuchevskaya "klyuchevskaya" "klyuchevskaya"
 TRANSITION ns_klyuchevskaya n_end EPS "+NOUN+SG"
 TRANSITION ns_klyuchevskaya n_end "s" "+NOUN+PL"
-STATE ns_km
-TRANSITION start ns_km "km" "km"
-TRANSITION ns_km n_end EPS "+NOUN+SG"
-TRANSITION ns_km n_end "s" "+NOUN+PL"
 STATE ns_knack
 TRANSITION start ns_knack "knack" "knack"
 TRANSITION ns_knack n_end EPS "+NOUN+SG"
@@ -83635,18 +83079,6 @@ STATE ns_kowhai
 TRANSITION start ns_kowhai "kowhai" "kowhai"
 TRANSITION ns_kowhai n_end EPS "+NOUN+SG"
 TRANSITION ns_kowhai n_end "s" "+NOUN+PL"
-STATE ns_kp
-TRANSITION start ns_kp "kp" "kp"
-TRANSITION ns_kp n_end EPS "+NOUN+SG"
-TRANSITION ns_kp n_end "s" "+NOUN+PL"
-STATE ns_kph
-TRANSITION start ns_kph "kph" "kph"
-TRANSITION ns_kph n_end EPS "+NOUN+SG"
-TRANSITION ns_kph n_end "s" "+NOUN+PL"
-STATE ns_kr
-TRANSITION start ns_kr "kr" "kr"
-TRANSITION ns_kr n_end EPS "+NOUN+SG"
-TRANSITION ns_kr n_end "s" "+NOUN+PL"
 STATE ns_kraal
 TRANSITION start ns_kraal "kraal" "kraal"
 TRANSITION ns_kraal n_end EPS "+NOUN+SG"
@@ -83779,18 +83211,10 @@ STATE ns_krypton
 TRANSITION start ns_krypton "krypton" "krypton"
 TRANSITION ns_krypton n_end EPS "+NOUN+SG"
 TRANSITION ns_krypton n_end "s" "+NOUN+PL"
-STATE ns_ks
-TRANSITION start ns_ks "ks" "ks"
-TRANSITION ns_ks n_end EPS "+NOUN+SG"
-TRANSITION ns_ks n_end "s" "+NOUN+PL"
 STATE ns_kshatriya
 TRANSITION start ns_kshatriya "kshatriya" "kshatriya"
 TRANSITION ns_kshatriya n_end EPS "+NOUN+SG"
 TRANSITION ns_kshatriya n_end "s" "+NOUN+PL"
-STATE ns_kt
-TRANSITION start ns_kt "kt" "kt"
-TRANSITION ns_kt n_end EPS "+NOUN+SG"
-TRANSITION ns_kt n_end "s" "+NOUN+PL"
 STATE ns_kuangchou
 TRANSITION start ns_kuangchou "kuangchou" "kuangchou"
 TRANSITION ns_kuangchou n_end EPS "+NOUN+SG"
@@ -83969,20 +83393,12 @@ STATE ns_kuznets
 TRANSITION start ns_kuznets "kuznets" "kuznets"
 TRANSITION ns_kuznets n_end EPS "+NOUN+SG"
 TRANSITION ns_kuznets n_end "s" "+NOUN+PL"
-STATE ns_kv
-TRANSITION start ns_kv "kv" "kv"
-TRANSITION ns_kv n_end EPS "+NOUN+SG"
-TRANSITION ns_kv n_end "s" "+NOUN+PL"
 STATE ns_kvass
 STATE ns_kvass_e
 TRANSITION start ns_kvass "kvass" "kvass"
 TRANSITION ns_kvass n_end EPS "+NOUN+SG"
 TRANSITION ns_kvass ns_kvass_e "e" EPS
 TRANSITION ns_kvass_e n_end "s" "+NOUN+PL"
-STATE ns_kw
-TRANSITION start ns_kw "kw" "kw"
-TRANSITION ns_kw n_end EPS "+NOUN+SG"
-TRANSITION ns_kw n_end "s" "+NOUN+PL"
 STATE ns_kwa
 TRANSITION start ns_kwa "kwa" "kwa"
 TRANSITION ns_kwa n_end EPS "+NOUN+SG"
@@ -86003,26 +85419,6 @@ STATE ns_lazybones
 TRANSITION start ns_lazybones "lazybones" "lazybones"
 TRANSITION ns_lazybones n_end EPS "+NOUN+SG"
 TRANSITION ns_lazybones n_end "s" "+NOUN+PL"
-STATE ns_lb
-TRANSITION start ns_lb "lb" "lb"
-TRANSITION ns_lb n_end EPS "+NOUN+SG"
-TRANSITION ns_lb n_end "s" "+NOUN+PL"
-STATE ns_lbj
-TRANSITION start ns_lbj "lbj" "lbj"
-TRANSITION ns_lbj n_end EPS "+NOUN+SG"
-TRANSITION ns_lbj n_end "s" "+NOUN+PL"
-STATE ns_lcd
-TRANSITION start ns_lcd "lcd" "lcd"
-TRANSITION ns_lcd n_end EPS "+NOUN+SG"
-TRANSITION ns_lcd n_end "s" "+NOUN+PL"
-STATE ns_lcm
-TRANSITION start ns_lcm "lcm" "lcm"
-TRANSITION ns_lcm n_end EPS "+NOUN+SG"
-TRANSITION ns_lcm n_end "s" "+NOUN+PL"
-STATE ns_ldl
-TRANSITION start ns_ldl "ldl" "ldl"
-TRANSITION ns_ldl n_end EPS "+NOUN+SG"
-TRANSITION ns_ldl n_end "s" "+NOUN+PL"
 STATE ns_le
 TRANSITION start ns_le "le" "le"
 TRANSITION ns_le n_end EPS "+NOUN+SG"
@@ -87379,22 +86775,6 @@ STATE ns_leyte
 TRANSITION start ns_leyte "leyte" "leyte"
 TRANSITION ns_leyte n_end EPS "+NOUN+SG"
 TRANSITION ns_leyte n_end "s" "+NOUN+PL"
-STATE ns_lf
-TRANSITION start ns_lf "lf" "lf"
-TRANSITION ns_lf n_end EPS "+NOUN+SG"
-TRANSITION ns_lf n_end "s" "+NOUN+PL"
-STATE ns_lgb
-TRANSITION start ns_lgb "lgb" "lgb"
-TRANSITION ns_lgb n_end EPS "+NOUN+SG"
-TRANSITION ns_lgb n_end "s" "+NOUN+PL"
-STATE ns_lgv
-TRANSITION start ns_lgv "lgv" "lgv"
-TRANSITION ns_lgv n_end EPS "+NOUN+SG"
-TRANSITION ns_lgv n_end "s" "+NOUN+PL"
-STATE ns_lh
-TRANSITION start ns_lh "lh" "lh"
-TRANSITION ns_lh n_end EPS "+NOUN+SG"
-TRANSITION ns_lh n_end "s" "+NOUN+PL"
 STATE ns_lhasa
 TRANSITION start ns_lhasa "lhasa" "lhasa"
 TRANSITION ns_lhasa n_end EPS "+NOUN+SG"
@@ -88889,18 +88269,6 @@ STATE ns_llano
 TRANSITION start ns_llano "llano" "llano"
 TRANSITION ns_llano n_end EPS "+NOUN+SG"
 TRANSITION ns_llano n_end "s" "+NOUN+PL"
-STATE ns_llb
-TRANSITION start ns_llb "llb" "llb"
-TRANSITION ns_llb n_end EPS "+NOUN+SG"
-TRANSITION ns_llb n_end "s" "+NOUN+PL"
-STATE ns_lld
-TRANSITION start ns_lld "lld" "lld"
-TRANSITION ns_lld n_end EPS "+NOUN+SG"
-TRANSITION ns_lld n_end "s" "+NOUN+PL"
-STATE ns_llm
-TRANSITION start ns_llm "llm" "llm"
-TRANSITION ns_llm n_end EPS "+NOUN+SG"
-TRANSITION ns_llm n_end "s" "+NOUN+PL"
 STATE ns_lloyd
 TRANSITION start ns_lloyd "lloyd" "lloyd"
 TRANSITION ns_lloyd n_end EPS "+NOUN+SG"
@@ -88917,10 +88285,6 @@ STATE ns_llyr
 TRANSITION start ns_llyr "llyr" "llyr"
 TRANSITION ns_llyr n_end EPS "+NOUN+SG"
 TRANSITION ns_llyr n_end "s" "+NOUN+PL"
-STATE ns_lm
-TRANSITION start ns_lm "lm" "lm"
-TRANSITION ns_lm n_end EPS "+NOUN+SG"
-TRANSITION ns_lm n_end "s" "+NOUN+PL"
 STATE ns_loach
 STATE ns_loach_e
 TRANSITION start ns_loach "loach" "loach"
@@ -90059,26 +89423,6 @@ STATE ns_lozier
 TRANSITION start ns_lozier "lozier" "lozier"
 TRANSITION ns_lozier n_end EPS "+NOUN+SG"
 TRANSITION ns_lozier n_end "s" "+NOUN+PL"
-STATE ns_lp
-TRANSITION start ns_lp "lp" "lp"
-TRANSITION ns_lp n_end EPS "+NOUN+SG"
-TRANSITION ns_lp n_end "s" "+NOUN+PL"
-STATE ns_lpn
-TRANSITION start ns_lpn "lpn" "lpn"
-TRANSITION ns_lpn n_end EPS "+NOUN+SG"
-TRANSITION ns_lpn n_end "s" "+NOUN+PL"
-STATE ns_lr
-TRANSITION start ns_lr "lr" "lr"
-TRANSITION ns_lr n_end EPS "+NOUN+SG"
-TRANSITION ns_lr n_end "s" "+NOUN+PL"
-STATE ns_lsd
-TRANSITION start ns_lsd "lsd" "lsd"
-TRANSITION ns_lsd n_end EPS "+NOUN+SG"
-TRANSITION ns_lsd n_end "s" "+NOUN+PL"
-STATE ns_ltm
-TRANSITION start ns_ltm "ltm" "ltm"
-TRANSITION ns_ltm n_end EPS "+NOUN+SG"
-TRANSITION ns_ltm n_end "s" "+NOUN+PL"
 STATE ns_ltte
 TRANSITION start ns_ltte "ltte" "ltte"
 TRANSITION ns_ltte n_end EPS "+NOUN+SG"
@@ -90675,28 +90019,10 @@ STATE ns_lwei
 TRANSITION start ns_lwei "lwei" "lwei"
 TRANSITION ns_lwei n_end EPS "+NOUN+SG"
 TRANSITION ns_lwei n_end "s" "+NOUN+PL"
-STATE ns_lx
-STATE ns_lx_e
-TRANSITION start ns_lx "lx" "lx"
-TRANSITION ns_lx n_end EPS "+NOUN+SG"
-TRANSITION ns_lx ns_lx_e "e" EPS
-TRANSITION ns_lx_e n_end "s" "+NOUN+PL"
-STATE ns_lxx
-STATE ns_lxx_e
-TRANSITION start ns_lxx "lxx" "lxx"
-TRANSITION ns_lxx n_end EPS "+NOUN+SG"
-TRANSITION ns_lxx ns_lxx_e "e" EPS
-TRANSITION ns_lxx_e n_end "s" "+NOUN+PL"
 STATE ns_lxxviii
 TRANSITION start ns_lxxviii "lxxviii" "lxxviii"
 TRANSITION ns_lxxviii n_end EPS "+NOUN+SG"
 TRANSITION ns_lxxviii n_end "s" "+NOUN+PL"
-STATE ns_lxxx
-STATE ns_lxxx_e
-TRANSITION start ns_lxxx "lxxx" "lxxx"
-TRANSITION ns_lxxx n_end EPS "+NOUN+SG"
-TRANSITION ns_lxxx ns_lxxx_e "e" EPS
-TRANSITION ns_lxxx_e n_end "s" "+NOUN+PL"
 STATE ns_lyallpur
 TRANSITION start ns_lyallpur "lyallpur" "lyallpur"
 TRANSITION ns_lyallpur n_end EPS "+NOUN+SG"
@@ -94987,10 +94313,6 @@ STATE ns_mazzini
 TRANSITION start ns_mazzini "mazzini" "mazzini"
 TRANSITION ns_mazzini n_end EPS "+NOUN+SG"
 TRANSITION ns_mazzini n_end "s" "+NOUN+PL"
-STATE ns_mb
-TRANSITION start ns_mb "mb" "mb"
-TRANSITION ns_mb n_end EPS "+NOUN+SG"
-TRANSITION ns_mb n_end "s" "+NOUN+PL"
 STATE ns_mba
 TRANSITION start ns_mba "mba" "mba"
 TRANSITION ns_mba n_end EPS "+NOUN+SG"
@@ -94999,10 +94321,6 @@ STATE ns_mbabane
 TRANSITION start ns_mbabane "mbabane" "mbabane"
 TRANSITION ns_mbabane n_end EPS "+NOUN+SG"
 TRANSITION ns_mbabane n_end "s" "+NOUN+PL"
-STATE ns_mbd
-TRANSITION start ns_mbd "mbd" "mbd"
-TRANSITION ns_mbd n_end EPS "+NOUN+SG"
-TRANSITION ns_mbd n_end "s" "+NOUN+PL"
 STATE ns_mbeya
 TRANSITION start ns_mbeya "mbeya" "mbeya"
 TRANSITION ns_mbeya n_end EPS "+NOUN+SG"
@@ -95015,10 +94333,6 @@ STATE ns_mbundu
 TRANSITION start ns_mbundu "mbundu" "mbundu"
 TRANSITION ns_mbundu n_end EPS "+NOUN+SG"
 TRANSITION ns_mbundu n_end "s" "+NOUN+PL"
-STATE ns_mc
-TRANSITION start ns_mc "mc" "mc"
-TRANSITION ns_mc n_end EPS "+NOUN+SG"
-TRANSITION ns_mc n_end "s" "+NOUN+PL"
 STATE ns_mcalester
 TRANSITION start ns_mcalester "mcalester" "mcalester"
 TRANSITION ns_mcalester n_end EPS "+NOUN+SG"
@@ -95049,10 +94363,6 @@ STATE ns_mccullers
 TRANSITION start ns_mccullers "mccullers" "mccullers"
 TRANSITION ns_mccullers n_end EPS "+NOUN+SG"
 TRANSITION ns_mccullers n_end "s" "+NOUN+PL"
-STATE ns_mcg
-TRANSITION start ns_mcg "mcg" "mcg"
-TRANSITION ns_mcg n_end EPS "+NOUN+SG"
-TRANSITION ns_mcg n_end "s" "+NOUN+PL"
 STATE ns_mcgraw
 TRANSITION start ns_mcgraw "mcgraw" "mcgraw"
 TRANSITION ns_mcgraw n_end EPS "+NOUN+SG"
@@ -95095,10 +94405,6 @@ STATE ns_mcpherson
 TRANSITION start ns_mcpherson "mcpherson" "mcpherson"
 TRANSITION ns_mcpherson n_end EPS "+NOUN+SG"
 TRANSITION ns_mcpherson n_end "s" "+NOUN+PL"
-STATE ns_md
-TRANSITION start ns_md "md" "md"
-TRANSITION ns_md n_end EPS "+NOUN+SG"
-TRANSITION ns_md n_end "s" "+NOUN+PL"
 STATE ns_mdi
 TRANSITION start ns_mdi "mdi" "mdi"
 TRANSITION ns_mdi n_end EPS "+NOUN+SG"
@@ -97355,10 +96661,6 @@ STATE ns_mezzotint
 TRANSITION start ns_mezzotint "mezzotint" "mezzotint"
 TRANSITION ns_mezzotint n_end EPS "+NOUN+SG"
 TRANSITION ns_mezzotint n_end "s" "+NOUN+PL"
-STATE ns_mf
-TRANSITION start ns_mf "mf" "mf"
-TRANSITION ns_mf n_end EPS "+NOUN+SG"
-TRANSITION ns_mf n_end "s" "+NOUN+PL"
 STATE ns_mfa
 TRANSITION start ns_mfa "mfa" "mfa"
 TRANSITION ns_mfa n_end EPS "+NOUN+SG"
@@ -97367,20 +96669,10 @@ STATE ns_mflop
 TRANSITION start ns_mflop "mflop" "mflop"
 TRANSITION ns_mflop n_end EPS "+NOUN+SG"
 TRANSITION ns_mflop n_end "s" "+NOUN+PL"
-STATE ns_mg
-TRANSITION start ns_mg "mg" "mg"
-TRANSITION ns_mg n_end EPS "+NOUN+SG"
-TRANSITION ns_mg n_end "s" "+NOUN+PL"
 STATE ns_mho
 TRANSITION start ns_mho "mho" "mho"
 TRANSITION ns_mho n_end EPS "+NOUN+SG"
 TRANSITION ns_mho n_end "s" "+NOUN+PL"
-STATE ns_mhz
-STATE ns_mhz_e
-TRANSITION start ns_mhz "mhz" "mhz"
-TRANSITION ns_mhz n_end EPS "+NOUN+SG"
-TRANSITION ns_mhz ns_mhz_e "e" EPS
-TRANSITION ns_mhz_e n_end "s" "+NOUN+PL"
 STATE ns_mi
 TRANSITION start ns_mi "mi" "mi"
 TRANSITION ns_mi n_end EPS "+NOUN+SG"
@@ -99275,26 +98567,14 @@ STATE ns_mko
 TRANSITION start ns_mko "mko" "mko"
 TRANSITION ns_mko n_end EPS "+NOUN+SG"
 TRANSITION ns_mko n_end "s" "+NOUN+PL"
-STATE ns_ml
-TRANSITION start ns_ml "ml" "ml"
-TRANSITION ns_ml n_end EPS "+NOUN+SG"
-TRANSITION ns_ml n_end "s" "+NOUN+PL"
 STATE ns_mlitt
 TRANSITION start ns_mlitt "mlitt" "mlitt"
 TRANSITION ns_mlitt n_end EPS "+NOUN+SG"
 TRANSITION ns_mlitt n_end "s" "+NOUN+PL"
-STATE ns_mm
-TRANSITION start ns_mm "mm" "mm"
-TRANSITION ns_mm n_end EPS "+NOUN+SG"
-TRANSITION ns_mm n_end "s" "+NOUN+PL"
 STATE ns_mmpi
 TRANSITION start ns_mmpi "mmpi" "mmpi"
 TRANSITION ns_mmpi n_end EPS "+NOUN+SG"
 TRANSITION ns_mmpi n_end "s" "+NOUN+PL"
-STATE ns_mn
-TRANSITION start ns_mn "mn" "mn"
-TRANSITION ns_mn n_end EPS "+NOUN+SG"
-TRANSITION ns_mn n_end "s" "+NOUN+PL"
 STATE ns_mnemonic
 TRANSITION start ns_mnemonic "mnemonic" "mnemonic"
 TRANSITION ns_mnemonic n_end EPS "+NOUN+SG"
@@ -101211,26 +100491,10 @@ STATE ns_mozzarella
 TRANSITION start ns_mozzarella "mozzarella" "mozzarella"
 TRANSITION ns_mozzarella n_end EPS "+NOUN+SG"
 TRANSITION ns_mozzarella n_end "s" "+NOUN+PL"
-STATE ns_mp
-TRANSITION start ns_mp "mp" "mp"
-TRANSITION ns_mp n_end EPS "+NOUN+SG"
-TRANSITION ns_mp n_end "s" "+NOUN+PL"
 STATE ns_mpeg
 TRANSITION start ns_mpeg "mpeg" "mpeg"
 TRANSITION ns_mpeg n_end EPS "+NOUN+SG"
 TRANSITION ns_mpeg n_end "s" "+NOUN+PL"
-STATE ns_mph
-TRANSITION start ns_mph "mph" "mph"
-TRANSITION ns_mph n_end EPS "+NOUN+SG"
-TRANSITION ns_mph n_end "s" "+NOUN+PL"
-STATE ns_mr
-TRANSITION start ns_mr "mr" "mr"
-TRANSITION ns_mr n_end EPS "+NOUN+SG"
-TRANSITION ns_mr n_end "s" "+NOUN+PL"
-STATE ns_mrd
-TRANSITION start ns_mrd "mrd" "mrd"
-TRANSITION ns_mrd n_end EPS "+NOUN+SG"
-TRANSITION ns_mrd n_end "s" "+NOUN+PL"
 STATE ns_mri
 TRANSITION start ns_mri "mri" "mri"
 TRANSITION ns_mri n_end EPS "+NOUN+SG"
@@ -101243,44 +100507,14 @@ STATE ns_mrta
 TRANSITION start ns_mrta "mrta" "mrta"
 TRANSITION ns_mrta n_end EPS "+NOUN+SG"
 TRANSITION ns_mrta n_end "s" "+NOUN+PL"
-STATE ns_ms
-TRANSITION start ns_ms "ms" "ms"
-TRANSITION ns_ms n_end EPS "+NOUN+SG"
-TRANSITION ns_ms n_end "s" "+NOUN+PL"
 STATE ns_msasa
 TRANSITION start ns_msasa "msasa" "msasa"
 TRANSITION ns_msasa n_end EPS "+NOUN+SG"
 TRANSITION ns_msasa n_end "s" "+NOUN+PL"
-STATE ns_msb
-TRANSITION start ns_msb "msb" "msb"
-TRANSITION ns_msb n_end EPS "+NOUN+SG"
-TRANSITION ns_msb n_end "s" "+NOUN+PL"
-STATE ns_msc
-TRANSITION start ns_msc "msc" "msc"
-TRANSITION ns_msc n_end EPS "+NOUN+SG"
-TRANSITION ns_msc n_end "s" "+NOUN+PL"
 STATE ns_msec
 TRANSITION start ns_msec "msec" "msec"
 TRANSITION ns_msec n_end EPS "+NOUN+SG"
 TRANSITION ns_msec n_end "s" "+NOUN+PL"
-STATE ns_msg
-TRANSITION start ns_msg "msg" "msg"
-TRANSITION ns_msg n_end EPS "+NOUN+SG"
-TRANSITION ns_msg n_end "s" "+NOUN+PL"
-STATE ns_msh
-STATE ns_msh_e
-TRANSITION start ns_msh "msh" "msh"
-TRANSITION ns_msh n_end EPS "+NOUN+SG"
-TRANSITION ns_msh ns_msh_e "e" EPS
-TRANSITION ns_msh_e n_end "s" "+NOUN+PL"
-STATE ns_mst
-TRANSITION start ns_mst "mst" "mst"
-TRANSITION ns_mst n_end EPS "+NOUN+SG"
-TRANSITION ns_mst n_end "s" "+NOUN+PL"
-STATE ns_mt
-TRANSITION start ns_mt "mt" "mt"
-TRANSITION ns_mt n_end EPS "+NOUN+SG"
-TRANSITION ns_mt n_end "s" "+NOUN+PL"
 STATE ns_mu
 TRANSITION start ns_mu "mu" "mu"
 TRANSITION ns_mu n_end EPS "+NOUN+SG"
@@ -102283,14 +101517,6 @@ STATE ns_muzzler
 TRANSITION start ns_muzzler "muzzler" "muzzler"
 TRANSITION ns_muzzler n_end EPS "+NOUN+SG"
 TRANSITION ns_muzzler n_end "s" "+NOUN+PL"
-STATE ns_mv
-TRANSITION start ns_mv "mv" "mv"
-TRANSITION ns_mv n_end EPS "+NOUN+SG"
-TRANSITION ns_mv n_end "s" "+NOUN+PL"
-STATE ns_mvp
-TRANSITION start ns_mvp "mvp" "mvp"
-TRANSITION ns_mvp n_end EPS "+NOUN+SG"
-TRANSITION ns_mvp n_end "s" "+NOUN+PL"
 STATE ns_mwanza
 TRANSITION start ns_mwanza "mwanza" "mwanza"
 TRANSITION ns_mwanza n_end EPS "+NOUN+SG"
@@ -102299,12 +101525,6 @@ STATE ns_mwera
 TRANSITION start ns_mwera "mwera" "mwera"
 TRANSITION ns_mwera n_end EPS "+NOUN+SG"
 TRANSITION ns_mwera n_end "s" "+NOUN+PL"
-STATE ns_mx
-STATE ns_mx_e
-TRANSITION start ns_mx "mx" "mx"
-TRANSITION ns_mx n_end EPS "+NOUN+SG"
-TRANSITION ns_mx ns_mx_e "e" EPS
-TRANSITION ns_mx_e n_end "s" "+NOUN+PL"
 STATE ns_mya
 TRANSITION start ns_mya "mya" "mya"
 TRANSITION ns_mya n_end EPS "+NOUN+SG"
@@ -103895,30 +103115,10 @@ STATE ns_nazimova
 TRANSITION start ns_nazimova "nazimova" "nazimova"
 TRANSITION ns_nazimova n_end EPS "+NOUN+SG"
 TRANSITION ns_nazimova n_end "s" "+NOUN+PL"
-STATE ns_nb
-TRANSITION start ns_nb "nb" "nb"
-TRANSITION ns_nb n_end EPS "+NOUN+SG"
-TRANSITION ns_nb n_end "s" "+NOUN+PL"
 STATE ns_nbe
 TRANSITION start ns_nbe "nbe" "nbe"
 TRANSITION ns_nbe n_end EPS "+NOUN+SG"
 TRANSITION ns_nbe n_end "s" "+NOUN+PL"
-STATE ns_nbw
-TRANSITION start ns_nbw "nbw" "nbw"
-TRANSITION ns_nbw n_end EPS "+NOUN+SG"
-TRANSITION ns_nbw n_end "s" "+NOUN+PL"
-STATE ns_nc
-TRANSITION start ns_nc "nc" "nc"
-TRANSITION ns_nc n_end EPS "+NOUN+SG"
-TRANSITION ns_nc n_end "s" "+NOUN+PL"
-STATE ns_ncdc
-TRANSITION start ns_ncdc "ncdc" "ncdc"
-TRANSITION ns_ncdc n_end EPS "+NOUN+SG"
-TRANSITION ns_ncdc n_end "s" "+NOUN+PL"
-STATE ns_nd
-TRANSITION start ns_nd "nd" "nd"
-TRANSITION ns_nd n_end EPS "+NOUN+SG"
-TRANSITION ns_nd n_end "s" "+NOUN+PL"
 STATE ns_ndebele
 TRANSITION start ns_ndebele "ndebele" "ndebele"
 TRANSITION ns_ndebele n_end EPS "+NOUN+SG"
@@ -105255,10 +104455,6 @@ STATE ns_ney
 TRANSITION start ns_ney "ney" "ney"
 TRANSITION ns_ney n_end EPS "+NOUN+SG"
 TRANSITION ns_ney n_end "s" "+NOUN+PL"
-STATE ns_ng
-TRANSITION start ns_ng "ng" "ng"
-TRANSITION ns_ng n_end EPS "+NOUN+SG"
-TRANSITION ns_ng n_end "s" "+NOUN+PL"
 STATE ns_nga
 TRANSITION start ns_nga "nga" "nga"
 TRANSITION ns_nga n_end EPS "+NOUN+SG"
@@ -105267,14 +104463,6 @@ STATE ns_nganasan
 TRANSITION start ns_nganasan "nganasan" "nganasan"
 TRANSITION ns_nganasan n_end EPS "+NOUN+SG"
 TRANSITION ns_nganasan n_end "s" "+NOUN+PL"
-STATE ns_ngb
-TRANSITION start ns_ngb "ngb" "ngb"
-TRANSITION ns_ngb n_end EPS "+NOUN+SG"
-TRANSITION ns_ngb n_end "s" "+NOUN+PL"
-STATE ns_ngf
-TRANSITION start ns_ngf "ngf" "ngf"
-TRANSITION ns_ngf n_end EPS "+NOUN+SG"
-TRANSITION ns_ngf n_end "s" "+NOUN+PL"
 STATE ns_ngo
 TRANSITION start ns_ngo "ngo" "ngo"
 TRANSITION ns_ngo n_end EPS "+NOUN+SG"
@@ -105295,10 +104483,6 @@ STATE ns_ngwee
 TRANSITION start ns_ngwee "ngwee" "ngwee"
 TRANSITION ns_ngwee n_end EPS "+NOUN+SG"
 TRANSITION ns_ngwee n_end "s" "+NOUN+PL"
-STATE ns_nh
-TRANSITION start ns_nh "nh" "nh"
-TRANSITION ns_nh n_end EPS "+NOUN+SG"
-TRANSITION ns_nh n_end "s" "+NOUN+PL"
 STATE ns_ni
 TRANSITION start ns_ni "ni" "ni"
 TRANSITION ns_ni n_end EPS "+NOUN+SG"
@@ -106015,10 +105199,6 @@ STATE ns_nixon
 TRANSITION start ns_nixon "nixon" "nixon"
 TRANSITION ns_nixon n_end EPS "+NOUN+SG"
 TRANSITION ns_nixon n_end "s" "+NOUN+PL"
-STATE ns_nj
-TRANSITION start ns_nj "nj" "nj"
-TRANSITION ns_nj n_end EPS "+NOUN+SG"
-TRANSITION ns_nj n_end "s" "+NOUN+PL"
 STATE ns_njord
 TRANSITION start ns_njord "njord" "njord"
 TRANSITION ns_njord n_end EPS "+NOUN+SG"
@@ -106027,22 +105207,6 @@ STATE ns_njorth
 TRANSITION start ns_njorth "njorth" "njorth"
 TRANSITION ns_njorth n_end EPS "+NOUN+SG"
 TRANSITION ns_njorth n_end "s" "+NOUN+PL"
-STATE ns_nlp
-TRANSITION start ns_nlp "nlp" "nlp"
-TRANSITION ns_nlp n_end EPS "+NOUN+SG"
-TRANSITION ns_nlp n_end "s" "+NOUN+PL"
-STATE ns_nlrb
-TRANSITION start ns_nlrb "nlrb" "nlrb"
-TRANSITION ns_nlrb n_end EPS "+NOUN+SG"
-TRANSITION ns_nlrb n_end "s" "+NOUN+PL"
-STATE ns_nm
-TRANSITION start ns_nm "nm" "nm"
-TRANSITION ns_nm n_end EPS "+NOUN+SG"
-TRANSITION ns_nm n_end "s" "+NOUN+PL"
-STATE ns_nmr
-TRANSITION start ns_nmr "nmr" "nmr"
-TRANSITION ns_nmr n_end EPS "+NOUN+SG"
-TRANSITION ns_nmr n_end "s" "+NOUN+PL"
 STATE ns_nne
 TRANSITION start ns_nne "nne" "nne"
 TRANSITION ns_nne n_end EPS "+NOUN+SG"
@@ -106051,10 +105215,6 @@ STATE ns_nnrti
 TRANSITION start ns_nnrti "nnrti" "nnrti"
 TRANSITION ns_nnrti n_end EPS "+NOUN+SG"
 TRANSITION ns_nnrti n_end "s" "+NOUN+PL"
-STATE ns_nnw
-TRANSITION start ns_nnw "nnw" "nnw"
-TRANSITION ns_nnw n_end EPS "+NOUN+SG"
-TRANSITION ns_nnw n_end "s" "+NOUN+PL"
 STATE ns_no
 TRANSITION start ns_no "no" "no"
 TRANSITION ns_no n_end EPS "+NOUN+SG"
@@ -107039,34 +106199,18 @@ STATE ns_nozzle
 TRANSITION start ns_nozzle "nozzle" "nozzle"
 TRANSITION ns_nozzle n_end EPS "+NOUN+SG"
 TRANSITION ns_nozzle n_end "s" "+NOUN+PL"
-STATE ns_np
-TRANSITION start ns_np "np" "np"
-TRANSITION ns_np n_end EPS "+NOUN+SG"
-TRANSITION ns_np n_end "s" "+NOUN+PL"
 STATE ns_npa
 TRANSITION start ns_npa "npa" "npa"
 TRANSITION ns_npa n_end EPS "+NOUN+SG"
 TRANSITION ns_npa n_end "s" "+NOUN+PL"
-STATE ns_npc
-TRANSITION start ns_npc "npc" "npc"
-TRANSITION ns_npc n_end EPS "+NOUN+SG"
-TRANSITION ns_npc n_end "s" "+NOUN+PL"
 STATE ns_nra
 TRANSITION start ns_nra "nra" "nra"
 TRANSITION ns_nra n_end EPS "+NOUN+SG"
 TRANSITION ns_nra n_end "s" "+NOUN+PL"
-STATE ns_nrc
-TRANSITION start ns_nrc "nrc" "nrc"
-TRANSITION ns_nrc n_end EPS "+NOUN+SG"
-TRANSITION ns_nrc n_end "s" "+NOUN+PL"
 STATE ns_nrem
 TRANSITION start ns_nrem "nrem" "nrem"
 TRANSITION ns_nrem n_end EPS "+NOUN+SG"
 TRANSITION ns_nrem n_end "s" "+NOUN+PL"
-STATE ns_nrl
-TRANSITION start ns_nrl "nrl" "nrl"
-TRANSITION ns_nrl n_end EPS "+NOUN+SG"
-TRANSITION ns_nrl n_end "s" "+NOUN+PL"
 STATE ns_nrna
 TRANSITION start ns_nrna "nrna" "nrna"
 TRANSITION ns_nrna n_end EPS "+NOUN+SG"
@@ -107087,30 +106231,10 @@ STATE ns_nsaid
 TRANSITION start ns_nsaid "nsaid" "nsaid"
 TRANSITION ns_nsaid n_end EPS "+NOUN+SG"
 TRANSITION ns_nsaid n_end "s" "+NOUN+PL"
-STATE ns_nsc
-TRANSITION start ns_nsc "nsc" "nsc"
-TRANSITION ns_nsc n_end EPS "+NOUN+SG"
-TRANSITION ns_nsc n_end "s" "+NOUN+PL"
-STATE ns_nsf
-TRANSITION start ns_nsf "nsf" "nsf"
-TRANSITION ns_nsf n_end EPS "+NOUN+SG"
-TRANSITION ns_nsf n_end "s" "+NOUN+PL"
 STATE ns_nsu
 TRANSITION start ns_nsu "nsu" "nsu"
 TRANSITION ns_nsu n_end EPS "+NOUN+SG"
 TRANSITION ns_nsu n_end "s" "+NOUN+PL"
-STATE ns_nsw
-TRANSITION start ns_nsw "nsw" "nsw"
-TRANSITION ns_nsw n_end EPS "+NOUN+SG"
-TRANSITION ns_nsw n_end "s" "+NOUN+PL"
-STATE ns_nswc
-TRANSITION start ns_nswc "nswc" "nswc"
-TRANSITION ns_nswc n_end EPS "+NOUN+SG"
-TRANSITION ns_nswc n_end "s" "+NOUN+PL"
-STATE ns_nt
-TRANSITION start ns_nt "nt" "nt"
-TRANSITION ns_nt n_end EPS "+NOUN+SG"
-TRANSITION ns_nt n_end "s" "+NOUN+PL"
 STATE ns_ntis
 TRANSITION start ns_ntis "ntis" "ntis"
 TRANSITION ns_ntis n_end EPS "+NOUN+SG"
@@ -107463,22 +106587,6 @@ STATE ns_nuytsia
 TRANSITION start ns_nuytsia "nuytsia" "nuytsia"
 TRANSITION ns_nuytsia n_end EPS "+NOUN+SG"
 TRANSITION ns_nuytsia n_end "s" "+NOUN+PL"
-STATE ns_nv
-TRANSITION start ns_nv "nv" "nv"
-TRANSITION ns_nv n_end EPS "+NOUN+SG"
-TRANSITION ns_nv n_end "s" "+NOUN+PL"
-STATE ns_nw
-TRANSITION start ns_nw "nw" "nw"
-TRANSITION ns_nw n_end EPS "+NOUN+SG"
-TRANSITION ns_nw n_end "s" "+NOUN+PL"
-STATE ns_nwbn
-TRANSITION start ns_nwbn "nwbn" "nwbn"
-TRANSITION ns_nwbn n_end EPS "+NOUN+SG"
-TRANSITION ns_nwbn n_end "s" "+NOUN+PL"
-STATE ns_nwbw
-TRANSITION start ns_nwbw "nwbw" "nwbw"
-TRANSITION ns_nwbw n_end EPS "+NOUN+SG"
-TRANSITION ns_nwbw n_end "s" "+NOUN+PL"
 STATE ns_ny
 STATE ns_ny_ies
 TRANSITION start ns_ny "ny" "ny"
@@ -114667,30 +113775,10 @@ STATE ns_payslip
 TRANSITION start ns_payslip "payslip" "payslip"
 TRANSITION ns_payslip n_end EPS "+NOUN+SG"
 TRANSITION ns_payslip n_end "s" "+NOUN+PL"
-STATE ns_pb
-TRANSITION start ns_pb "pb" "pb"
-TRANSITION ns_pb n_end EPS "+NOUN+SG"
-TRANSITION ns_pb n_end "s" "+NOUN+PL"
 STATE ns_pbit
 TRANSITION start ns_pbit "pbit" "pbit"
 TRANSITION ns_pbit n_end EPS "+NOUN+SG"
 TRANSITION ns_pbit n_end "s" "+NOUN+PL"
-STATE ns_pc
-TRANSITION start ns_pc "pc" "pc"
-TRANSITION ns_pc n_end EPS "+NOUN+SG"
-TRANSITION ns_pc n_end "s" "+NOUN+PL"
-STATE ns_pcp
-TRANSITION start ns_pcp "pcp" "pcp"
-TRANSITION ns_pcp n_end EPS "+NOUN+SG"
-TRANSITION ns_pcp n_end "s" "+NOUN+PL"
-STATE ns_pct
-TRANSITION start ns_pct "pct" "pct"
-TRANSITION ns_pct n_end EPS "+NOUN+SG"
-TRANSITION ns_pct n_end "s" "+NOUN+PL"
-STATE ns_pd
-TRANSITION start ns_pd "pd" "pd"
-TRANSITION ns_pd n_end EPS "+NOUN+SG"
-TRANSITION ns_pd n_end "s" "+NOUN+PL"
 STATE ns_pda
 TRANSITION start ns_pda "pda" "pda"
 TRANSITION ns_pda n_end EPS "+NOUN+SG"
@@ -114699,10 +113787,6 @@ STATE ns_pdflp
 TRANSITION start ns_pdflp "pdflp" "pdflp"
 TRANSITION ns_pdflp n_end EPS "+NOUN+SG"
 TRANSITION ns_pdflp n_end "s" "+NOUN+PL"
-STATE ns_pdl
-TRANSITION start ns_pdl "pdl" "pdl"
-TRANSITION ns_pdl n_end EPS "+NOUN+SG"
-TRANSITION ns_pdl n_end "s" "+NOUN+PL"
 STATE ns_pe
 TRANSITION start ns_pe "pe" "pe"
 TRANSITION ns_pe n_end EPS "+NOUN+SG"
@@ -116899,22 +115983,10 @@ STATE ns_pfannkuchen
 TRANSITION start ns_pfannkuchen "pfannkuchen" "pfannkuchen"
 TRANSITION ns_pfannkuchen n_end EPS "+NOUN+SG"
 TRANSITION ns_pfannkuchen n_end "s" "+NOUN+PL"
-STATE ns_pfc
-TRANSITION start ns_pfc "pfc" "pfc"
-TRANSITION ns_pfc n_end EPS "+NOUN+SG"
-TRANSITION ns_pfc n_end "s" "+NOUN+PL"
 STATE ns_pfennig
 TRANSITION start ns_pfennig "pfennig" "pfennig"
 TRANSITION ns_pfennig n_end EPS "+NOUN+SG"
 TRANSITION ns_pfennig n_end "s" "+NOUN+PL"
-STATE ns_pflp
-TRANSITION start ns_pflp "pflp" "pflp"
-TRANSITION ns_pflp n_end EPS "+NOUN+SG"
-TRANSITION ns_pflp n_end "s" "+NOUN+PL"
-STATE ns_ph
-TRANSITION start ns_ph "ph" "ph"
-TRANSITION ns_ph n_end EPS "+NOUN+SG"
-TRANSITION ns_ph n_end "s" "+NOUN+PL"
 STATE ns_phacelia
 TRANSITION start ns_phacelia "phacelia" "phacelia"
 TRANSITION ns_phacelia n_end EPS "+NOUN+SG"
@@ -117215,10 +116287,6 @@ STATE ns_phasmidia
 TRANSITION start ns_phasmidia "phasmidia" "phasmidia"
 TRANSITION ns_phasmidia n_end EPS "+NOUN+SG"
 TRANSITION ns_phasmidia n_end "s" "+NOUN+PL"
-STATE ns_phd
-TRANSITION start ns_phd "phd" "phd"
-TRANSITION ns_phd n_end EPS "+NOUN+SG"
-TRANSITION ns_phd n_end "s" "+NOUN+PL"
 STATE ns_pheasant
 TRANSITION start ns_pheasant "pheasant" "pheasant"
 TRANSITION ns_pheasant n_end EPS "+NOUN+SG"
@@ -119607,10 +118675,6 @@ STATE ns_pizzicato
 TRANSITION start ns_pizzicato "pizzicato" "pizzicato"
 TRANSITION ns_pizzicato n_end EPS "+NOUN+SG"
 TRANSITION ns_pizzicato n_end "s" "+NOUN+PL"
-STATE ns_pkd
-TRANSITION start ns_pkd "pkd" "pkd"
-TRANSITION ns_pkd n_end EPS "+NOUN+SG"
-TRANSITION ns_pkd n_end "s" "+NOUN+PL"
 STATE ns_pku
 TRANSITION start ns_pku "pku" "pku"
 TRANSITION ns_pku n_end EPS "+NOUN+SG"
@@ -120525,10 +119589,6 @@ STATE ns_plexus
 TRANSITION start ns_plexus "plexus" "plexus"
 TRANSITION ns_plexus n_end EPS "+NOUN+SG"
 TRANSITION ns_plexus n_end "s" "+NOUN+PL"
-STATE ns_plf
-TRANSITION start ns_plf "plf" "plf"
-TRANSITION ns_plf n_end EPS "+NOUN+SG"
-TRANSITION ns_plf n_end "s" "+NOUN+PL"
 STATE ns_pliancy
 STATE ns_pliancy_ies
 TRANSITION start ns_pliancy "pliancy" "pliancy"
@@ -120817,10 +119877,6 @@ STATE ns_plzen
 TRANSITION start ns_plzen "plzen" "plzen"
 TRANSITION ns_plzen n_end EPS "+NOUN+SG"
 TRANSITION ns_plzen n_end "s" "+NOUN+PL"
-STATE ns_pm
-TRANSITION start ns_pm "pm" "pm"
-TRANSITION ns_pm n_end EPS "+NOUN+SG"
-TRANSITION ns_pm n_end "s" "+NOUN+PL"
 STATE ns_pneumatics
 TRANSITION start ns_pneumatics "pneumatics" "pneumatics"
 TRANSITION ns_pneumatics n_end EPS "+NOUN+SG"
@@ -123001,22 +122057,10 @@ TRANSITION start ns_pozsony "pozsony" "pozsony"
 TRANSITION ns_pozsony n_end EPS "+NOUN+SG"
 TRANSITION start ns_pozsony_ies "pozsonies" "pozsony"
 TRANSITION ns_pozsony_ies n_end EPS "+NOUN+PL"
-STATE ns_ppk
-TRANSITION start ns_ppk "ppk" "ppk"
-TRANSITION ns_ppk n_end EPS "+NOUN+SG"
-TRANSITION ns_ppk n_end "s" "+NOUN+PL"
 STATE ns_pplo
 TRANSITION start ns_pplo "pplo" "pplo"
 TRANSITION ns_pplo n_end EPS "+NOUN+SG"
 TRANSITION ns_pplo n_end "s" "+NOUN+PL"
-STATE ns_ppp
-TRANSITION start ns_ppp "ppp" "ppp"
-TRANSITION ns_ppp n_end EPS "+NOUN+SG"
-TRANSITION ns_ppp n_end "s" "+NOUN+PL"
-STATE ns_pr
-TRANSITION start ns_pr "pr" "pr"
-TRANSITION ns_pr n_end EPS "+NOUN+SG"
-TRANSITION ns_pr n_end "s" "+NOUN+PL"
 STATE ns_practician
 TRANSITION start ns_practician "practician" "practician"
 TRANSITION ns_practician n_end EPS "+NOUN+SG"
@@ -123161,10 +122205,6 @@ STATE ns_prazosin
 TRANSITION start ns_prazosin "prazosin" "prazosin"
 TRANSITION ns_prazosin n_end EPS "+NOUN+SG"
 TRANSITION ns_prazosin n_end "s" "+NOUN+PL"
-STATE ns_prc
-TRANSITION start ns_prc "prc" "prc"
-TRANSITION ns_prc n_end EPS "+NOUN+SG"
-TRANSITION ns_prc n_end "s" "+NOUN+PL"
 STATE ns_preacher
 TRANSITION start ns_preacher "preacher" "preacher"
 TRANSITION ns_preacher n_end EPS "+NOUN+SG"
@@ -125231,10 +124271,6 @@ STATE ns_prussian
 TRANSITION start ns_prussian "prussian" "prussian"
 TRANSITION ns_prussian n_end EPS "+NOUN+SG"
 TRANSITION ns_prussian n_end "s" "+NOUN+PL"
-STATE ns_ps
-TRANSITION start ns_ps "ps" "ps"
-TRANSITION ns_ps n_end EPS "+NOUN+SG"
-TRANSITION ns_ps n_end "s" "+NOUN+PL"
 STATE ns_psa
 TRANSITION start ns_psa "psa" "psa"
 TRANSITION ns_psa n_end EPS "+NOUN+SG"
@@ -125435,10 +124471,6 @@ STATE ns_pseudowintera
 TRANSITION start ns_pseudowintera "pseudowintera" "pseudowintera"
 TRANSITION ns_pseudowintera n_end EPS "+NOUN+SG"
 TRANSITION ns_pseudowintera n_end "s" "+NOUN+PL"
-STATE ns_psf
-TRANSITION start ns_psf "psf" "psf"
-TRANSITION ns_psf n_end EPS "+NOUN+SG"
-TRANSITION ns_psf n_end "s" "+NOUN+PL"
 STATE ns_psi
 TRANSITION start ns_psi "psi" "psi"
 TRANSITION ns_psi n_end EPS "+NOUN+SG"
@@ -125567,10 +124599,6 @@ STATE ns_psoriasis
 TRANSITION start ns_psoriasis "psoriasis" "psoriasis"
 TRANSITION ns_psoriasis n_end EPS "+NOUN+SG"
 TRANSITION ns_psoriasis n_end "s" "+NOUN+PL"
-STATE ns_pst
-TRANSITION start ns_pst "pst" "pst"
-TRANSITION ns_pst n_end EPS "+NOUN+SG"
-TRANSITION ns_pst n_end "s" "+NOUN+PL"
 STATE ns_psyche
 TRANSITION start ns_psyche "psyche" "psyche"
 TRANSITION ns_psyche n_end EPS "+NOUN+SG"
@@ -125729,10 +124757,6 @@ STATE ns_psyop
 TRANSITION start ns_psyop "psyop" "psyop"
 TRANSITION ns_psyop n_end EPS "+NOUN+SG"
 TRANSITION ns_psyop n_end "s" "+NOUN+PL"
-STATE ns_pt
-TRANSITION start ns_pt "pt" "pt"
-TRANSITION ns_pt n_end EPS "+NOUN+SG"
-TRANSITION ns_pt n_end "s" "+NOUN+PL"
 STATE ns_ptah
 TRANSITION start ns_ptah "ptah" "ptah"
 TRANSITION ns_ptah n_end EPS "+NOUN+SG"
@@ -125903,10 +124927,6 @@ STATE ns_ptosis
 TRANSITION start ns_ptosis "ptosis" "ptosis"
 TRANSITION ns_ptosis n_end EPS "+NOUN+SG"
 TRANSITION ns_ptosis n_end "s" "+NOUN+PL"
-STATE ns_ptsd
-TRANSITION start ns_ptsd "ptsd" "ptsd"
-TRANSITION ns_ptsd n_end EPS "+NOUN+SG"
-TRANSITION ns_ptsd n_end "s" "+NOUN+PL"
 STATE ns_ptyalin
 TRANSITION start ns_ptyalin "ptyalin" "ptyalin"
 TRANSITION ns_ptyalin n_end EPS "+NOUN+SG"
@@ -126583,20 +125603,6 @@ STATE ns_pva
 TRANSITION start ns_pva "pva" "pva"
 TRANSITION ns_pva n_end EPS "+NOUN+SG"
 TRANSITION ns_pva n_end "s" "+NOUN+PL"
-STATE ns_pvc
-TRANSITION start ns_pvc "pvc" "pvc"
-TRANSITION ns_pvc n_end EPS "+NOUN+SG"
-TRANSITION ns_pvc n_end "s" "+NOUN+PL"
-STATE ns_pwr
-TRANSITION start ns_pwr "pwr" "pwr"
-TRANSITION ns_pwr n_end EPS "+NOUN+SG"
-TRANSITION ns_pwr n_end "s" "+NOUN+PL"
-STATE ns_px
-STATE ns_px_e
-TRANSITION start ns_px "px" "px"
-TRANSITION ns_px n_end EPS "+NOUN+SG"
-TRANSITION ns_px ns_px_e "e" EPS
-TRANSITION ns_px_e n_end "s" "+NOUN+PL"
 STATE ns_pya
 TRANSITION start ns_pya "pya" "pya"
 TRANSITION ns_pya n_end EPS "+NOUN+SG"
@@ -127107,10 +126113,6 @@ STATE ns_qatari
 TRANSITION start ns_qatari "qatari" "qatari"
 TRANSITION ns_qatari n_end EPS "+NOUN+SG"
 TRANSITION ns_qatari n_end "s" "+NOUN+PL"
-STATE ns_qcd
-TRANSITION start ns_qcd "qcd" "qcd"
-TRANSITION ns_qcd n_end EPS "+NOUN+SG"
-TRANSITION ns_qcd n_end "s" "+NOUN+PL"
 STATE ns_qepiq
 TRANSITION start ns_qepiq "qepiq" "qepiq"
 TRANSITION ns_qepiq n_end EPS "+NOUN+SG"
@@ -129043,22 +128045,10 @@ TRANSITION start ns_razzmatazz "razzmatazz" "razzmatazz"
 TRANSITION ns_razzmatazz n_end EPS "+NOUN+SG"
 TRANSITION ns_razzmatazz ns_razzmatazz_e "e" EPS
 TRANSITION ns_razzmatazz_e n_end "s" "+NOUN+PL"
-STATE ns_rb
-TRANSITION start ns_rb "rb" "rb"
-TRANSITION ns_rb n_end EPS "+NOUN+SG"
-TRANSITION ns_rb n_end "s" "+NOUN+PL"
-STATE ns_rbc
-TRANSITION start ns_rbc "rbc" "rbc"
-TRANSITION ns_rbc n_end EPS "+NOUN+SG"
-TRANSITION ns_rbc n_end "s" "+NOUN+PL"
 STATE ns_rbi
 TRANSITION start ns_rbi "rbi" "rbi"
 TRANSITION ns_rbi n_end EPS "+NOUN+SG"
 TRANSITION ns_rbi n_end "s" "+NOUN+PL"
-STATE ns_rcmp
-TRANSITION start ns_rcmp "rcmp" "rcmp"
-TRANSITION ns_rcmp n_end EPS "+NOUN+SG"
-TRANSITION ns_rcmp n_end "s" "+NOUN+PL"
 STATE ns_re
 TRANSITION start ns_re "re" "re"
 TRANSITION ns_re n_end EPS "+NOUN+SG"
@@ -130861,22 +129851,6 @@ STATE ns_reynolds
 TRANSITION start ns_reynolds "reynolds" "reynolds"
 TRANSITION ns_reynolds n_end EPS "+NOUN+SG"
 TRANSITION ns_reynolds n_end "s" "+NOUN+PL"
-STATE ns_rf
-TRANSITION start ns_rf "rf" "rf"
-TRANSITION ns_rf n_end EPS "+NOUN+SG"
-TRANSITION ns_rf n_end "s" "+NOUN+PL"
-STATE ns_rfd
-TRANSITION start ns_rfd "rfd" "rfd"
-TRANSITION ns_rfd n_end EPS "+NOUN+SG"
-TRANSITION ns_rfd n_end "s" "+NOUN+PL"
-STATE ns_rg
-TRANSITION start ns_rg "rg" "rg"
-TRANSITION ns_rg n_end EPS "+NOUN+SG"
-TRANSITION ns_rg n_end "s" "+NOUN+PL"
-STATE ns_rh
-TRANSITION start ns_rh "rh" "rh"
-TRANSITION ns_rh n_end EPS "+NOUN+SG"
-TRANSITION ns_rh n_end "s" "+NOUN+PL"
 STATE ns_rhabdomancer
 TRANSITION start ns_rhabdomancer "rhabdomancer" "rhabdomancer"
 TRANSITION ns_rhabdomancer n_end EPS "+NOUN+SG"
@@ -130945,10 +129919,6 @@ TRANSITION start ns_rhapsody "rhapsody" "rhapsody"
 TRANSITION ns_rhapsody n_end EPS "+NOUN+SG"
 TRANSITION start ns_rhapsody_ies "rhapsodies" "rhapsody"
 TRANSITION ns_rhapsody_ies n_end EPS "+NOUN+PL"
-STATE ns_rhd
-TRANSITION start ns_rhd "rhd" "rhd"
-TRANSITION ns_rhd n_end EPS "+NOUN+SG"
-TRANSITION ns_rhd n_end "s" "+NOUN+PL"
 STATE ns_rhea
 TRANSITION start ns_rhea "rhea" "rhea"
 TRANSITION ns_rhea n_end EPS "+NOUN+SG"
@@ -131933,10 +130903,6 @@ STATE ns_riyal
 TRANSITION start ns_riyal "riyal" "riyal"
 TRANSITION ns_riyal n_end EPS "+NOUN+SG"
 TRANSITION ns_riyal n_end "s" "+NOUN+PL"
-STATE ns_rn
-TRANSITION start ns_rn "rn" "rn"
-TRANSITION ns_rn n_end EPS "+NOUN+SG"
-TRANSITION ns_rn n_end "s" "+NOUN+PL"
 STATE ns_rna
 TRANSITION start ns_rna "rna" "rna"
 TRANSITION ns_rna n_end EPS "+NOUN+SG"
@@ -133009,14 +131975,6 @@ STATE ns_rozelle
 TRANSITION start ns_rozelle "rozelle" "rozelle"
 TRANSITION ns_rozelle n_end EPS "+NOUN+SG"
 TRANSITION ns_rozelle n_end "s" "+NOUN+PL"
-STATE ns_rpm
-TRANSITION start ns_rpm "rpm" "rpm"
-TRANSITION ns_rpm n_end EPS "+NOUN+SG"
-TRANSITION ns_rpm n_end "s" "+NOUN+PL"
-STATE ns_rtlt
-TRANSITION start ns_rtlt "rtlt" "rtlt"
-TRANSITION ns_rtlt n_end EPS "+NOUN+SG"
-TRANSITION ns_rtlt n_end "s" "+NOUN+PL"
 STATE ns_ru
 TRANSITION start ns_ru "ru" "ru"
 TRANSITION ns_ru n_end EPS "+NOUN+SG"
@@ -133493,10 +132451,6 @@ STATE ns_rutledge
 TRANSITION start ns_rutledge "rutledge" "rutledge"
 TRANSITION ns_rutledge n_end EPS "+NOUN+SG"
 TRANSITION ns_rutledge n_end "s" "+NOUN+PL"
-STATE ns_rv
-TRANSITION start ns_rv "rv" "rv"
-TRANSITION ns_rv n_end EPS "+NOUN+SG"
-TRANSITION ns_rv n_end "s" "+NOUN+PL"
 STATE ns_rwanda
 TRANSITION start ns_rwanda "rwanda" "rwanda"
 TRANSITION ns_rwanda n_end EPS "+NOUN+SG"
@@ -135917,10 +134871,6 @@ STATE ns_sazerac
 TRANSITION start ns_sazerac "sazerac" "sazerac"
 TRANSITION ns_sazerac n_end EPS "+NOUN+SG"
 TRANSITION ns_sazerac n_end "s" "+NOUN+PL"
-STATE ns_sb
-TRANSITION start ns_sb "sb" "sb"
-TRANSITION ns_sb n_end EPS "+NOUN+SG"
-TRANSITION ns_sb n_end "s" "+NOUN+PL"
 STATE ns_sba
 TRANSITION start ns_sba "sba" "sba"
 TRANSITION ns_sba n_end EPS "+NOUN+SG"
@@ -135929,14 +134879,6 @@ STATE ns_sbe
 TRANSITION start ns_sbe "sbe" "sbe"
 TRANSITION ns_sbe n_end EPS "+NOUN+SG"
 TRANSITION ns_sbe n_end "s" "+NOUN+PL"
-STATE ns_sbw
-TRANSITION start ns_sbw "sbw" "sbw"
-TRANSITION ns_sbw n_end EPS "+NOUN+SG"
-TRANSITION ns_sbw n_end "s" "+NOUN+PL"
-STATE ns_sc
-TRANSITION start ns_sc "sc" "sc"
-TRANSITION ns_sc n_end EPS "+NOUN+SG"
-TRANSITION ns_sc n_end "s" "+NOUN+PL"
 STATE ns_scabbard
 TRANSITION start ns_scabbard "scabbard" "scabbard"
 TRANSITION ns_scabbard n_end EPS "+NOUN+SG"
@@ -136221,10 +135163,6 @@ STATE ns_scavenger
 TRANSITION start ns_scavenger "scavenger" "scavenger"
 TRANSITION ns_scavenger n_end EPS "+NOUN+SG"
 TRANSITION ns_scavenger n_end "s" "+NOUN+PL"
-STATE ns_scd
-TRANSITION start ns_scd "scd" "scd"
-TRANSITION ns_scd n_end EPS "+NOUN+SG"
-TRANSITION ns_scd n_end "s" "+NOUN+PL"
 STATE ns_sceliphron
 TRANSITION start ns_sceliphron "sceliphron" "sceliphron"
 TRANSITION ns_sceliphron n_end EPS "+NOUN+SG"
@@ -136971,14 +135909,6 @@ TRANSITION start ns_sclerotomy "sclerotomy" "sclerotomy"
 TRANSITION ns_sclerotomy n_end EPS "+NOUN+SG"
 TRANSITION start ns_sclerotomy_ies "sclerotomies" "sclerotomy"
 TRANSITION ns_sclerotomy_ies n_end EPS "+NOUN+PL"
-STATE ns_sclk
-TRANSITION start ns_sclk "sclk" "sclk"
-TRANSITION ns_sclk n_end EPS "+NOUN+SG"
-TRANSITION ns_sclk n_end "s" "+NOUN+PL"
-STATE ns_scnt
-TRANSITION start ns_scnt "scnt" "scnt"
-TRANSITION ns_scnt n_end EPS "+NOUN+SG"
-TRANSITION ns_scnt n_end "s" "+NOUN+PL"
 STATE ns_scoffer
 TRANSITION start ns_scoffer "scoffer" "scoffer"
 TRANSITION ns_scoffer n_end EPS "+NOUN+SG"
@@ -137607,10 +136537,6 @@ STATE ns_scythian
 TRANSITION start ns_scythian "scythian" "scythian"
 TRANSITION ns_scythian n_end EPS "+NOUN+SG"
 TRANSITION ns_scythian n_end "s" "+NOUN+PL"
-STATE ns_sd
-TRANSITION start ns_sd "sd" "sd"
-TRANSITION ns_sd n_end EPS "+NOUN+SG"
-TRANSITION ns_sd n_end "s" "+NOUN+PL"
 STATE ns_se
 TRANSITION start ns_se "se" "se"
 TRANSITION ns_se n_end EPS "+NOUN+SG"
@@ -139349,14 +138275,6 @@ STATE ns_sforzando
 TRANSITION start ns_sforzando "sforzando" "sforzando"
 TRANSITION ns_sforzando n_end EPS "+NOUN+SG"
 TRANSITION ns_sforzando n_end "s" "+NOUN+PL"
-STATE ns_sg
-TRANSITION start ns_sg "sg" "sg"
-TRANSITION ns_sg n_end EPS "+NOUN+SG"
-TRANSITION ns_sg n_end "s" "+NOUN+PL"
-STATE ns_sgml
-TRANSITION start ns_sgml "sgml" "sgml"
-TRANSITION ns_sgml n_end EPS "+NOUN+SG"
-TRANSITION ns_sgml n_end "s" "+NOUN+PL"
 STATE ns_sgraffito
 TRANSITION start ns_sgraffito "sgraffito" "sgraffito"
 TRANSITION ns_sgraffito n_end EPS "+NOUN+SG"
@@ -139985,10 +138903,6 @@ STATE ns_shevchenko
 TRANSITION start ns_shevchenko "shevchenko" "shevchenko"
 TRANSITION ns_shevchenko n_end EPS "+NOUN+SG"
 TRANSITION ns_shevchenko n_end "s" "+NOUN+PL"
-STATE ns_shf
-TRANSITION start ns_shf "shf" "shf"
-TRANSITION ns_shf n_end EPS "+NOUN+SG"
-TRANSITION ns_shf n_end "s" "+NOUN+PL"
 STATE ns_shia
 TRANSITION start ns_shia "shia" "shia"
 TRANSITION ns_shia n_end EPS "+NOUN+SG"
@@ -142179,10 +141093,6 @@ STATE ns_skyway
 TRANSITION start ns_skyway "skyway" "skyway"
 TRANSITION ns_skyway n_end EPS "+NOUN+SG"
 TRANSITION ns_skyway n_end "s" "+NOUN+PL"
-STATE ns_sl
-TRANSITION start ns_sl "sl" "sl"
-TRANSITION ns_sl n_end EPS "+NOUN+SG"
-TRANSITION ns_sl n_end "s" "+NOUN+PL"
 STATE ns_slab
 TRANSITION start ns_slab "slab" "slab"
 TRANSITION ns_slab n_end EPS "+NOUN+SG"
@@ -142535,10 +141445,6 @@ STATE ns_slyboots
 TRANSITION start ns_slyboots "slyboots" "slyboots"
 TRANSITION ns_slyboots n_end EPS "+NOUN+SG"
 TRANSITION ns_slyboots n_end "s" "+NOUN+PL"
-STATE ns_sm
-TRANSITION start ns_sm "sm" "sm"
-TRANSITION ns_sm n_end EPS "+NOUN+SG"
-TRANSITION ns_sm n_end "s" "+NOUN+PL"
 STATE ns_smacker
 TRANSITION start ns_smacker "smacker" "smacker"
 TRANSITION ns_smacker n_end EPS "+NOUN+SG"
@@ -142745,10 +141651,6 @@ STATE ns_smyrnium
 TRANSITION start ns_smyrnium "smyrnium" "smyrnium"
 TRANSITION ns_smyrnium n_end EPS "+NOUN+SG"
 TRANSITION ns_smyrnium n_end "s" "+NOUN+PL"
-STATE ns_sn
-TRANSITION start ns_sn "sn" "sn"
-TRANSITION ns_sn n_end EPS "+NOUN+SG"
-TRANSITION ns_sn n_end "s" "+NOUN+PL"
 STATE ns_snacker
 TRANSITION start ns_snacker "snacker" "snacker"
 TRANSITION ns_snacker n_end EPS "+NOUN+SG"
@@ -143001,10 +141903,6 @@ STATE ns_snowsuit
 TRANSITION start ns_snowsuit "snowsuit" "snowsuit"
 TRANSITION ns_snowsuit n_end EPS "+NOUN+SG"
 TRANSITION ns_snowsuit n_end "s" "+NOUN+PL"
-STATE ns_snp
-TRANSITION start ns_snp "snp" "snp"
-TRANSITION ns_snp n_end EPS "+NOUN+SG"
-TRANSITION ns_snp n_end "s" "+NOUN+PL"
 STATE ns_snuffbox
 STATE ns_snuffbox_e
 TRANSITION start ns_snuffbox "snuffbox" "snuffbox"
@@ -144663,10 +143561,6 @@ STATE ns_spewer
 TRANSITION start ns_spewer "spewer" "spewer"
 TRANSITION ns_spewer n_end EPS "+NOUN+SG"
 TRANSITION ns_spewer n_end "s" "+NOUN+PL"
-STATE ns_spf
-TRANSITION start ns_spf "spf" "spf"
-TRANSITION ns_spf n_end EPS "+NOUN+SG"
-TRANSITION ns_spf n_end "s" "+NOUN+PL"
 STATE ns_sphacele
 TRANSITION start ns_sphacele "sphacele" "sphacele"
 TRANSITION ns_sphacele n_end EPS "+NOUN+SG"
@@ -145815,10 +144709,6 @@ STATE ns_squirter
 TRANSITION start ns_squirter "squirter" "squirter"
 TRANSITION ns_squirter n_end EPS "+NOUN+SG"
 TRANSITION ns_squirter n_end "s" "+NOUN+PL"
-STATE ns_sr
-TRANSITION start ns_sr "sr" "sr"
-TRANSITION ns_sr n_end EPS "+NOUN+SG"
-TRANSITION ns_sr n_end "s" "+NOUN+PL"
 STATE ns_sravana
 TRANSITION start ns_sravana "sravana" "sravana"
 TRANSITION ns_sravana n_end EPS "+NOUN+SG"
@@ -145827,12 +144717,6 @@ STATE ns_srbija
 TRANSITION start ns_srbija "srbija" "srbija"
 TRANSITION ns_srbija n_end EPS "+NOUN+SG"
 TRANSITION ns_srbija n_end "s" "+NOUN+PL"
-STATE ns_ss
-STATE ns_ss_e
-TRANSITION start ns_ss "ss" "ss"
-TRANSITION ns_ss n_end EPS "+NOUN+SG"
-TRANSITION ns_ss ns_ss_e "e" EPS
-TRANSITION ns_ss_e n_end "s" "+NOUN+PL"
 STATE ns_ssa
 TRANSITION start ns_ssa "ssa" "ssa"
 TRANSITION ns_ssa n_end EPS "+NOUN+SG"
@@ -145849,10 +144733,6 @@ STATE ns_ssri
 TRANSITION start ns_ssri "ssri" "ssri"
 TRANSITION ns_ssri n_end EPS "+NOUN+SG"
 TRANSITION ns_ssri n_end "s" "+NOUN+PL"
-STATE ns_ssw
-TRANSITION start ns_ssw "ssw" "ssw"
-TRANSITION ns_ssw n_end EPS "+NOUN+SG"
-TRANSITION ns_ssw n_end "s" "+NOUN+PL"
 STATE ns_stabber
 TRANSITION start ns_stabber "stabber" "stabber"
 TRANSITION ns_stabber n_end EPS "+NOUN+SG"
@@ -146385,10 +145265,6 @@ STATE ns_staysail
 TRANSITION start ns_staysail "staysail" "staysail"
 TRANSITION ns_staysail n_end EPS "+NOUN+SG"
 TRANSITION ns_staysail n_end "s" "+NOUN+PL"
-STATE ns_std
-TRANSITION start ns_std "std" "std"
-TRANSITION ns_std n_end EPS "+NOUN+SG"
-TRANSITION ns_std n_end "s" "+NOUN+PL"
 STATE ns_stead
 TRANSITION start ns_stead "stead" "stead"
 TRANSITION ns_stead n_end EPS "+NOUN+SG"
@@ -146937,10 +145813,6 @@ STATE ns_stewpan
 TRANSITION start ns_stewpan "stewpan" "stewpan"
 TRANSITION ns_stewpan n_end EPS "+NOUN+SG"
 TRANSITION ns_stewpan n_end "s" "+NOUN+PL"
-STATE ns_sth
-TRANSITION start ns_sth "sth" "sth"
-TRANSITION ns_sth n_end EPS "+NOUN+SG"
-TRANSITION ns_sth n_end "s" "+NOUN+PL"
 STATE ns_sthene
 TRANSITION start ns_sthene "sthene" "sthene"
 TRANSITION ns_sthene n_end EPS "+NOUN+SG"
@@ -147167,10 +146039,6 @@ STATE ns_stizostedion
 TRANSITION start ns_stizostedion "stizostedion" "stizostedion"
 TRANSITION ns_stizostedion n_end EPS "+NOUN+SG"
 TRANSITION ns_stizostedion n_end "s" "+NOUN+PL"
-STATE ns_stm
-TRANSITION start ns_stm "stm" "stm"
-TRANSITION ns_stm n_end EPS "+NOUN+SG"
-TRANSITION ns_stm n_end "s" "+NOUN+PL"
 STATE ns_stoat
 TRANSITION start ns_stoat "stoat" "stoat"
 TRANSITION ns_stoat n_end EPS "+NOUN+SG"
@@ -147529,10 +146397,6 @@ STATE ns_stowe
 TRANSITION start ns_stowe "stowe" "stowe"
 TRANSITION ns_stowe n_end EPS "+NOUN+SG"
 TRANSITION ns_stowe n_end "s" "+NOUN+PL"
-STATE ns_stp
-TRANSITION start ns_stp "stp" "stp"
-TRANSITION ns_stp n_end EPS "+NOUN+SG"
-TRANSITION ns_stp n_end "s" "+NOUN+PL"
 STATE ns_strabismus
 TRANSITION start ns_strabismus "strabismus" "strabismus"
 TRANSITION ns_strabismus n_end EPS "+NOUN+SG"
@@ -149941,14 +148805,6 @@ STATE ns_svoboda
 TRANSITION start ns_svoboda "svoboda" "svoboda"
 TRANSITION ns_svoboda n_end EPS "+NOUN+SG"
 TRANSITION ns_svoboda n_end "s" "+NOUN+PL"
-STATE ns_svr
-TRANSITION start ns_svr "svr" "svr"
-TRANSITION ns_svr n_end EPS "+NOUN+SG"
-TRANSITION ns_svr n_end "s" "+NOUN+PL"
-STATE ns_sw
-TRANSITION start ns_sw "sw" "sw"
-TRANSITION ns_sw n_end EPS "+NOUN+SG"
-TRANSITION ns_sw n_end "s" "+NOUN+PL"
 STATE ns_swad
 TRANSITION start ns_swad "swad" "swad"
 TRANSITION ns_swad n_end EPS "+NOUN+SG"
@@ -150055,14 +148911,6 @@ STATE ns_swaziland
 TRANSITION start ns_swaziland "swaziland" "swaziland"
 TRANSITION ns_swaziland n_end EPS "+NOUN+SG"
 TRANSITION ns_swaziland n_end "s" "+NOUN+PL"
-STATE ns_swbs
-TRANSITION start ns_swbs "swbs" "swbs"
-TRANSITION ns_swbs n_end EPS "+NOUN+SG"
-TRANSITION ns_swbs n_end "s" "+NOUN+PL"
-STATE ns_swbw
-TRANSITION start ns_swbw "swbw" "swbw"
-TRANSITION ns_swbw n_end EPS "+NOUN+SG"
-TRANSITION ns_swbw n_end "s" "+NOUN+PL"
 STATE ns_swearer
 TRANSITION start ns_swearer "swearer" "swearer"
 TRANSITION ns_swearer n_end EPS "+NOUN+SG"
@@ -152553,10 +151401,6 @@ STATE ns_tazicef
 TRANSITION start ns_tazicef "tazicef" "tazicef"
 TRANSITION ns_tazicef n_end EPS "+NOUN+SG"
 TRANSITION ns_tazicef n_end "s" "+NOUN+PL"
-STATE ns_tb
-TRANSITION start ns_tb "tb" "tb"
-TRANSITION ns_tb n_end EPS "+NOUN+SG"
-TRANSITION ns_tb n_end "s" "+NOUN+PL"
 STATE ns_tbilisi
 TRANSITION start ns_tbilisi "tbilisi" "tbilisi"
 TRANSITION ns_tbilisi n_end EPS "+NOUN+SG"
@@ -152565,10 +151409,6 @@ STATE ns_tbit
 TRANSITION start ns_tbit "tbit" "tbit"
 TRANSITION ns_tbit n_end EPS "+NOUN+SG"
 TRANSITION ns_tbit n_end "s" "+NOUN+PL"
-STATE ns_tc
-TRANSITION start ns_tc "tc" "tc"
-TRANSITION ns_tc n_end EPS "+NOUN+SG"
-TRANSITION ns_tc n_end "s" "+NOUN+PL"
 STATE ns_tce
 TRANSITION start ns_tce "tce" "tce"
 TRANSITION ns_tce n_end EPS "+NOUN+SG"
@@ -152591,14 +151431,6 @@ STATE ns_tchotchkeleh
 TRANSITION start ns_tchotchkeleh "tchotchkeleh" "tchotchkeleh"
 TRANSITION ns_tchotchkeleh n_end EPS "+NOUN+SG"
 TRANSITION ns_tchotchkeleh n_end "s" "+NOUN+PL"
-STATE ns_tcp
-TRANSITION start ns_tcp "tcp" "tcp"
-TRANSITION ns_tcp n_end EPS "+NOUN+SG"
-TRANSITION ns_tcp n_end "s" "+NOUN+PL"
-STATE ns_tdt
-TRANSITION start ns_tdt "tdt" "tdt"
-TRANSITION ns_tdt n_end EPS "+NOUN+SG"
-TRANSITION ns_tdt n_end "s" "+NOUN+PL"
 STATE ns_te
 TRANSITION start ns_te "te" "te"
 TRANSITION ns_te n_end EPS "+NOUN+SG"
@@ -154161,10 +152993,6 @@ STATE ns_texture
 TRANSITION start ns_texture "texture" "texture"
 TRANSITION ns_texture n_end EPS "+NOUN+SG"
 TRANSITION ns_texture n_end "s" "+NOUN+PL"
-STATE ns_th
-TRANSITION start ns_th "th" "th"
-TRANSITION ns_th n_end EPS "+NOUN+SG"
-TRANSITION ns_th n_end "s" "+NOUN+PL"
 STATE ns_thackeray
 TRANSITION start ns_thackeray "thackeray" "thackeray"
 TRANSITION ns_thackeray n_end EPS "+NOUN+SG"
@@ -154319,18 +153147,6 @@ TRANSITION start ns_thaumaturgy "thaumaturgy" "thaumaturgy"
 TRANSITION ns_thaumaturgy n_end EPS "+NOUN+SG"
 TRANSITION start ns_thaumaturgy_ies "thaumaturgies" "thaumaturgy"
 TRANSITION ns_thaumaturgy_ies n_end EPS "+NOUN+PL"
-STATE ns_thb
-TRANSITION start ns_thb "thb" "thb"
-TRANSITION ns_thb n_end EPS "+NOUN+SG"
-TRANSITION ns_thb n_end "s" "+NOUN+PL"
-STATE ns_thc
-TRANSITION start ns_thc "thc" "thc"
-TRANSITION ns_thc n_end EPS "+NOUN+SG"
-TRANSITION ns_thc n_end "s" "+NOUN+PL"
-STATE ns_thd
-TRANSITION start ns_thd "thd" "thd"
-TRANSITION ns_thd n_end EPS "+NOUN+SG"
-TRANSITION ns_thd n_end "s" "+NOUN+PL"
 STATE ns_thea
 TRANSITION start ns_thea "thea" "thea"
 TRANSITION ns_thea n_end EPS "+NOUN+SG"
@@ -154989,10 +153805,6 @@ STATE ns_thlaspi
 TRANSITION start ns_thlaspi "thlaspi" "thlaspi"
 TRANSITION ns_thlaspi n_end EPS "+NOUN+SG"
 TRANSITION ns_thlaspi n_end "s" "+NOUN+PL"
-STATE ns_thm
-TRANSITION start ns_thm "thm" "thm"
-TRANSITION ns_thm n_end EPS "+NOUN+SG"
-TRANSITION ns_thm n_end "s" "+NOUN+PL"
 STATE ns_tho
 TRANSITION start ns_tho "tho" "tho"
 TRANSITION ns_tho n_end EPS "+NOUN+SG"
@@ -155631,12 +154443,6 @@ STATE ns_thysanuron
 TRANSITION start ns_thysanuron "thysanuron" "thysanuron"
 TRANSITION ns_thysanuron n_end EPS "+NOUN+SG"
 TRANSITION ns_thysanuron n_end "s" "+NOUN+PL"
-STATE ns_thz
-STATE ns_thz_e
-TRANSITION start ns_thz "thz" "thz"
-TRANSITION ns_thz n_end EPS "+NOUN+SG"
-TRANSITION ns_thz ns_thz_e "e" EPS
-TRANSITION ns_thz_e n_end "s" "+NOUN+PL"
 STATE ns_ti
 TRANSITION start ns_ti "ti" "ti"
 TRANSITION ns_ti n_end EPS "+NOUN+SG"
@@ -156367,38 +155173,10 @@ STATE ns_tko
 TRANSITION start ns_tko "tko" "tko"
 TRANSITION ns_tko n_end EPS "+NOUN+SG"
 TRANSITION ns_tko n_end "s" "+NOUN+PL"
-STATE ns_tl
-TRANSITION start ns_tl "tl" "tl"
-TRANSITION ns_tl n_end EPS "+NOUN+SG"
-TRANSITION ns_tl n_end "s" "+NOUN+PL"
-STATE ns_tlc
-TRANSITION start ns_tlc "tlc" "tlc"
-TRANSITION ns_tlc n_end EPS "+NOUN+SG"
-TRANSITION ns_tlc n_end "s" "+NOUN+PL"
 STATE ns_tlingit
 TRANSITION start ns_tlingit "tlingit" "tlingit"
 TRANSITION ns_tlingit n_end EPS "+NOUN+SG"
 TRANSITION ns_tlingit n_end "s" "+NOUN+PL"
-STATE ns_tm
-TRANSITION start ns_tm "tm" "tm"
-TRANSITION ns_tm n_end EPS "+NOUN+SG"
-TRANSITION ns_tm n_end "s" "+NOUN+PL"
-STATE ns_tmv
-TRANSITION start ns_tmv "tmv" "tmv"
-TRANSITION ns_tmv n_end EPS "+NOUN+SG"
-TRANSITION ns_tmv n_end "s" "+NOUN+PL"
-STATE ns_tn
-TRANSITION start ns_tn "tn" "tn"
-TRANSITION ns_tn n_end EPS "+NOUN+SG"
-TRANSITION ns_tn n_end "s" "+NOUN+PL"
-STATE ns_tnf
-TRANSITION start ns_tnf "tnf" "tnf"
-TRANSITION ns_tnf n_end EPS "+NOUN+SG"
-TRANSITION ns_tnf n_end "s" "+NOUN+PL"
-STATE ns_tnt
-TRANSITION start ns_tnt "tnt" "tnt"
-TRANSITION ns_tnt n_end EPS "+NOUN+SG"
-TRANSITION ns_tnt n_end "s" "+NOUN+PL"
 STATE ns_toad
 TRANSITION start ns_toad "toad" "toad"
 TRANSITION ns_toad n_end EPS "+NOUN+SG"
@@ -157611,10 +156389,6 @@ STATE ns_toyshop
 TRANSITION start ns_toyshop "toyshop" "toyshop"
 TRANSITION ns_toyshop n_end EPS "+NOUN+SG"
 TRANSITION ns_toyshop n_end "s" "+NOUN+PL"
-STATE ns_tpn
-TRANSITION start ns_tpn "tpn" "tpn"
-TRANSITION ns_tpn n_end EPS "+NOUN+SG"
-TRANSITION ns_tpn n_end "s" "+NOUN+PL"
 STATE ns_trabecula
 TRANSITION start ns_trabecula "trabecula" "trabecula"
 TRANSITION ns_trabecula n_end EPS "+NOUN+SG"
@@ -158465,14 +157239,6 @@ STATE ns_trey
 TRANSITION start ns_trey "trey" "trey"
 TRANSITION ns_trey n_end EPS "+NOUN+SG"
 TRANSITION ns_trey n_end "s" "+NOUN+PL"
-STATE ns_trf
-TRANSITION start ns_trf "trf" "trf"
-TRANSITION ns_trf n_end EPS "+NOUN+SG"
-TRANSITION ns_trf n_end "s" "+NOUN+PL"
-STATE ns_trh
-TRANSITION start ns_trh "trh" "trh"
-TRANSITION ns_trh n_end EPS "+NOUN+SG"
-TRANSITION ns_trh n_end "s" "+NOUN+PL"
 STATE ns_triacetate
 TRANSITION start ns_triacetate "triacetate" "triacetate"
 TRANSITION ns_triacetate n_end EPS "+NOUN+SG"
@@ -159213,10 +157979,6 @@ STATE ns_trivium
 TRANSITION start ns_trivium "trivium" "trivium"
 TRANSITION ns_trivium n_end EPS "+NOUN+SG"
 TRANSITION ns_trivium n_end "s" "+NOUN+PL"
-STATE ns_trm
-TRANSITION start ns_trm "trm" "trm"
-TRANSITION ns_trm n_end EPS "+NOUN+SG"
-TRANSITION ns_trm n_end "s" "+NOUN+PL"
 STATE ns_trna
 TRANSITION start ns_trna "trna" "trna"
 TRANSITION ns_trna n_end EPS "+NOUN+SG"
@@ -159661,12 +158423,6 @@ STATE ns_tsetse
 TRANSITION start ns_tsetse "tsetse" "tsetse"
 TRANSITION ns_tsetse n_end EPS "+NOUN+SG"
 TRANSITION ns_tsetse n_end "s" "+NOUN+PL"
-STATE ns_tsh
-STATE ns_tsh_e
-TRANSITION start ns_tsh "tsh" "tsh"
-TRANSITION ns_tsh n_end EPS "+NOUN+SG"
-TRANSITION ns_tsh ns_tsh_e "e" EPS
-TRANSITION ns_tsh_e n_end "s" "+NOUN+PL"
 STATE ns_tshatshke
 TRANSITION start ns_tshatshke "tshatshke" "tshatshke"
 TRANSITION ns_tshatshke n_end EPS "+NOUN+SG"
@@ -159691,12 +158447,6 @@ STATE ns_tsouic
 TRANSITION start ns_tsouic "tsouic" "tsouic"
 TRANSITION ns_tsouic n_end EPS "+NOUN+SG"
 TRANSITION ns_tsouic n_end "s" "+NOUN+PL"
-STATE ns_tss
-STATE ns_tss_e
-TRANSITION start ns_tss "tss" "tss"
-TRANSITION ns_tss n_end EPS "+NOUN+SG"
-TRANSITION ns_tss ns_tss_e "e" EPS
-TRANSITION ns_tss_e n_end "s" "+NOUN+PL"
 STATE ns_tsuga
 TRANSITION start ns_tsuga "tsuga" "tsuga"
 TRANSITION ns_tsuga n_end EPS "+NOUN+SG"
@@ -159717,10 +158467,6 @@ STATE ns_tswana
 TRANSITION start ns_tswana "tswana" "tswana"
 TRANSITION ns_tswana n_end EPS "+NOUN+SG"
 TRANSITION ns_tswana n_end "s" "+NOUN+PL"
-STATE ns_tt
-TRANSITION start ns_tt "tt" "tt"
-TRANSITION ns_tt n_end EPS "+NOUN+SG"
-TRANSITION ns_tt n_end "s" "+NOUN+PL"
 STATE ns_tuareg
 TRANSITION start ns_tuareg "tuareg" "tuareg"
 TRANSITION ns_tuareg n_end EPS "+NOUN+SG"
@@ -160549,10 +159295,6 @@ STATE ns_tuxedo
 TRANSITION start ns_tuxedo "tuxedo" "tuxedo"
 TRANSITION ns_tuxedo n_end EPS "+NOUN+SG"
 TRANSITION ns_tuxedo n_end "s" "+NOUN+PL"
-STATE ns_tv
-TRANSITION start ns_tv "tv" "tv"
-TRANSITION ns_tv n_end EPS "+NOUN+SG"
-TRANSITION ns_tv n_end "s" "+NOUN+PL"
 STATE ns_twaddler
 TRANSITION start ns_twaddler "twaddler" "twaddler"
 TRANSITION ns_twaddler n_end EPS "+NOUN+SG"
@@ -160677,12 +159419,6 @@ STATE ns_twosome
 TRANSITION start ns_twosome "twosome" "twosome"
 TRANSITION ns_twosome n_end EPS "+NOUN+SG"
 TRANSITION ns_twosome n_end "s" "+NOUN+PL"
-STATE ns_tx
-STATE ns_tx_e
-TRANSITION start ns_tx "tx" "tx"
-TRANSITION ns_tx n_end EPS "+NOUN+SG"
-TRANSITION ns_tx ns_tx_e "e" EPS
-TRANSITION ns_tx_e n_end "s" "+NOUN+PL"
 STATE ns_tyche
 TRANSITION start ns_tyche "tyche" "tyche"
 TRANSITION ns_tyche n_end EPS "+NOUN+SG"
@@ -163345,14 +162081,6 @@ STATE ns_vayu
 TRANSITION start ns_vayu "vayu" "vayu"
 TRANSITION ns_vayu n_end EPS "+NOUN+SG"
 TRANSITION ns_vayu n_end "s" "+NOUN+PL"
-STATE ns_vcr
-TRANSITION start ns_vcr "vcr" "vcr"
-TRANSITION ns_vcr n_end EPS "+NOUN+SG"
-TRANSITION ns_vcr n_end "s" "+NOUN+PL"
-STATE ns_vd
-TRANSITION start ns_vd "vd" "vd"
-TRANSITION ns_vd n_end EPS "+NOUN+SG"
-TRANSITION ns_vd n_end "s" "+NOUN+PL"
 STATE ns_vdu
 TRANSITION start ns_vdu "vdu" "vdu"
 TRANSITION ns_vdu n_end EPS "+NOUN+SG"
@@ -164147,14 +162875,6 @@ STATE ns_vexer
 TRANSITION start ns_vexer "vexer" "vexer"
 TRANSITION ns_vexer n_end EPS "+NOUN+SG"
 TRANSITION ns_vexer n_end "s" "+NOUN+PL"
-STATE ns_vfw
-TRANSITION start ns_vfw "vfw" "vfw"
-TRANSITION ns_vfw n_end EPS "+NOUN+SG"
-TRANSITION ns_vfw n_end "s" "+NOUN+PL"
-STATE ns_vhf
-TRANSITION start ns_vhf "vhf" "vhf"
-TRANSITION ns_vhf n_end EPS "+NOUN+SG"
-TRANSITION ns_vhf n_end "s" "+NOUN+PL"
 STATE ns_vi
 TRANSITION start ns_vi "vi" "vi"
 TRANSITION ns_vi n_end EPS "+NOUN+SG"
@@ -165077,14 +163797,6 @@ STATE ns_vlaminck
 TRANSITION start ns_vlaminck "vlaminck" "vlaminck"
 TRANSITION ns_vlaminck n_end EPS "+NOUN+SG"
 TRANSITION ns_vlaminck n_end "s" "+NOUN+PL"
-STATE ns_vldl
-TRANSITION start ns_vldl "vldl" "vldl"
-TRANSITION ns_vldl n_end EPS "+NOUN+SG"
-TRANSITION ns_vldl n_end "s" "+NOUN+PL"
-STATE ns_vlf
-TRANSITION start ns_vlf "vlf" "vlf"
-TRANSITION ns_vlf n_end EPS "+NOUN+SG"
-TRANSITION ns_vlf n_end "s" "+NOUN+PL"
 STATE ns_vocable
 TRANSITION start ns_vocable "vocable" "vocable"
 TRANSITION ns_vocable n_end EPS "+NOUN+SG"
@@ -165395,10 +164107,6 @@ STATE ns_voznesenski
 TRANSITION start ns_voznesenski "voznesenski" "voznesenski"
 TRANSITION ns_voznesenski n_end EPS "+NOUN+SG"
 TRANSITION ns_voznesenski n_end "s" "+NOUN+PL"
-STATE ns_vt
-TRANSITION start ns_vt "vt" "vt"
-TRANSITION ns_vt n_end EPS "+NOUN+SG"
-TRANSITION ns_vt n_end "s" "+NOUN+PL"
 STATE ns_vuillard
 TRANSITION start ns_vuillard "vuillard" "vuillard"
 TRANSITION ns_vuillard n_end EPS "+NOUN+SG"
@@ -166451,18 +165159,6 @@ STATE ns_wayside
 TRANSITION start ns_wayside "wayside" "wayside"
 TRANSITION ns_wayside n_end EPS "+NOUN+SG"
 TRANSITION ns_wayside n_end "s" "+NOUN+PL"
-STATE ns_wb
-TRANSITION start ns_wb "wb" "wb"
-TRANSITION ns_wb n_end EPS "+NOUN+SG"
-TRANSITION ns_wb n_end "s" "+NOUN+PL"
-STATE ns_wbc
-TRANSITION start ns_wbc "wbc" "wbc"
-TRANSITION ns_wbc n_end EPS "+NOUN+SG"
-TRANSITION ns_wbc n_end "s" "+NOUN+PL"
-STATE ns_wbn
-TRANSITION start ns_wbn "wbn" "wbn"
-TRANSITION ns_wbn n_end EPS "+NOUN+SG"
-TRANSITION ns_wbn n_end "s" "+NOUN+PL"
 STATE ns_weakener
 TRANSITION start ns_weakener "weakener" "weakener"
 TRANSITION ns_weakener n_end EPS "+NOUN+SG"
@@ -168079,18 +166775,10 @@ STATE ns_wlan
 TRANSITION start ns_wlan "wlan" "wlan"
 TRANSITION ns_wlan n_end EPS "+NOUN+SG"
 TRANSITION ns_wlan n_end "s" "+NOUN+PL"
-STATE ns_wmd
-TRANSITION start ns_wmd "wmd" "wmd"
-TRANSITION ns_wmd n_end EPS "+NOUN+SG"
-TRANSITION ns_wmd n_end "s" "+NOUN+PL"
 STATE ns_wmo
 TRANSITION start ns_wmo "wmo" "wmo"
 TRANSITION ns_wmo n_end EPS "+NOUN+SG"
 TRANSITION ns_wmo n_end "s" "+NOUN+PL"
-STATE ns_wnw
-TRANSITION start ns_wnw "wnw" "wnw"
-TRANSITION ns_wnw n_end EPS "+NOUN+SG"
-TRANSITION ns_wnw n_end "s" "+NOUN+PL"
 STATE ns_woad
 TRANSITION start ns_woad "woad" "woad"
 TRANSITION ns_woad n_end EPS "+NOUN+SG"
@@ -168655,10 +167343,6 @@ STATE ns_wouk
 TRANSITION start ns_wouk "wouk" "wouk"
 TRANSITION ns_wouk n_end EPS "+NOUN+SG"
 TRANSITION ns_wouk n_end "s" "+NOUN+PL"
-STATE ns_wpm
-TRANSITION start ns_wpm "wpm" "wpm"
-TRANSITION ns_wpm n_end EPS "+NOUN+SG"
-TRANSITION ns_wpm n_end "s" "+NOUN+PL"
 STATE ns_wraith
 TRANSITION start ns_wraith "wraith" "wraith"
 TRANSITION ns_wraith n_end EPS "+NOUN+SG"
@@ -168767,22 +167451,10 @@ STATE ns_wryneck
 TRANSITION start ns_wryneck "wryneck" "wryneck"
 TRANSITION ns_wryneck n_end EPS "+NOUN+SG"
 TRANSITION ns_wryneck n_end "s" "+NOUN+PL"
-STATE ns_wsw
-TRANSITION start ns_wsw "wsw" "wsw"
-TRANSITION ns_wsw n_end EPS "+NOUN+SG"
-TRANSITION ns_wsw n_end "s" "+NOUN+PL"
-STATE ns_wtc
-TRANSITION start ns_wtc "wtc" "wtc"
-TRANSITION ns_wtc n_end EPS "+NOUN+SG"
-TRANSITION ns_wtc n_end "s" "+NOUN+PL"
 STATE ns_wto
 TRANSITION start ns_wto "wto" "wto"
 TRANSITION ns_wto n_end EPS "+NOUN+SG"
 TRANSITION ns_wto n_end "s" "+NOUN+PL"
-STATE ns_wtv
-TRANSITION start ns_wtv "wtv" "wtv"
-TRANSITION ns_wtv n_end EPS "+NOUN+SG"
-TRANSITION ns_wtv n_end "s" "+NOUN+PL"
 STATE ns_wu
 TRANSITION start ns_wu "wu" "wu"
 TRANSITION ns_wu n_end EPS "+NOUN+SG"
@@ -168821,14 +167493,6 @@ TRANSITION start ns_wuss "wuss" "wuss"
 TRANSITION ns_wuss n_end EPS "+NOUN+SG"
 TRANSITION ns_wuss ns_wuss_e "e" EPS
 TRANSITION ns_wuss_e n_end "s" "+NOUN+PL"
-STATE ns_wv
-TRANSITION start ns_wv "wv" "wv"
-TRANSITION ns_wv n_end EPS "+NOUN+SG"
-TRANSITION ns_wv n_end "s" "+NOUN+PL"
-STATE ns_www
-TRANSITION start ns_www "www" "www"
-TRANSITION ns_www n_end EPS "+NOUN+SG"
-TRANSITION ns_www n_end "s" "+NOUN+PL"
 STATE ns_wy
 STATE ns_wy_ies
 TRANSITION start ns_wy "wy" "wy"
@@ -168989,10 +167653,6 @@ STATE ns_xavier
 TRANSITION start ns_xavier "xavier" "xavier"
 TRANSITION ns_xavier n_end EPS "+NOUN+SG"
 TRANSITION ns_xavier n_end "s" "+NOUN+PL"
-STATE ns_xc
-TRANSITION start ns_xc "xc" "xc"
-TRANSITION ns_xc n_end EPS "+NOUN+SG"
-TRANSITION ns_xc n_end "s" "+NOUN+PL"
 STATE ns_xe
 TRANSITION start ns_xe "xe" "xe"
 TRANSITION ns_xe n_end EPS "+NOUN+SG"
@@ -169175,26 +167835,10 @@ STATE ns_xizang
 TRANSITION start ns_xizang "xizang" "xizang"
 TRANSITION ns_xizang n_end EPS "+NOUN+SG"
 TRANSITION ns_xizang n_end "s" "+NOUN+PL"
-STATE ns_xl
-TRANSITION start ns_xl "xl" "xl"
-TRANSITION ns_xl n_end EPS "+NOUN+SG"
-TRANSITION ns_xl n_end "s" "+NOUN+PL"
 STATE ns_xmas
 TRANSITION start ns_xmas "xmas" "xmas"
 TRANSITION ns_xmas n_end EPS "+NOUN+SG"
 TRANSITION ns_xmas n_end "s" "+NOUN+PL"
-STATE ns_xt
-TRANSITION start ns_xt "xt" "xt"
-TRANSITION ns_xt n_end EPS "+NOUN+SG"
-TRANSITION ns_xt n_end "s" "+NOUN+PL"
-STATE ns_xtc
-TRANSITION start ns_xtc "xtc" "xtc"
-TRANSITION ns_xtc n_end EPS "+NOUN+SG"
-TRANSITION ns_xtc n_end "s" "+NOUN+PL"
-STATE ns_xv
-TRANSITION start ns_xv "xv" "xv"
-TRANSITION ns_xv n_end EPS "+NOUN+SG"
-TRANSITION ns_xv n_end "s" "+NOUN+PL"
 STATE ns_xvi
 TRANSITION start ns_xvi "xvi" "xvi"
 TRANSITION ns_xvi n_end EPS "+NOUN+SG"
@@ -169207,12 +167851,6 @@ STATE ns_xviii
 TRANSITION start ns_xviii "xviii" "xviii"
 TRANSITION ns_xviii n_end EPS "+NOUN+SG"
 TRANSITION ns_xviii n_end "s" "+NOUN+PL"
-STATE ns_xx
-STATE ns_xx_e
-TRANSITION start ns_xx "xx" "xx"
-TRANSITION ns_xx n_end EPS "+NOUN+SG"
-TRANSITION ns_xx ns_xx_e "e" EPS
-TRANSITION ns_xx_e n_end "s" "+NOUN+PL"
 STATE ns_xxi
 TRANSITION start ns_xxi "xxi" "xxi"
 TRANSITION ns_xxi n_end EPS "+NOUN+SG"
@@ -169235,10 +167873,6 @@ TRANSITION start ns_xxix "xxix" "xxix"
 TRANSITION ns_xxix n_end EPS "+NOUN+SG"
 TRANSITION ns_xxix ns_xxix_e "e" EPS
 TRANSITION ns_xxix_e n_end "s" "+NOUN+PL"
-STATE ns_xxv
-TRANSITION start ns_xxv "xxv" "xxv"
-TRANSITION ns_xxv n_end EPS "+NOUN+SG"
-TRANSITION ns_xxv n_end "s" "+NOUN+PL"
 STATE ns_xxvi
 TRANSITION start ns_xxvi "xxvi" "xxvi"
 TRANSITION ns_xxvi n_end EPS "+NOUN+SG"
@@ -169251,12 +167885,6 @@ STATE ns_xxviii
 TRANSITION start ns_xxviii "xxviii" "xxviii"
 TRANSITION ns_xxviii n_end EPS "+NOUN+SG"
 TRANSITION ns_xxviii n_end "s" "+NOUN+PL"
-STATE ns_xxx
-STATE ns_xxx_e
-TRANSITION start ns_xxx "xxx" "xxx"
-TRANSITION ns_xxx n_end EPS "+NOUN+SG"
-TRANSITION ns_xxx ns_xxx_e "e" EPS
-TRANSITION ns_xxx_e n_end "s" "+NOUN+PL"
 STATE ns_xxy
 STATE ns_xxy_ies
 TRANSITION start ns_xxy "xxy" "xxy"
@@ -170203,18 +168831,10 @@ STATE ns_zayin
 TRANSITION start ns_zayin "zayin" "zayin"
 TRANSITION ns_zayin n_end EPS "+NOUN+SG"
 TRANSITION ns_zayin n_end "s" "+NOUN+PL"
-STATE ns_zb
-TRANSITION start ns_zb "zb" "zb"
-TRANSITION ns_zb n_end EPS "+NOUN+SG"
-TRANSITION ns_zb n_end "s" "+NOUN+PL"
 STATE ns_zbit
 TRANSITION start ns_zbit "zbit" "zbit"
 TRANSITION ns_zbit n_end EPS "+NOUN+SG"
 TRANSITION ns_zbit n_end "s" "+NOUN+PL"
-STATE ns_zdv
-TRANSITION start ns_zdv "zdv" "zdv"
-TRANSITION ns_zdv n_end EPS "+NOUN+SG"
-TRANSITION ns_zdv n_end "s" "+NOUN+PL"
 STATE ns_zea
 TRANSITION start ns_zea "zea" "zea"
 TRANSITION ns_zea n_end EPS "+NOUN+SG"
@@ -170557,10 +169177,6 @@ TRANSITION start ns_zloty "zloty" "zloty"
 TRANSITION ns_zloty n_end EPS "+NOUN+SG"
 TRANSITION start ns_zloty_ies "zloties" "zloty"
 TRANSITION ns_zloty_ies n_end EPS "+NOUN+PL"
-STATE ns_zn
-TRANSITION start ns_zn "zn" "zn"
-TRANSITION ns_zn n_end EPS "+NOUN+SG"
-TRANSITION ns_zn n_end "s" "+NOUN+PL"
 STATE ns_zoanthropy
 STATE ns_zoanthropy_ies
 TRANSITION start ns_zoanthropy "zoanthropy" "zoanthropy"
@@ -170729,10 +169345,6 @@ STATE ns_zoysia
 TRANSITION start ns_zoysia "zoysia" "zoysia"
 TRANSITION ns_zoysia n_end EPS "+NOUN+SG"
 TRANSITION ns_zoysia n_end "s" "+NOUN+PL"
-STATE ns_zr
-TRANSITION start ns_zr "zr" "zr"
-TRANSITION ns_zr n_end EPS "+NOUN+SG"
-TRANSITION ns_zr n_end "s" "+NOUN+PL"
 STATE ns_zsigmondy
 STATE ns_zsigmondy_ies
 TRANSITION start ns_zsigmondy "zsigmondy" "zsigmondy"
@@ -191427,12 +190039,6 @@ TRANSITION vs_truncate v_end "s" "+VERB+3SG"
 TRANSITION vs_truncate v_ed_shared "d" EPS
 TRANSITION start vs_truncate_bare "truncat" "truncate"
 TRANSITION vs_truncate_bare v_ing_shared "ing" EPS
-STATE vs_tsk
-TRANSITION start vs_tsk "tsk" "tsk"
-TRANSITION vs_tsk v_end EPS "+VERB+INF"
-TRANSITION vs_tsk v_end "s" "+VERB+3SG"
-TRANSITION vs_tsk v_ed_shared "ed" EPS
-TRANSITION vs_tsk v_ing_shared "ing" EPS
 STATE vs_tumefy
 TRANSITION start vs_tumefy "tumefy" "tumefy"
 TRANSITION vs_tumefy v_end EPS "+VERB+INF"
@@ -199422,15 +198028,6 @@ TRANSITION as_cautionary fw_end EPS "+ADJ+BASE"
 STATE as_cavalier
 TRANSITION start as_cavalier "cavalier" "cavalier"
 TRANSITION as_cavalier fw_end EPS "+ADJ+BASE"
-STATE as_cc
-TRANSITION start as_cc "cc" "cc"
-TRANSITION as_cc fw_end EPS "+ADJ+BASE"
-STATE as_ccc
-TRANSITION start as_ccc "ccc" "ccc"
-TRANSITION as_ccc fw_end EPS "+ADJ+BASE"
-STATE as_cd
-TRANSITION start as_cd "cd" "cd"
-TRANSITION as_cd fw_end EPS "+ADJ+BASE"
 STATE as_cecal
 TRANSITION start as_cecal "cecal" "cecal"
 TRANSITION as_cecal fw_end EPS "+ADJ+BASE"
@@ -200073,9 +198670,6 @@ TRANSITION as_civil fw_end EPS "+ADJ+BASE"
 STATE as_civilian
 TRANSITION start as_civilian "civilian" "civilian"
 TRANSITION as_civilian fw_end EPS "+ADJ+BASE"
-STATE as_cl
-TRANSITION start as_cl "cl" "cl"
-TRANSITION as_cl fw_end EPS "+ADJ+BASE"
 STATE as_clad
 TRANSITION start as_clad "clad" "clad"
 TRANSITION as_clad fw_end EPS "+ADJ+BASE"
@@ -200235,18 +198829,6 @@ TRANSITION as_clumsy fw_end EPS "+ADJ+BASE"
 STATE as_clunky
 TRANSITION start as_clunky "clunky" "clunky"
 TRANSITION as_clunky fw_end EPS "+ADJ+BASE"
-STATE as_clv
-TRANSITION start as_clv "clv" "clv"
-TRANSITION as_clv fw_end EPS "+ADJ+BASE"
-STATE as_clx
-TRANSITION start as_clx "clx" "clx"
-TRANSITION as_clx fw_end EPS "+ADJ+BASE"
-STATE as_clxv
-TRANSITION start as_clxv "clxv" "clxv"
-TRANSITION as_clxv fw_end EPS "+ADJ+BASE"
-STATE as_clxx
-TRANSITION start as_clxx "clxx" "clxx"
-TRANSITION as_clxx fw_end EPS "+ADJ+BASE"
 STATE as_clxxv
 TRANSITION start as_clxxv "clxxv" "clxxv"
 TRANSITION as_clxxv fw_end EPS "+ADJ+BASE"
@@ -201897,30 +200479,6 @@ TRANSITION as_cuttable fw_end EPS "+ADJ+BASE"
 STATE as_cutthroat
 TRANSITION start as_cutthroat "cutthroat" "cutthroat"
 TRANSITION as_cutthroat fw_end EPS "+ADJ+BASE"
-STATE as_cv
-TRANSITION start as_cv "cv" "cv"
-TRANSITION as_cv fw_end EPS "+ADJ+BASE"
-STATE as_cx
-TRANSITION start as_cx "cx" "cx"
-TRANSITION as_cx fw_end EPS "+ADJ+BASE"
-STATE as_cxl
-TRANSITION start as_cxl "cxl" "cxl"
-TRANSITION as_cxl fw_end EPS "+ADJ+BASE"
-STATE as_cxlv
-TRANSITION start as_cxlv "cxlv" "cxlv"
-TRANSITION as_cxlv fw_end EPS "+ADJ+BASE"
-STATE as_cxv
-TRANSITION start as_cxv "cxv" "cxv"
-TRANSITION as_cxv fw_end EPS "+ADJ+BASE"
-STATE as_cxx
-TRANSITION start as_cxx "cxx" "cxx"
-TRANSITION as_cxx fw_end EPS "+ADJ+BASE"
-STATE as_cxxv
-TRANSITION start as_cxxv "cxxv" "cxxv"
-TRANSITION as_cxxv fw_end EPS "+ADJ+BASE"
-STATE as_cxxx
-TRANSITION start as_cxxx "cxxx" "cxxx"
-TRANSITION as_cxxx fw_end EPS "+ADJ+BASE"
 STATE as_cxxxv
 TRANSITION start as_cxxxv "cxxxv" "cxxxv"
 TRANSITION as_cxxxv fw_end EPS "+ADJ+BASE"
@@ -211704,9 +210262,6 @@ TRANSITION as_luxemburger fw_end EPS "+ADJ+BASE"
 STATE as_luxuriant
 TRANSITION start as_luxuriant "luxuriant" "luxuriant"
 TRANSITION as_luxuriant fw_end EPS "+ADJ+BASE"
-STATE as_lv
-TRANSITION start as_lv "lv" "lv"
-TRANSITION as_lv fw_end EPS "+ADJ+BASE"
 STATE as_lvi
 TRANSITION start as_lvi "lvi" "lvi"
 TRANSITION as_lvi fw_end EPS "+ADJ+BASE"
@@ -211716,9 +210271,6 @@ TRANSITION as_lvii fw_end EPS "+ADJ+BASE"
 STATE as_lviii
 TRANSITION start as_lviii "lviii" "lviii"
 TRANSITION as_lviii fw_end EPS "+ADJ+BASE"
-STATE as_lx
-TRANSITION start as_lx "lx" "lx"
-TRANSITION as_lx fw_end EPS "+ADJ+BASE"
 STATE as_lxi
 TRANSITION start as_lxi "lxi" "lxi"
 TRANSITION as_lxi fw_end EPS "+ADJ+BASE"
@@ -211731,9 +210283,6 @@ TRANSITION as_lxiii fw_end EPS "+ADJ+BASE"
 STATE as_lxiv
 TRANSITION start as_lxiv "lxiv" "lxiv"
 TRANSITION as_lxiv fw_end EPS "+ADJ+BASE"
-STATE as_lxv
-TRANSITION start as_lxv "lxv" "lxv"
-TRANSITION as_lxv fw_end EPS "+ADJ+BASE"
 STATE as_lxvi
 TRANSITION start as_lxvi "lxvi" "lxvi"
 TRANSITION as_lxvi fw_end EPS "+ADJ+BASE"
@@ -211743,9 +210292,6 @@ TRANSITION as_lxvii fw_end EPS "+ADJ+BASE"
 STATE as_lxviii
 TRANSITION start as_lxviii "lxviii" "lxviii"
 TRANSITION as_lxviii fw_end EPS "+ADJ+BASE"
-STATE as_lxx
-TRANSITION start as_lxx "lxx" "lxx"
-TRANSITION as_lxx fw_end EPS "+ADJ+BASE"
 STATE as_lxxi
 TRANSITION start as_lxxi "lxxi" "lxxi"
 TRANSITION as_lxxi fw_end EPS "+ADJ+BASE"
@@ -211758,9 +210304,6 @@ TRANSITION as_lxxiii fw_end EPS "+ADJ+BASE"
 STATE as_lxxiv
 TRANSITION start as_lxxiv "lxxiv" "lxxiv"
 TRANSITION as_lxxiv fw_end EPS "+ADJ+BASE"
-STATE as_lxxv
-TRANSITION start as_lxxv "lxxv" "lxxv"
-TRANSITION as_lxxv fw_end EPS "+ADJ+BASE"
 STATE as_lxxvi
 TRANSITION start as_lxxvi "lxxvi" "lxxvi"
 TRANSITION as_lxxvi fw_end EPS "+ADJ+BASE"
@@ -211770,9 +210313,6 @@ TRANSITION as_lxxvii fw_end EPS "+ADJ+BASE"
 STATE as_lxxviii
 TRANSITION start as_lxxviii "lxxviii" "lxxviii"
 TRANSITION as_lxxviii fw_end EPS "+ADJ+BASE"
-STATE as_lxxx
-TRANSITION start as_lxxx "lxxx" "lxxx"
-TRANSITION as_lxxx fw_end EPS "+ADJ+BASE"
 STATE as_lxxxi
 TRANSITION start as_lxxxi "lxxxi" "lxxxi"
 TRANSITION as_lxxxi fw_end EPS "+ADJ+BASE"
@@ -214917,9 +213457,6 @@ TRANSITION as_notional fw_end EPS "+ADJ+BASE"
 STATE as_novel
 TRANSITION start as_novel "novel" "novel"
 TRANSITION as_novel fw_end EPS "+ADJ+BASE"
-STATE as_nth
-TRANSITION start as_nth "nth" "nth"
-TRANSITION as_nth fw_end EPS "+ADJ+BASE"
 STATE as_nubbly
 TRANSITION start as_nubbly "nubbly" "nubbly"
 TRANSITION as_nubbly fw_end EPS "+ADJ+BASE"
@@ -227940,9 +226477,6 @@ TRANSITION as_wry fw_end EPS "+ADJ+BASE"
 STATE as_wysiwyg
 TRANSITION start as_wysiwyg "wysiwyg" "wysiwyg"
 TRANSITION as_wysiwyg fw_end EPS "+ADJ+BASE"
-STATE as_xc
-TRANSITION start as_xc "xc" "xc"
-TRANSITION as_xc fw_end EPS "+ADJ+BASE"
 STATE as_xci
 TRANSITION start as_xci "xci" "xci"
 TRANSITION as_xci fw_end EPS "+ADJ+BASE"
@@ -227955,12 +226489,6 @@ TRANSITION as_xciii fw_end EPS "+ADJ+BASE"
 STATE as_xciv
 TRANSITION start as_xciv "xciv" "xciv"
 TRANSITION as_xciv fw_end EPS "+ADJ+BASE"
-STATE as_xcl
-TRANSITION start as_xcl "xcl" "xcl"
-TRANSITION as_xcl fw_end EPS "+ADJ+BASE"
-STATE as_xcv
-TRANSITION start as_xcv "xcv" "xcv"
-TRANSITION as_xcv fw_end EPS "+ADJ+BASE"
 STATE as_xcvi
 TRANSITION start as_xcvi "xcvi" "xcvi"
 TRANSITION as_xcvi fw_end EPS "+ADJ+BASE"
@@ -228000,9 +226528,6 @@ TRANSITION as_xiv fw_end EPS "+ADJ+BASE"
 STATE as_xix
 TRANSITION start as_xix "xix" "xix"
 TRANSITION as_xix fw_end EPS "+ADJ+BASE"
-STATE as_xl
-TRANSITION start as_xl "xl" "xl"
-TRANSITION as_xl fw_end EPS "+ADJ+BASE"
 STATE as_xli
 TRANSITION start as_xli "xli" "xli"
 TRANSITION as_xli fw_end EPS "+ADJ+BASE"
@@ -228015,9 +226540,6 @@ TRANSITION as_xliii fw_end EPS "+ADJ+BASE"
 STATE as_xliv
 TRANSITION start as_xliv "xliv" "xliv"
 TRANSITION as_xliv fw_end EPS "+ADJ+BASE"
-STATE as_xlv
-TRANSITION start as_xlv "xlv" "xlv"
-TRANSITION as_xlv fw_end EPS "+ADJ+BASE"
 STATE as_xlvi
 TRANSITION start as_xlvi "xlvi" "xlvi"
 TRANSITION as_xlvi fw_end EPS "+ADJ+BASE"
@@ -228027,9 +226549,6 @@ TRANSITION as_xlvii fw_end EPS "+ADJ+BASE"
 STATE as_xlviii
 TRANSITION start as_xlviii "xlviii" "xlviii"
 TRANSITION as_xlviii fw_end EPS "+ADJ+BASE"
-STATE as_xv
-TRANSITION start as_xv "xv" "xv"
-TRANSITION as_xv fw_end EPS "+ADJ+BASE"
 STATE as_xvi
 TRANSITION start as_xvi "xvi" "xvi"
 TRANSITION as_xvi fw_end EPS "+ADJ+BASE"
@@ -228039,9 +226558,6 @@ TRANSITION as_xvii fw_end EPS "+ADJ+BASE"
 STATE as_xviii
 TRANSITION start as_xviii "xviii" "xviii"
 TRANSITION as_xviii fw_end EPS "+ADJ+BASE"
-STATE as_xx
-TRANSITION start as_xx "xx" "xx"
-TRANSITION as_xx fw_end EPS "+ADJ+BASE"
 STATE as_xxi
 TRANSITION start as_xxi "xxi" "xxi"
 TRANSITION as_xxi fw_end EPS "+ADJ+BASE"
@@ -228057,9 +226573,6 @@ TRANSITION as_xxiv fw_end EPS "+ADJ+BASE"
 STATE as_xxix
 TRANSITION start as_xxix "xxix" "xxix"
 TRANSITION as_xxix fw_end EPS "+ADJ+BASE"
-STATE as_xxv
-TRANSITION start as_xxv "xxv" "xxv"
-TRANSITION as_xxv fw_end EPS "+ADJ+BASE"
 STATE as_xxvi
 TRANSITION start as_xxvi "xxvi" "xxvi"
 TRANSITION as_xxvi fw_end EPS "+ADJ+BASE"
@@ -228069,9 +226582,6 @@ TRANSITION as_xxvii fw_end EPS "+ADJ+BASE"
 STATE as_xxviii
 TRANSITION start as_xxviii "xxviii" "xxviii"
 TRANSITION as_xxviii fw_end EPS "+ADJ+BASE"
-STATE as_xxx
-TRANSITION start as_xxx "xxx" "xxx"
-TRANSITION as_xxx fw_end EPS "+ADJ+BASE"
 STATE as_xxxi
 TRANSITION start as_xxxi "xxxi" "xxxi"
 TRANSITION as_xxxi fw_end EPS "+ADJ+BASE"
@@ -228084,9 +226594,6 @@ TRANSITION as_xxxiii fw_end EPS "+ADJ+BASE"
 STATE as_xxxiv
 TRANSITION start as_xxxiv "xxxiv" "xxxiv"
 TRANSITION as_xxxiv fw_end EPS "+ADJ+BASE"
-STATE as_xxxv
-TRANSITION start as_xxxv "xxxv" "xxxv"
-TRANSITION as_xxxv fw_end EPS "+ADJ+BASE"
 STATE as_xxxvi
 TRANSITION start as_xxxvi "xxxvi" "xxxvi"
 TRANSITION as_xxxvi fw_end EPS "+ADJ+BASE"
@@ -228243,6 +226750,611 @@ TRANSITION as_zymolytic fw_end EPS "+ADJ+BASE"
 STATE as_zymotic
 TRANSITION start as_zymotic "zymotic" "zymotic"
 TRANSITION as_zymotic fw_end EPS "+ADJ+BASE"
+
+# === PREFIXED IRREGULAR PARTICIPLE ADJECTIVES ===
+STATE as_unbegin_pp
+TRANSITION start as_unbegin_pp "unbegun" "unbegin"
+TRANSITION as_unbegin_pp fw_end EPS "+ADJ+BASE"
+STATE as_prebegin_pp
+TRANSITION start as_prebegin_pp "prebegun" "prebegin"
+TRANSITION as_prebegin_pp fw_end EPS "+ADJ+BASE"
+STATE as_rebegin_pp
+TRANSITION start as_rebegin_pp "rebegun" "rebegin"
+TRANSITION as_rebegin_pp fw_end EPS "+ADJ+BASE"
+STATE as_unbite_pp
+TRANSITION start as_unbite_pp "unbitten" "unbite"
+TRANSITION as_unbite_pp fw_end EPS "+ADJ+BASE"
+STATE as_prebite_pp
+TRANSITION start as_prebite_pp "prebitten" "prebite"
+TRANSITION as_prebite_pp fw_end EPS "+ADJ+BASE"
+STATE as_rebite_pp
+TRANSITION start as_rebite_pp "rebitten" "rebite"
+TRANSITION as_rebite_pp fw_end EPS "+ADJ+BASE"
+STATE as_unbreak_pp
+TRANSITION start as_unbreak_pp "unbroken" "unbreak"
+TRANSITION as_unbreak_pp fw_end EPS "+ADJ+BASE"
+STATE as_prebreak_pp
+TRANSITION start as_prebreak_pp "prebroken" "prebreak"
+TRANSITION as_prebreak_pp fw_end EPS "+ADJ+BASE"
+STATE as_rebreak_pp
+TRANSITION start as_rebreak_pp "rebroken" "rebreak"
+TRANSITION as_rebreak_pp fw_end EPS "+ADJ+BASE"
+STATE as_unbring_pp
+TRANSITION start as_unbring_pp "unbrought" "unbring"
+TRANSITION as_unbring_pp fw_end EPS "+ADJ+BASE"
+STATE as_prebring_pp
+TRANSITION start as_prebring_pp "prebrought" "prebring"
+TRANSITION as_prebring_pp fw_end EPS "+ADJ+BASE"
+STATE as_rebring_pp
+TRANSITION start as_rebring_pp "rebrought" "rebring"
+TRANSITION as_rebring_pp fw_end EPS "+ADJ+BASE"
+STATE as_unbuild_pp
+TRANSITION start as_unbuild_pp "unbuilt" "unbuild"
+TRANSITION as_unbuild_pp fw_end EPS "+ADJ+BASE"
+STATE as_prebuild_pp
+TRANSITION start as_prebuild_pp "prebuilt" "prebuild"
+TRANSITION as_prebuild_pp fw_end EPS "+ADJ+BASE"
+STATE as_rebuild_pp
+TRANSITION start as_rebuild_pp "rebuilt" "rebuild"
+TRANSITION as_rebuild_pp fw_end EPS "+ADJ+BASE"
+STATE as_unbuy_pp
+TRANSITION start as_unbuy_pp "unbought" "unbuy"
+TRANSITION as_unbuy_pp fw_end EPS "+ADJ+BASE"
+STATE as_prebuy_pp
+TRANSITION start as_prebuy_pp "prebought" "prebuy"
+TRANSITION as_prebuy_pp fw_end EPS "+ADJ+BASE"
+STATE as_rebuy_pp
+TRANSITION start as_rebuy_pp "rebought" "rebuy"
+TRANSITION as_rebuy_pp fw_end EPS "+ADJ+BASE"
+STATE as_uncatch_pp
+TRANSITION start as_uncatch_pp "uncaught" "uncatch"
+TRANSITION as_uncatch_pp fw_end EPS "+ADJ+BASE"
+STATE as_precatch_pp
+TRANSITION start as_precatch_pp "precaught" "precatch"
+TRANSITION as_precatch_pp fw_end EPS "+ADJ+BASE"
+STATE as_recatch_pp
+TRANSITION start as_recatch_pp "recaught" "recatch"
+TRANSITION as_recatch_pp fw_end EPS "+ADJ+BASE"
+STATE as_unchoose_pp
+TRANSITION start as_unchoose_pp "unchosen" "unchoose"
+TRANSITION as_unchoose_pp fw_end EPS "+ADJ+BASE"
+STATE as_prechoose_pp
+TRANSITION start as_prechoose_pp "prechosen" "prechoose"
+TRANSITION as_prechoose_pp fw_end EPS "+ADJ+BASE"
+STATE as_rechoose_pp
+TRANSITION start as_rechoose_pp "rechosen" "rechoose"
+TRANSITION as_rechoose_pp fw_end EPS "+ADJ+BASE"
+STATE as_uncome_pp
+TRANSITION start as_uncome_pp "uncome" "uncome"
+TRANSITION as_uncome_pp fw_end EPS "+ADJ+BASE"
+STATE as_precome_pp
+TRANSITION start as_precome_pp "precome" "precome"
+TRANSITION as_precome_pp fw_end EPS "+ADJ+BASE"
+STATE as_recome_pp
+TRANSITION start as_recome_pp "recome" "recome"
+TRANSITION as_recome_pp fw_end EPS "+ADJ+BASE"
+STATE as_uncut_pp
+TRANSITION start as_uncut_pp "uncut" "uncut"
+TRANSITION as_uncut_pp fw_end EPS "+ADJ+BASE"
+STATE as_precut_pp
+TRANSITION start as_precut_pp "precut" "precut"
+TRANSITION as_precut_pp fw_end EPS "+ADJ+BASE"
+STATE as_recut_pp
+TRANSITION start as_recut_pp "recut" "recut"
+TRANSITION as_recut_pp fw_end EPS "+ADJ+BASE"
+STATE as_undo_pp
+TRANSITION start as_undo_pp "undone" "undo"
+TRANSITION as_undo_pp fw_end EPS "+ADJ+BASE"
+STATE as_predo_pp
+TRANSITION start as_predo_pp "predone" "predo"
+TRANSITION as_predo_pp fw_end EPS "+ADJ+BASE"
+STATE as_redo_pp
+TRANSITION start as_redo_pp "redone" "redo"
+TRANSITION as_redo_pp fw_end EPS "+ADJ+BASE"
+STATE as_undraw_pp
+TRANSITION start as_undraw_pp "undrawn" "undraw"
+TRANSITION as_undraw_pp fw_end EPS "+ADJ+BASE"
+STATE as_predraw_pp
+TRANSITION start as_predraw_pp "predrawn" "predraw"
+TRANSITION as_predraw_pp fw_end EPS "+ADJ+BASE"
+STATE as_redraw_pp
+TRANSITION start as_redraw_pp "redrawn" "redraw"
+TRANSITION as_redraw_pp fw_end EPS "+ADJ+BASE"
+STATE as_undrink_pp
+TRANSITION start as_undrink_pp "undrunk" "undrink"
+TRANSITION as_undrink_pp fw_end EPS "+ADJ+BASE"
+STATE as_predrink_pp
+TRANSITION start as_predrink_pp "predrunk" "predrink"
+TRANSITION as_predrink_pp fw_end EPS "+ADJ+BASE"
+STATE as_redrink_pp
+TRANSITION start as_redrink_pp "redrunk" "redrink"
+TRANSITION as_redrink_pp fw_end EPS "+ADJ+BASE"
+STATE as_undrive_pp
+TRANSITION start as_undrive_pp "undriven" "undrive"
+TRANSITION as_undrive_pp fw_end EPS "+ADJ+BASE"
+STATE as_predrive_pp
+TRANSITION start as_predrive_pp "predriven" "predrive"
+TRANSITION as_predrive_pp fw_end EPS "+ADJ+BASE"
+STATE as_redrive_pp
+TRANSITION start as_redrive_pp "redriven" "redrive"
+TRANSITION as_redrive_pp fw_end EPS "+ADJ+BASE"
+STATE as_uneat_pp
+TRANSITION start as_uneat_pp "uneaten" "uneat"
+TRANSITION as_uneat_pp fw_end EPS "+ADJ+BASE"
+STATE as_preeat_pp
+TRANSITION start as_preeat_pp "preeaten" "preeat"
+TRANSITION as_preeat_pp fw_end EPS "+ADJ+BASE"
+STATE as_reeat_pp
+TRANSITION start as_reeat_pp "reeaten" "reeat"
+TRANSITION as_reeat_pp fw_end EPS "+ADJ+BASE"
+STATE as_unfall_pp
+TRANSITION start as_unfall_pp "unfallen" "unfall"
+TRANSITION as_unfall_pp fw_end EPS "+ADJ+BASE"
+STATE as_prefall_pp
+TRANSITION start as_prefall_pp "prefallen" "prefall"
+TRANSITION as_prefall_pp fw_end EPS "+ADJ+BASE"
+STATE as_refall_pp
+TRANSITION start as_refall_pp "refallen" "refall"
+TRANSITION as_refall_pp fw_end EPS "+ADJ+BASE"
+STATE as_unfeel_pp
+TRANSITION start as_unfeel_pp "unfelt" "unfeel"
+TRANSITION as_unfeel_pp fw_end EPS "+ADJ+BASE"
+STATE as_prefeel_pp
+TRANSITION start as_prefeel_pp "prefelt" "prefeel"
+TRANSITION as_prefeel_pp fw_end EPS "+ADJ+BASE"
+STATE as_refeel_pp
+TRANSITION start as_refeel_pp "refelt" "refeel"
+TRANSITION as_refeel_pp fw_end EPS "+ADJ+BASE"
+STATE as_unfind_pp
+TRANSITION start as_unfind_pp "unfound" "unfind"
+TRANSITION as_unfind_pp fw_end EPS "+ADJ+BASE"
+STATE as_prefind_pp
+TRANSITION start as_prefind_pp "prefound" "prefind"
+TRANSITION as_prefind_pp fw_end EPS "+ADJ+BASE"
+STATE as_refind_pp
+TRANSITION start as_refind_pp "refound" "refind"
+TRANSITION as_refind_pp fw_end EPS "+ADJ+BASE"
+STATE as_unfly_pp
+TRANSITION start as_unfly_pp "unflown" "unfly"
+TRANSITION as_unfly_pp fw_end EPS "+ADJ+BASE"
+STATE as_prefly_pp
+TRANSITION start as_prefly_pp "preflown" "prefly"
+TRANSITION as_prefly_pp fw_end EPS "+ADJ+BASE"
+STATE as_refly_pp
+TRANSITION start as_refly_pp "reflown" "refly"
+TRANSITION as_refly_pp fw_end EPS "+ADJ+BASE"
+STATE as_unforget_pp
+TRANSITION start as_unforget_pp "unforgotten" "unforget"
+TRANSITION as_unforget_pp fw_end EPS "+ADJ+BASE"
+STATE as_preforget_pp
+TRANSITION start as_preforget_pp "preforgotten" "preforget"
+TRANSITION as_preforget_pp fw_end EPS "+ADJ+BASE"
+STATE as_reforget_pp
+TRANSITION start as_reforget_pp "reforgotten" "reforget"
+TRANSITION as_reforget_pp fw_end EPS "+ADJ+BASE"
+STATE as_unforgive_pp
+TRANSITION start as_unforgive_pp "unforgiven" "unforgive"
+TRANSITION as_unforgive_pp fw_end EPS "+ADJ+BASE"
+STATE as_preforgive_pp
+TRANSITION start as_preforgive_pp "preforgiven" "preforgive"
+TRANSITION as_preforgive_pp fw_end EPS "+ADJ+BASE"
+STATE as_reforgive_pp
+TRANSITION start as_reforgive_pp "reforgiven" "reforgive"
+TRANSITION as_reforgive_pp fw_end EPS "+ADJ+BASE"
+STATE as_unget_pp
+TRANSITION start as_unget_pp "ungotten" "unget"
+TRANSITION as_unget_pp fw_end EPS "+ADJ+BASE"
+STATE as_preget_pp
+TRANSITION start as_preget_pp "pregotten" "preget"
+TRANSITION as_preget_pp fw_end EPS "+ADJ+BASE"
+STATE as_reget_pp
+TRANSITION start as_reget_pp "regotten" "reget"
+TRANSITION as_reget_pp fw_end EPS "+ADJ+BASE"
+STATE as_ungive_pp
+TRANSITION start as_ungive_pp "ungiven" "ungive"
+TRANSITION as_ungive_pp fw_end EPS "+ADJ+BASE"
+STATE as_pregive_pp
+TRANSITION start as_pregive_pp "pregiven" "pregive"
+TRANSITION as_pregive_pp fw_end EPS "+ADJ+BASE"
+STATE as_regive_pp
+TRANSITION start as_regive_pp "regiven" "regive"
+TRANSITION as_regive_pp fw_end EPS "+ADJ+BASE"
+STATE as_ungo_pp
+TRANSITION start as_ungo_pp "ungone" "ungo"
+TRANSITION as_ungo_pp fw_end EPS "+ADJ+BASE"
+STATE as_prego_pp
+TRANSITION start as_prego_pp "pregone" "prego"
+TRANSITION as_prego_pp fw_end EPS "+ADJ+BASE"
+STATE as_rego_pp
+TRANSITION start as_rego_pp "regone" "rego"
+TRANSITION as_rego_pp fw_end EPS "+ADJ+BASE"
+STATE as_ungrow_pp
+TRANSITION start as_ungrow_pp "ungrown" "ungrow"
+TRANSITION as_ungrow_pp fw_end EPS "+ADJ+BASE"
+STATE as_pregrow_pp
+TRANSITION start as_pregrow_pp "pregrown" "pregrow"
+TRANSITION as_pregrow_pp fw_end EPS "+ADJ+BASE"
+STATE as_regrow_pp
+TRANSITION start as_regrow_pp "regrown" "regrow"
+TRANSITION as_regrow_pp fw_end EPS "+ADJ+BASE"
+STATE as_unhave_pp
+TRANSITION start as_unhave_pp "unhad" "unhave"
+TRANSITION as_unhave_pp fw_end EPS "+ADJ+BASE"
+STATE as_prehave_pp
+TRANSITION start as_prehave_pp "prehad" "prehave"
+TRANSITION as_prehave_pp fw_end EPS "+ADJ+BASE"
+STATE as_rehave_pp
+TRANSITION start as_rehave_pp "rehad" "rehave"
+TRANSITION as_rehave_pp fw_end EPS "+ADJ+BASE"
+STATE as_unhear_pp
+TRANSITION start as_unhear_pp "unheard" "unhear"
+TRANSITION as_unhear_pp fw_end EPS "+ADJ+BASE"
+STATE as_prehear_pp
+TRANSITION start as_prehear_pp "preheard" "prehear"
+TRANSITION as_prehear_pp fw_end EPS "+ADJ+BASE"
+STATE as_rehear_pp
+TRANSITION start as_rehear_pp "reheard" "rehear"
+TRANSITION as_rehear_pp fw_end EPS "+ADJ+BASE"
+STATE as_unhide_pp
+TRANSITION start as_unhide_pp "unhidden" "unhide"
+TRANSITION as_unhide_pp fw_end EPS "+ADJ+BASE"
+STATE as_prehide_pp
+TRANSITION start as_prehide_pp "prehidden" "prehide"
+TRANSITION as_prehide_pp fw_end EPS "+ADJ+BASE"
+STATE as_rehide_pp
+TRANSITION start as_rehide_pp "rehidden" "rehide"
+TRANSITION as_rehide_pp fw_end EPS "+ADJ+BASE"
+STATE as_unhold_pp
+TRANSITION start as_unhold_pp "unheld" "unhold"
+TRANSITION as_unhold_pp fw_end EPS "+ADJ+BASE"
+STATE as_prehold_pp
+TRANSITION start as_prehold_pp "preheld" "prehold"
+TRANSITION as_prehold_pp fw_end EPS "+ADJ+BASE"
+STATE as_rehold_pp
+TRANSITION start as_rehold_pp "reheld" "rehold"
+TRANSITION as_rehold_pp fw_end EPS "+ADJ+BASE"
+STATE as_unkeep_pp
+TRANSITION start as_unkeep_pp "unkept" "unkeep"
+TRANSITION as_unkeep_pp fw_end EPS "+ADJ+BASE"
+STATE as_prekeep_pp
+TRANSITION start as_prekeep_pp "prekept" "prekeep"
+TRANSITION as_prekeep_pp fw_end EPS "+ADJ+BASE"
+STATE as_rekeep_pp
+TRANSITION start as_rekeep_pp "rekept" "rekeep"
+TRANSITION as_rekeep_pp fw_end EPS "+ADJ+BASE"
+STATE as_unknow_pp
+TRANSITION start as_unknow_pp "unknown" "unknow"
+TRANSITION as_unknow_pp fw_end EPS "+ADJ+BASE"
+STATE as_preknow_pp
+TRANSITION start as_preknow_pp "preknown" "preknow"
+TRANSITION as_preknow_pp fw_end EPS "+ADJ+BASE"
+STATE as_reknow_pp
+TRANSITION start as_reknow_pp "reknown" "reknow"
+TRANSITION as_reknow_pp fw_end EPS "+ADJ+BASE"
+STATE as_unleave_pp
+TRANSITION start as_unleave_pp "unleft" "unleave"
+TRANSITION as_unleave_pp fw_end EPS "+ADJ+BASE"
+STATE as_preleave_pp
+TRANSITION start as_preleave_pp "preleft" "preleave"
+TRANSITION as_preleave_pp fw_end EPS "+ADJ+BASE"
+STATE as_releave_pp
+TRANSITION start as_releave_pp "releft" "releave"
+TRANSITION as_releave_pp fw_end EPS "+ADJ+BASE"
+STATE as_unlose_pp
+TRANSITION start as_unlose_pp "unlost" "unlose"
+TRANSITION as_unlose_pp fw_end EPS "+ADJ+BASE"
+STATE as_prelose_pp
+TRANSITION start as_prelose_pp "prelost" "prelose"
+TRANSITION as_prelose_pp fw_end EPS "+ADJ+BASE"
+STATE as_relose_pp
+TRANSITION start as_relose_pp "relost" "relose"
+TRANSITION as_relose_pp fw_end EPS "+ADJ+BASE"
+STATE as_unmake_pp
+TRANSITION start as_unmake_pp "unmade" "unmake"
+TRANSITION as_unmake_pp fw_end EPS "+ADJ+BASE"
+STATE as_premake_pp
+TRANSITION start as_premake_pp "premade" "premake"
+TRANSITION as_premake_pp fw_end EPS "+ADJ+BASE"
+STATE as_remake_pp
+TRANSITION start as_remake_pp "remade" "remake"
+TRANSITION as_remake_pp fw_end EPS "+ADJ+BASE"
+STATE as_unmeet_pp
+TRANSITION start as_unmeet_pp "unmet" "unmeet"
+TRANSITION as_unmeet_pp fw_end EPS "+ADJ+BASE"
+STATE as_premeet_pp
+TRANSITION start as_premeet_pp "premet" "premeet"
+TRANSITION as_premeet_pp fw_end EPS "+ADJ+BASE"
+STATE as_remeet_pp
+TRANSITION start as_remeet_pp "remet" "remeet"
+TRANSITION as_remeet_pp fw_end EPS "+ADJ+BASE"
+STATE as_unpay_pp
+TRANSITION start as_unpay_pp "unpaid" "unpay"
+TRANSITION as_unpay_pp fw_end EPS "+ADJ+BASE"
+STATE as_prepay_pp
+TRANSITION start as_prepay_pp "prepaid" "prepay"
+TRANSITION as_prepay_pp fw_end EPS "+ADJ+BASE"
+STATE as_repay_pp
+TRANSITION start as_repay_pp "repaid" "repay"
+TRANSITION as_repay_pp fw_end EPS "+ADJ+BASE"
+STATE as_unread_pp
+TRANSITION start as_unread_pp "unread" "unread"
+TRANSITION as_unread_pp fw_end EPS "+ADJ+BASE"
+STATE as_preread_pp
+TRANSITION start as_preread_pp "preread" "preread"
+TRANSITION as_preread_pp fw_end EPS "+ADJ+BASE"
+STATE as_reread_pp
+TRANSITION start as_reread_pp "reread" "reread"
+TRANSITION as_reread_pp fw_end EPS "+ADJ+BASE"
+STATE as_unride_pp
+TRANSITION start as_unride_pp "unridden" "unride"
+TRANSITION as_unride_pp fw_end EPS "+ADJ+BASE"
+STATE as_preride_pp
+TRANSITION start as_preride_pp "preridden" "preride"
+TRANSITION as_preride_pp fw_end EPS "+ADJ+BASE"
+STATE as_reride_pp
+TRANSITION start as_reride_pp "reridden" "reride"
+TRANSITION as_reride_pp fw_end EPS "+ADJ+BASE"
+STATE as_unring_pp
+TRANSITION start as_unring_pp "unrung" "unring"
+TRANSITION as_unring_pp fw_end EPS "+ADJ+BASE"
+STATE as_prering_pp
+TRANSITION start as_prering_pp "prerung" "prering"
+TRANSITION as_prering_pp fw_end EPS "+ADJ+BASE"
+STATE as_rering_pp
+TRANSITION start as_rering_pp "rerung" "rering"
+TRANSITION as_rering_pp fw_end EPS "+ADJ+BASE"
+STATE as_unrise_pp
+TRANSITION start as_unrise_pp "unrisen" "unrise"
+TRANSITION as_unrise_pp fw_end EPS "+ADJ+BASE"
+STATE as_prerise_pp
+TRANSITION start as_prerise_pp "prerisen" "prerise"
+TRANSITION as_prerise_pp fw_end EPS "+ADJ+BASE"
+STATE as_rerise_pp
+TRANSITION start as_rerise_pp "rerisen" "rerise"
+TRANSITION as_rerise_pp fw_end EPS "+ADJ+BASE"
+STATE as_unrun_pp
+TRANSITION start as_unrun_pp "unrun" "unrun"
+TRANSITION as_unrun_pp fw_end EPS "+ADJ+BASE"
+STATE as_prerun_pp
+TRANSITION start as_prerun_pp "prerun" "prerun"
+TRANSITION as_prerun_pp fw_end EPS "+ADJ+BASE"
+STATE as_rerun_pp
+TRANSITION start as_rerun_pp "rerun" "rerun"
+TRANSITION as_rerun_pp fw_end EPS "+ADJ+BASE"
+STATE as_unsay_pp
+TRANSITION start as_unsay_pp "unsaid" "unsay"
+TRANSITION as_unsay_pp fw_end EPS "+ADJ+BASE"
+STATE as_presay_pp
+TRANSITION start as_presay_pp "presaid" "presay"
+TRANSITION as_presay_pp fw_end EPS "+ADJ+BASE"
+STATE as_resay_pp
+TRANSITION start as_resay_pp "resaid" "resay"
+TRANSITION as_resay_pp fw_end EPS "+ADJ+BASE"
+STATE as_unsee_pp
+TRANSITION start as_unsee_pp "unseen" "unsee"
+TRANSITION as_unsee_pp fw_end EPS "+ADJ+BASE"
+STATE as_presee_pp
+TRANSITION start as_presee_pp "preseen" "presee"
+TRANSITION as_presee_pp fw_end EPS "+ADJ+BASE"
+STATE as_resee_pp
+TRANSITION start as_resee_pp "reseen" "resee"
+TRANSITION as_resee_pp fw_end EPS "+ADJ+BASE"
+STATE as_unsell_pp
+TRANSITION start as_unsell_pp "unsold" "unsell"
+TRANSITION as_unsell_pp fw_end EPS "+ADJ+BASE"
+STATE as_presell_pp
+TRANSITION start as_presell_pp "presold" "presell"
+TRANSITION as_presell_pp fw_end EPS "+ADJ+BASE"
+STATE as_resell_pp
+TRANSITION start as_resell_pp "resold" "resell"
+TRANSITION as_resell_pp fw_end EPS "+ADJ+BASE"
+STATE as_unsend_pp
+TRANSITION start as_unsend_pp "unsent" "unsend"
+TRANSITION as_unsend_pp fw_end EPS "+ADJ+BASE"
+STATE as_presend_pp
+TRANSITION start as_presend_pp "present" "presend"
+TRANSITION as_presend_pp fw_end EPS "+ADJ+BASE"
+STATE as_resend_pp
+TRANSITION start as_resend_pp "resent" "resend"
+TRANSITION as_resend_pp fw_end EPS "+ADJ+BASE"
+STATE as_unset_pp
+TRANSITION start as_unset_pp "unset" "unset"
+TRANSITION as_unset_pp fw_end EPS "+ADJ+BASE"
+STATE as_preset_pp
+TRANSITION start as_preset_pp "preset" "preset"
+TRANSITION as_preset_pp fw_end EPS "+ADJ+BASE"
+STATE as_reset_pp
+TRANSITION start as_reset_pp "reset" "reset"
+TRANSITION as_reset_pp fw_end EPS "+ADJ+BASE"
+STATE as_unshake_pp
+TRANSITION start as_unshake_pp "unshaken" "unshake"
+TRANSITION as_unshake_pp fw_end EPS "+ADJ+BASE"
+STATE as_preshake_pp
+TRANSITION start as_preshake_pp "preshaken" "preshake"
+TRANSITION as_preshake_pp fw_end EPS "+ADJ+BASE"
+STATE as_reshake_pp
+TRANSITION start as_reshake_pp "reshaken" "reshake"
+TRANSITION as_reshake_pp fw_end EPS "+ADJ+BASE"
+STATE as_unshow_pp
+TRANSITION start as_unshow_pp "unshown" "unshow"
+TRANSITION as_unshow_pp fw_end EPS "+ADJ+BASE"
+STATE as_preshow_pp
+TRANSITION start as_preshow_pp "preshown" "preshow"
+TRANSITION as_preshow_pp fw_end EPS "+ADJ+BASE"
+STATE as_reshow_pp
+TRANSITION start as_reshow_pp "reshown" "reshow"
+TRANSITION as_reshow_pp fw_end EPS "+ADJ+BASE"
+STATE as_unsing_pp
+TRANSITION start as_unsing_pp "unsung" "unsing"
+TRANSITION as_unsing_pp fw_end EPS "+ADJ+BASE"
+STATE as_presing_pp
+TRANSITION start as_presing_pp "presung" "presing"
+TRANSITION as_presing_pp fw_end EPS "+ADJ+BASE"
+STATE as_resing_pp
+TRANSITION start as_resing_pp "resung" "resing"
+TRANSITION as_resing_pp fw_end EPS "+ADJ+BASE"
+STATE as_unsit_pp
+TRANSITION start as_unsit_pp "unsat" "unsit"
+TRANSITION as_unsit_pp fw_end EPS "+ADJ+BASE"
+STATE as_presit_pp
+TRANSITION start as_presit_pp "presat" "presit"
+TRANSITION as_presit_pp fw_end EPS "+ADJ+BASE"
+STATE as_resit_pp
+TRANSITION start as_resit_pp "resat" "resit"
+TRANSITION as_resit_pp fw_end EPS "+ADJ+BASE"
+STATE as_unspeak_pp
+TRANSITION start as_unspeak_pp "unspoken" "unspeak"
+TRANSITION as_unspeak_pp fw_end EPS "+ADJ+BASE"
+STATE as_prespeak_pp
+TRANSITION start as_prespeak_pp "prespoken" "prespeak"
+TRANSITION as_prespeak_pp fw_end EPS "+ADJ+BASE"
+STATE as_respeak_pp
+TRANSITION start as_respeak_pp "respoken" "respeak"
+TRANSITION as_respeak_pp fw_end EPS "+ADJ+BASE"
+STATE as_unspend_pp
+TRANSITION start as_unspend_pp "unspent" "unspend"
+TRANSITION as_unspend_pp fw_end EPS "+ADJ+BASE"
+STATE as_prespend_pp
+TRANSITION start as_prespend_pp "prespent" "prespend"
+TRANSITION as_prespend_pp fw_end EPS "+ADJ+BASE"
+STATE as_respend_pp
+TRANSITION start as_respend_pp "respent" "respend"
+TRANSITION as_respend_pp fw_end EPS "+ADJ+BASE"
+STATE as_unstand_pp
+TRANSITION start as_unstand_pp "unstood" "unstand"
+TRANSITION as_unstand_pp fw_end EPS "+ADJ+BASE"
+STATE as_prestand_pp
+TRANSITION start as_prestand_pp "prestood" "prestand"
+TRANSITION as_prestand_pp fw_end EPS "+ADJ+BASE"
+STATE as_restand_pp
+TRANSITION start as_restand_pp "restood" "restand"
+TRANSITION as_restand_pp fw_end EPS "+ADJ+BASE"
+STATE as_unsteal_pp
+TRANSITION start as_unsteal_pp "unstolen" "unsteal"
+TRANSITION as_unsteal_pp fw_end EPS "+ADJ+BASE"
+STATE as_presteal_pp
+TRANSITION start as_presteal_pp "prestolen" "presteal"
+TRANSITION as_presteal_pp fw_end EPS "+ADJ+BASE"
+STATE as_resteal_pp
+TRANSITION start as_resteal_pp "restolen" "resteal"
+TRANSITION as_resteal_pp fw_end EPS "+ADJ+BASE"
+STATE as_unswear_pp
+TRANSITION start as_unswear_pp "unsworn" "unswear"
+TRANSITION as_unswear_pp fw_end EPS "+ADJ+BASE"
+STATE as_preswear_pp
+TRANSITION start as_preswear_pp "presworn" "preswear"
+TRANSITION as_preswear_pp fw_end EPS "+ADJ+BASE"
+STATE as_reswear_pp
+TRANSITION start as_reswear_pp "resworn" "reswear"
+TRANSITION as_reswear_pp fw_end EPS "+ADJ+BASE"
+STATE as_unswim_pp
+TRANSITION start as_unswim_pp "unswum" "unswim"
+TRANSITION as_unswim_pp fw_end EPS "+ADJ+BASE"
+STATE as_preswim_pp
+TRANSITION start as_preswim_pp "preswum" "preswim"
+TRANSITION as_preswim_pp fw_end EPS "+ADJ+BASE"
+STATE as_reswim_pp
+TRANSITION start as_reswim_pp "reswum" "reswim"
+TRANSITION as_reswim_pp fw_end EPS "+ADJ+BASE"
+STATE as_untake_pp
+TRANSITION start as_untake_pp "untaken" "untake"
+TRANSITION as_untake_pp fw_end EPS "+ADJ+BASE"
+STATE as_pretake_pp
+TRANSITION start as_pretake_pp "pretaken" "pretake"
+TRANSITION as_pretake_pp fw_end EPS "+ADJ+BASE"
+STATE as_retake_pp
+TRANSITION start as_retake_pp "retaken" "retake"
+TRANSITION as_retake_pp fw_end EPS "+ADJ+BASE"
+STATE as_unteach_pp
+TRANSITION start as_unteach_pp "untaught" "unteach"
+TRANSITION as_unteach_pp fw_end EPS "+ADJ+BASE"
+STATE as_preteach_pp
+TRANSITION start as_preteach_pp "pretaught" "preteach"
+TRANSITION as_preteach_pp fw_end EPS "+ADJ+BASE"
+STATE as_reteach_pp
+TRANSITION start as_reteach_pp "retaught" "reteach"
+TRANSITION as_reteach_pp fw_end EPS "+ADJ+BASE"
+STATE as_untear_pp
+TRANSITION start as_untear_pp "untorn" "untear"
+TRANSITION as_untear_pp fw_end EPS "+ADJ+BASE"
+STATE as_pretear_pp
+TRANSITION start as_pretear_pp "pretorn" "pretear"
+TRANSITION as_pretear_pp fw_end EPS "+ADJ+BASE"
+STATE as_retear_pp
+TRANSITION start as_retear_pp "retorn" "retear"
+TRANSITION as_retear_pp fw_end EPS "+ADJ+BASE"
+STATE as_untell_pp
+TRANSITION start as_untell_pp "untold" "untell"
+TRANSITION as_untell_pp fw_end EPS "+ADJ+BASE"
+STATE as_pretell_pp
+TRANSITION start as_pretell_pp "pretold" "pretell"
+TRANSITION as_pretell_pp fw_end EPS "+ADJ+BASE"
+STATE as_retell_pp
+TRANSITION start as_retell_pp "retold" "retell"
+TRANSITION as_retell_pp fw_end EPS "+ADJ+BASE"
+STATE as_unthink_pp
+TRANSITION start as_unthink_pp "unthought" "unthink"
+TRANSITION as_unthink_pp fw_end EPS "+ADJ+BASE"
+STATE as_prethink_pp
+TRANSITION start as_prethink_pp "prethought" "prethink"
+TRANSITION as_prethink_pp fw_end EPS "+ADJ+BASE"
+STATE as_rethink_pp
+TRANSITION start as_rethink_pp "rethought" "rethink"
+TRANSITION as_rethink_pp fw_end EPS "+ADJ+BASE"
+STATE as_unthrow_pp
+TRANSITION start as_unthrow_pp "unthrown" "unthrow"
+TRANSITION as_unthrow_pp fw_end EPS "+ADJ+BASE"
+STATE as_prethrow_pp
+TRANSITION start as_prethrow_pp "prethrown" "prethrow"
+TRANSITION as_prethrow_pp fw_end EPS "+ADJ+BASE"
+STATE as_rethrow_pp
+TRANSITION start as_rethrow_pp "rethrown" "rethrow"
+TRANSITION as_rethrow_pp fw_end EPS "+ADJ+BASE"
+STATE as_unwake_pp
+TRANSITION start as_unwake_pp "unwoken" "unwake"
+TRANSITION as_unwake_pp fw_end EPS "+ADJ+BASE"
+STATE as_prewake_pp
+TRANSITION start as_prewake_pp "prewoken" "prewake"
+TRANSITION as_prewake_pp fw_end EPS "+ADJ+BASE"
+STATE as_rewake_pp
+TRANSITION start as_rewake_pp "rewoken" "rewake"
+TRANSITION as_rewake_pp fw_end EPS "+ADJ+BASE"
+STATE as_unwear_pp
+TRANSITION start as_unwear_pp "unworn" "unwear"
+TRANSITION as_unwear_pp fw_end EPS "+ADJ+BASE"
+STATE as_prewear_pp
+TRANSITION start as_prewear_pp "preworn" "prewear"
+TRANSITION as_prewear_pp fw_end EPS "+ADJ+BASE"
+STATE as_rewear_pp
+TRANSITION start as_rewear_pp "reworn" "rewear"
+TRANSITION as_rewear_pp fw_end EPS "+ADJ+BASE"
+STATE as_unwin_pp
+TRANSITION start as_unwin_pp "unwon" "unwin"
+TRANSITION as_unwin_pp fw_end EPS "+ADJ+BASE"
+STATE as_prewin_pp
+TRANSITION start as_prewin_pp "prewon" "prewin"
+TRANSITION as_prewin_pp fw_end EPS "+ADJ+BASE"
+STATE as_rewin_pp
+TRANSITION start as_rewin_pp "rewon" "rewin"
+TRANSITION as_rewin_pp fw_end EPS "+ADJ+BASE"
+STATE as_unwind_pp
+TRANSITION start as_unwind_pp "unwound" "unwind"
+TRANSITION as_unwind_pp fw_end EPS "+ADJ+BASE"
+STATE as_prewind_pp
+TRANSITION start as_prewind_pp "prewound" "prewind"
+TRANSITION as_prewind_pp fw_end EPS "+ADJ+BASE"
+STATE as_rewind_pp
+TRANSITION start as_rewind_pp "rewound" "rewind"
+TRANSITION as_rewind_pp fw_end EPS "+ADJ+BASE"
+STATE as_unwrite_pp
+TRANSITION start as_unwrite_pp "unwritten" "unwrite"
+TRANSITION as_unwrite_pp fw_end EPS "+ADJ+BASE"
+STATE as_prewrite_pp
+TRANSITION start as_prewrite_pp "prewritten" "prewrite"
+TRANSITION as_prewrite_pp fw_end EPS "+ADJ+BASE"
+STATE as_rewrite_pp
+TRANSITION start as_rewrite_pp "rewritten" "rewrite"
+TRANSITION as_rewrite_pp fw_end EPS "+ADJ+BASE"
 
 # === ADVERBS ===
 STATE rb_aback
@@ -229076,9 +228188,6 @@ TRANSITION rb_basically fw_end EPS "+ADV+BASE"
 STATE rb_bawdily
 TRANSITION start rb_bawdily "bawdily" "bawdily"
 TRANSITION rb_bawdily fw_end EPS "+ADV+BASE"
-STATE rb_bc
-TRANSITION start rb_bc "bc" "bc"
-TRANSITION rb_bc fw_end EPS "+ADV+BASE"
 STATE rb_bce
 TRANSITION start rb_bce "bce" "bce"
 TRANSITION rb_bce fw_end EPS "+ADV+BASE"
@@ -229481,9 +228590,6 @@ TRANSITION rb_ceremoniously fw_end EPS "+ADV+BASE"
 STATE rb_certainly
 TRANSITION start rb_certainly "certainly" "certainly"
 TRANSITION rb_certainly fw_end EPS "+ADV+BASE"
-STATE rb_cf
-TRANSITION start rb_cf "cf" "cf"
-TRANSITION rb_cf fw_end EPS "+ADV+BASE"
 STATE rb_chaotically
 TRANSITION start rb_chaotically "chaotically" "chaotically"
 TRANSITION rb_chaotically fw_end EPS "+ADV+BASE"
@@ -235325,9 +234431,6 @@ TRANSITION rb_privately fw_end EPS "+ADV+BASE"
 STATE rb_privily
 TRANSITION start rb_privily "privily" "privily"
 TRANSITION rb_privily fw_end EPS "+ADV+BASE"
-STATE rb_prn
-TRANSITION start rb_prn "prn" "prn"
-TRANSITION rb_prn fw_end EPS "+ADV+BASE"
 STATE rb_pro
 TRANSITION start rb_pro "pro" "pro"
 TRANSITION rb_pro fw_end EPS "+ADV+BASE"
@@ -249880,16 +248983,6 @@ TRANSITION vs_divorce v_end "s" "+VERB+3SG"
 TRANSITION vs_divorce v_ed_shared "d" EPS
 TRANSITION start vs_divorce_bare "divorc" "divorce"
 TRANSITION vs_divorce_bare v_ing_shared "ing" EPS
-STATE ns_dj
-TRANSITION start ns_dj "dj" "dj"
-TRANSITION ns_dj n_end EPS "+NOUN+SG"
-TRANSITION ns_dj n_end "s" "+NOUN+PL"
-STATE vs_dj
-TRANSITION start vs_dj "dj" "dj"
-TRANSITION vs_dj v_end EPS "+VERB+INF"
-TRANSITION vs_dj v_end "s" "+VERB+3SG"
-TRANSITION vs_dj v_ed_shared "ed" EPS
-TRANSITION vs_dj v_ing_shared "ing" EPS
 STATE ns_do
 TRANSITION start ns_do "do" "do"
 TRANSITION ns_do n_end EPS "+NOUN+SG"
@@ -253378,16 +252471,6 @@ TRANSITION vs_fry v_end EPS "+VERB+INF"
 TRANSITION vs_fry v_end "s" "+VERB+3SG"
 TRANSITION vs_fry v_ed_shared "ed" EPS
 TRANSITION vs_fry v_ing_shared "ing" EPS
-STATE ns_ftp
-TRANSITION start ns_ftp "ftp" "ftp"
-TRANSITION ns_ftp n_end EPS "+NOUN+SG"
-TRANSITION ns_ftp n_end "s" "+NOUN+PL"
-STATE vs_ftp
-TRANSITION start vs_ftp "ftp" "ftp"
-TRANSITION vs_ftp v_end EPS "+VERB+INF"
-TRANSITION vs_ftp v_end "s" "+VERB+3SG"
-TRANSITION vs_ftp v_ed_shared "ed" EPS
-TRANSITION vs_ftp v_ing_shared "ing" EPS
 STATE ns_fuck
 TRANSITION start ns_fuck "fuck" "fuck"
 TRANSITION ns_fuck n_end EPS "+NOUN+SG"

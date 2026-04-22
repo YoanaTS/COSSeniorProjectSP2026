@@ -18,7 +18,7 @@ static bool hasAnyTag(const std::string& s, std::initializer_list<const char*> t
 }
 
 static std::string extractLemmaFromAnalysis(const Analysis& a) {
-    std::string s = analysis_format::formatAnalysis(a); // e.g. "wa+NOUN+PL"
+    std::string s = analysis_format::formatAnalysis(a); //e.g. "wa+NOUN+PL"
     size_t plus = s.find('+');
     return (plus == std::string::npos) ? s : s.substr(0, plus);
 }
